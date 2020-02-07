@@ -8,10 +8,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/forum
     username: forum
     password: '#forum-2020'
-  #    initialization-mode: always
+#    initialization-mode: always
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -19,5 +19,5 @@ spring:
           non_contextual_creation: true
         temp:
           use_jdbc_metadata_defaults: false
-        default_schema: public
+        default_schema: 'public'
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
