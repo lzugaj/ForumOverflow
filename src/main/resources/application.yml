@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /forum-overflow
+    context-path: /forum-overflow/api
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -12,9 +12,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
+        show_sql: false
         lob:
           non_contextual_creation: true
         temp:

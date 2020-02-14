@@ -3,6 +3,7 @@ package com.luv2code.forumoverflow.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class Comment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@Column(name = "description")
@@ -31,10 +32,12 @@ public class Comment {
 
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
+	@ToString.Exclude
 	private User user;
 
 	@ManyToOne
 	@JoinColumn(name = "id_post", nullable = false)
+	@ToString.Exclude
 	private Post post;
 
 }
