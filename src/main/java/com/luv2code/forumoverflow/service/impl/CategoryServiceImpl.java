@@ -1,6 +1,7 @@
 package com.luv2code.forumoverflow.service.impl;
 
 import com.luv2code.forumoverflow.domain.Category;
+import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.repository.CategoryRepository;
 import com.luv2code.forumoverflow.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category findById(Long id) {
 		Category searchedCategory = categoryRepository.findById(id).orElse(null);
-		log.info("Searching Category with id: `{}`", id);
+		log.info("Searching Category with id: `{}`.", id);
+		if (searchedCategory == null) {
+			throw new EntityNotFoundException("Category", "id", id.toString());
+		}
+
 		return searchedCategory;
 	}
 

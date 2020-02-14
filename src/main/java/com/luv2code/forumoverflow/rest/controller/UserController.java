@@ -32,11 +32,8 @@ public class UserController {
 
 	@PostMapping
 	public ResponseEntity<User> save(@RequestBody User user) {
-		if (user == null) {
-			return ResponseEntity.notFound().build();
-		}
-
 		User newUser = userService.save(user);
+		log.info("Successfully saved User with id: `{}`.", newUser.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
 }

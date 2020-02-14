@@ -35,58 +35,43 @@ public class PostController {
 	@PostMapping
 	public ResponseEntity<Post> save(@RequestBody Post post) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		// TODO: Need this or not?
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			log.info("Currently User is not registered in application.");
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 		Post newPost = postService.save(authentication.getName(), post);
-		log.info("Successfully saved Post with id: `{}`", newPost.getId());
+		log.info("Successfully saved Post with id: `{}`.", newPost.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Post> findById(@PathVariable Long id) {
 		Post searchedPost = postService.findById(id);
-		if (searchedPost == null) {
-			log.info("Post that tried to be searched is null.");
-			return ResponseEntity.notFound().build();
-		}
-
-		log.info("Successfully founded Post with id: `{}`", searchedPost.getId());
-		return ResponseEntity.ok().body(searchedPost);
+		log.info("Successfully founded Post with id: `{}`.", searchedPost.getId());
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Post>> findAll() {
 		List<Post> posts = postService.findAll();
 		log.info("Successfully founded all Posts.");
-		return ResponseEntity.ok().body(posts);
+		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Post> update(@PathVariable Long id, @RequestBody Post post) {
-		Post updatedPost = postService.findById(id);
-		if (updatedPost == null) {
-			log.info("Post that tried to be searched is null.");
-			return ResponseEntity.notFound().build();
-		}
-
-		updatedPost = postService.update(id, post);
-		log.info("Successfully updated Post with id: `{}`", updatedPost.getId());
+		Post updatedPost = postService.update(id, post);
+		log.info("Successfully updated Post with id: `{}`.", updatedPost.getId());
 		return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Post> delete(@PathVariable Long id) {
-		Post deletedPost = postService.findById(id);
-		if (deletedPost == null) {
-			log.info("Post that tried to be searched is null.");
-			return ResponseEntity.notFound().build();
-		}
-
-		postService.delete(id);
-		log.info("Successfully deleted Post with id: `{}`", deletedPost.getId());
-		return ResponseEntity.noContent().build();
+		Post deletedPost = postService.delete(id);
+		log.info("Successfully deleted Post with id: `{}`.", deletedPost.getId());
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }
