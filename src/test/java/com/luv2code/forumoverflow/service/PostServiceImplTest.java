@@ -3,6 +3,7 @@ package com.luv2code.forumoverflow.service;
 import com.luv2code.forumoverflow.domain.Category;
 import com.luv2code.forumoverflow.domain.Post;
 import com.luv2code.forumoverflow.domain.User;
+import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.repository.PostRepository;
 import com.luv2code.forumoverflow.service.impl.PostServiceImpl;
 import org.junit.Before;
@@ -15,12 +16,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by lzugaj on Friday, February 2020
@@ -33,6 +31,12 @@ public class PostServiceImplTest {
 	@Mock
 	private PostRepository postRepository;
 
+	@Mock
+	private UserService userService;
+
+	@Mock
+	private CategoryService categoryService;
+
 	@InjectMocks
 	private PostServiceImpl postService;
 
@@ -42,61 +46,145 @@ public class PostServiceImplTest {
 	}
 
 	@Test
-	public void save() {
-		User user = createUser(1, "Luka", "Zugaj", "lzugaj", "luka.zugaj@gmail.com", "lzugaj123");
-		Post post = createPost(1, "My first post", "Hello this is my first post");
+	public void testSave() {
+		Long userId = 1L;
+		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "Feed");
+
+		Long postId = 1L;
+		Post post = createPost(postId, "Title", "Description", user, category);
+
+		when(userService.findByUsername(user.getUsername())).thenReturn(user);
+		when(categoryService.findById(category.getId())).thenReturn(category);
 		when(postRepository.save(post)).thenReturn(post);
 
 		Post newPost = postService.save(user.getUsername(), post);
+
 		assertNotNull(newPost);
 		assertEquals("1", newPost.getId().toString());
-		assertEquals("My first post", newPost.getTitle());
-		assertEquals("Hello this is my first post", newPost.getDescription());
-		assertEquals("lzugaj", newPost.getUser().getUsername());
-		assertEquals("Feed", newPost.getCategory().getName());
+		assertEquals("Title", newPost.getTitle());
+		assertEquals("Description", newPost.getDescription());
+		assertEquals(user, newPost.getUser());
+		assertEquals(category, newPost.getCategory());
+		assertNull(newPost.getComments());
 	}
 
 	@Test
-	public void findById() {
-		Post post = createPost(2, "Spring or C#", "What is better?");
-		when(postRepository.findById(2L)).thenReturn(java.util.Optional.of(post));
+	public void testFindById() {
+		Long userId = 1L;
+		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "dtorma10");
 
-		assertNotNull(post);
-		assertEquals(post.getId().toString(), "2");
-		assertEquals("Spring or C#", post.getTitle());
-		assertEquals("What is better?", post.getDescription());
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "School");
+
+		Long postId = 1L;
+		Post post = createPost(postId, "Naslov", "Opis", user, category);
+
+		when(postRepository.findById(post.getId())).thenReturn(java.util.Optional.of(post));
+
+		Post searchedPost = postService.findById(post.getId());
+
+		assertNotNull(searchedPost);
+		assertEquals("1", searchedPost.getId().toString());
+		assertEquals("Naslov", searchedPost.getTitle());
+		assertEquals("Opis", searchedPost.getDescription());
+		assertNull(searchedPost.getComments());
 	}
 
 	@Test
-	public void findById_exception() {
-		Post post = new Post();
-		try {
-			assertEquals(post.getId().toString(), "2");
-		} catch (NullPointerException e) {
-			throw new NullPointerException();
-		}
+	public void testFindByIdEntityNotFoundException() {
+		Long id = 2L;
+
+		when(postRepository.findById(id)).thenThrow(new EntityNotFoundException("Post", "id", id.toString()));
+
+		assertThrows(EntityNotFoundException.class, () -> postService.findById(id));
 	}
 
 	@Test
-	public void findAll() {
-		Post firstPost = createPost(1, "React or Vue", "What is faster to learn?");
-		Post secondPost = createPost(2, "Is JS the best?", "Is JS the best programming language?");
-		Post thirdPost = createPost(3, "Java History", "When Java was created?");
+	public void testUpdate() {
+		Long userId = 1L;
+		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "dtorma10");
 
-		List<Post> posts = new ArrayList<>();
-		posts.add(firstPost);
-		posts.add(secondPost);
-		posts.add(thirdPost);
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "School");
 
-		when(postRepository.findAll()).thenReturn(posts);
+		Long postId = 1L;
+		Post firstPost = createPost(postId, "Naslov", "Opis", user, category);
 
-		assertEquals(3, posts.size());
-		verify(postRepository, times(1)).findAll();
+		Post secondPost = createPost(postId, "Title", "Description", user, category);
+
+		when(postRepository.findById(firstPost.getId())).thenReturn(java.util.Optional.of(firstPost));
+		when(postRepository.save(secondPost)).thenReturn(secondPost);
+
+		Post updatedPost = postService.update(secondPost.getId(), secondPost);
+
+		assertNotNull(updatedPost);
+		assertEquals("1", updatedPost.getId().toString());
+		assertEquals("Title", updatedPost.getTitle());
+		assertEquals("Description", updatedPost.getDescription());
+		assertNull(updatedPost.getComments());
 	}
 
-	private User createUser(int id, String firstName, String lastName, String username, String email, String password) {
+	@Test
+	public void testUpdateEntityNotFoundException() {
+		Long userId = 1L;
+		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "Feed");
+
+		Long postId = 1L;
+		Post post = createPost(postId, "Naslov", "Opis", user, category);
+
+		when(postRepository.findById(post.getId())).thenThrow(new EntityNotFoundException("Post", "id", post.getId().toString()));
+
+		assertThrows(EntityNotFoundException.class, () -> postService.update(postId, post));
+	}
+
+	@Test
+	public void testDelete() {
+		Long userId = 1L;
+		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "Feed");
+
+		Long id = 1L;
+		Post post = createPost(id, "Title", "Decscription", user, category);
+
+		when(postRepository.findById(post.getId())).thenReturn(java.util.Optional.of(post));
+
+		Post deletedPost = postService.delete(post.getId());
+
+		assertNotNull(deletedPost);
+		assertEquals("1", deletedPost.getId().toString());
+		assertEquals("Title", deletedPost.getTitle());
+		assertEquals("Decscription", deletedPost.getDescription());
+		assertEquals(user, deletedPost.getUser());
+		assertEquals(category, deletedPost.getCategory());
+	}
+
+	@Test
+	public void testDeleteEntityNotFoundException() {
+		Long userId = 1L;
+		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "Feed");
+
+		Long id = 1L;
+		Post post = createPost(id, "Title", "Decscription", user, category);
+
+		when(postRepository.findById(post.getId())).thenThrow(new EntityNotFoundException("Post", "id", post.getId().toString()));
+
+		assertThrows(EntityNotFoundException.class, () -> postService.delete(post.getId()));
+	}
+
+	private User createUser(Long id, String firstName, String lastName, String username, String email, String password) {
 		User user = new User();
-		user.setId((long) id);
+		user.setId(id);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setUsername(username);
@@ -105,27 +193,22 @@ public class PostServiceImplTest {
 		return user;
 	}
 
-	private Category createCategory(int id, String name) {
+	private Category createCategory(Long id, String name) {
 		Category category = new Category();
-		category.setId((long) id);
+		category.setId(id);
 		category.setName(name);
 		category.setPosts(null);
 		return category;
 	}
 
-	private Post createPost(int id, String title, String description) {
-		User user = createUser(1, "Luka", "Zugaj", "lzugaj", "luka.zugaj@gmail.com", "lzugaj123");
-		Category category = createCategory(1, "Feed");
-
+	private Post createPost(Long postId, String title, String description, User user, Category category) {
 		Post post = new Post();
-		post.setId((long) id);
+		post.setId(postId);
 		post.setTitle(title);
 		post.setDescription(description);
 		post.setCreatedDate(LocalDateTime.now());
 		post.setUser(user);
 		post.setCategory(category);
-		post.setComments(null);
 		return post;
 	}
-
 }

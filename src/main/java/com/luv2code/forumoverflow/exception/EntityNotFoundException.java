@@ -17,7 +17,7 @@ public class EntityNotFoundException extends AbstractEntityException {
 	}
 
 	private static String createMessage(String entityName, String fieldName, String fieldValue) {
-		return String.format("Entity '%s' with '%s' value '%s' not found.",
+		return String.format("Entity '%s' with '%s' value '%s' not founded.",
 				entityName, fieldName, fieldValue);
 	}
 }

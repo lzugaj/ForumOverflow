@@ -80,7 +80,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Post update(Long id, Post post) {
 		Post updatedPost = findById(id);
-		log.info("Successfully founded Post with id: `{}`", id);
+		log.info("Successfully founded Post with id: `{}`.", id);
 
 		updatedPost.setTitle(post.getTitle());
 		updatedPost.setDescription(post.getDescription());
