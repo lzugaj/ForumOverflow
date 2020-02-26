@@ -1,4 +1,3 @@
-
 -- role table
 create table "role" (
     id serial not null,

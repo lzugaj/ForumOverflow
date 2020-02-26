@@ -45,9 +45,7 @@ public class UserServiceImpl implements UserService {
 	private boolean isUsernameAlreadyUsed(User user) {
 		List<User> users = findAll();
 		for (User searchedUser : users) {
-			if (searchedUser.getUsername().equals(user.getUsername())) {
-				return true;
-			}
+			return searchedUser.getUsername().equals(user.getUsername());
 		}
 
 		return false;
@@ -56,9 +54,7 @@ public class UserServiceImpl implements UserService {
 	private boolean isEmailAlreadyUser(User user) {
 		List<User> users = findAll();
 		for (User searchedUser : users) {
-			if (searchedUser.getEmail().equals(user.getEmail())) {
-				return true;
-			}
+			return searchedUser.getEmail().equals(user.getEmail());
 		}
 
 		return false;
@@ -66,12 +62,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByUsername(String username) {
-		User searchedUser = userRepository.findByUsername(username);
+		User searchedUser = userRepository.findByUsername(username)
+				.orElseThrow(() -> new EntityNotFoundException("User", "username", username));
 		log.info("Searching User with username: `{}`.", username);
-		if (searchedUser == null) {
-			throw new EntityNotFoundException("User", "username", username);
-		}
-
 		return searchedUser;
 	}
 

@@ -11,11 +11,9 @@ import com.luv2code.forumoverflow.repository.UserRepository;
 import com.luv2code.forumoverflow.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -32,7 +30,6 @@ import static org.mockito.Mockito.*;
  */
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
 	@Mock
@@ -103,7 +100,7 @@ public class UserServiceImplTest {
 		Long id = 1L;
 		User firstUser = createUser(id, "Dalibor", "Torma", "palsi", "dtorma@gmail.com", "dtorma10");
 
-		when(userRepository.findByUsername(firstUser.getUsername())).thenReturn(firstUser);
+		when(userRepository.findByUsername(firstUser.getUsername())).thenReturn(java.util.Optional.of(firstUser));
 
 		String searchedUsername = "palsi";
 		User searchedUser = userService.findByUsername(searchedUsername);

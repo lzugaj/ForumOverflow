@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,15 +31,16 @@ public class PostController {
 
 	@PostMapping
 	public ResponseEntity<Post> save(@RequestBody Post post) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//		// TODO: Need this or not?
+//		if (authentication instanceof AnonymousAuthenticationToken) {
+//			log.info("Currently User is not registered in application.");
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//		}
 
-		// TODO: Need this or not?
-		if (authentication instanceof AnonymousAuthenticationToken) {
-			log.info("Currently User is not registered in application.");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-
-		Post newPost = postService.save(authentication.getName(), post);
+//		Post newPost = postService.save(authentication.getName(), post);
+		Post newPost = postService.save("lzugaj", post);
 		log.info("Successfully saved Post with id: `{}`.", newPost.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
 	}

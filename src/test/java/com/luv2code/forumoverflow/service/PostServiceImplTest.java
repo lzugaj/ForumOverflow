@@ -8,24 +8,23 @@ import com.luv2code.forumoverflow.repository.PostRepository;
 import com.luv2code.forumoverflow.service.impl.PostServiceImpl;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by lzugaj on Friday, February 2020
  */
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
 public class PostServiceImplTest {
 
 	@Mock
@@ -48,13 +47,13 @@ public class PostServiceImplTest {
 	@Test
 	public void testSave() {
 		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+		User user = new User(userId, "Alma", "Zugaj", "azugaj", "azugaj@gmail.com", "azugaj123", null, null, null);
 
 		Long categoryId = 1L;
-		Category category = createCategory(categoryId, "Feed");
+		Category category = new Category(categoryId, "Feed", null);
 
 		Long postId = 1L;
-		Post post = createPost(postId, "Title", "Description", user, category);
+		Post post = new Post(postId, "Title", "Description", LocalDateTime.now(), user, category, null);
 
 		when(userService.findByUsername(user.getUsername())).thenReturn(user);
 		when(categoryService.findById(category.getId())).thenReturn(category);
@@ -100,6 +99,32 @@ public class PostServiceImplTest {
 		when(postRepository.findById(id)).thenThrow(new EntityNotFoundException("Post", "id", id.toString()));
 
 		assertThrows(EntityNotFoundException.class, () -> postService.findById(id));
+	}
+
+	@Test
+	public void testFindAll() {
+		Long userId = 1L;
+		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "dtorma10");
+
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "School");
+
+		Long firstPostId = 1L;
+		Post firstPost = createPost(firstPostId, "Naslov", "Opis", user, category);
+
+		Long secondPostId = 1L;
+		Post secondPost = createPost(secondPostId, "Title", "Description", user, category);
+
+		List<Post> posts = new ArrayList<>();
+		posts.add(firstPost);
+		posts.add(secondPost);
+
+		when(postRepository.findAll()).thenReturn(posts);
+
+		List<Post> searchedPosts = postService.findAll();
+
+		assertEquals(2, searchedPosts.size());
+		verify(postRepository, times(1)).findAll();
 	}
 
 	@Test

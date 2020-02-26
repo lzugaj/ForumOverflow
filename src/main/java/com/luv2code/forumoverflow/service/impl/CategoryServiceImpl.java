@@ -27,12 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category findById(Long id) {
-		Category searchedCategory = categoryRepository.findById(id).orElse(null);
+		Category searchedCategory = categoryRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Category", "id", id.toString()));
 		log.info("Searching Category with id: `{}`.", id);
-		if (searchedCategory == null) {
-			throw new EntityNotFoundException("Category", "id", id.toString());
-		}
-
 		return searchedCategory;
 	}
 
