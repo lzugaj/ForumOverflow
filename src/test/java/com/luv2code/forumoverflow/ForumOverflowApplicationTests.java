@@ -9,5 +9,4 @@ class ForumOverflowApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

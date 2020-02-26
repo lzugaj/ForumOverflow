@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /forum-overflow/api
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/forum
+    username: forum
+    password: '#forum-2020'
+#    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        show_sql: false
+        lob:
+          non_contextual_creation: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        default_schema: 'public'
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
