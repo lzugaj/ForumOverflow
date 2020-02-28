@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.075s</div>
+<div class="counter">0.056s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,17 +79,17 @@
 </thead>
 <tr>
 <td class="success">testDelete()</td>
-<td class="success">0.010s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testDeleteEntityNotFoundException()</td>
 <td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">testDeleteEntityNotFoundException()</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testFindAll()</td>
-<td class="success">0.015s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -104,17 +104,17 @@
 </tr>
 <tr>
 <td class="success">testSave()</td>
-<td class="success">0.013s</td>
+<td class="success">0.009s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testUpdate()</td>
-<td class="success">0.006s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testUpdateEntityNotFoundException()</td>
-<td class="success">0.013s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -122,24 +122,24 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2020-02-26 14:43:23.903  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.PostServiceImplTest], using SpringBootContextLoader
-2020-02-26 14:43:23.905  INFO 15892 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.PostServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2020-02-26 14:43:23.905  INFO 15892 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.PostServiceImplTest]: PostServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2020-02-26 14:43:24.036  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.PostServiceImplTest
-2020-02-26 14:43:24.036  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2020-02-26 14:43:24.036  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@62b64816, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@672bcb72, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@4860213b, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@291788e7, org.springframework.test.context.support.DirtiesContextTestExecutionListener@79b1932b, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4078a734, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@9583ff9, org.springframework.test.context.event.EventPublishingTestExecutionListener@1c1dde85, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@69403ee6, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6c8475fd, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@24eb3863, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@56f0238d, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@3e2f80bb]
-2020-02-26 14:43:24.216  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching all Posts.
-2020-02-26 14:43:24.228  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded User with username: `azugaj`.
-2020-02-26 14:43:24.228  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded Category with id: `1`.
-2020-02-26 14:43:24.228  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Saving Post with id: `1`.
-2020-02-26 14:43:24.228  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Setting Post to selected Category with id: ´1´.
-2020-02-26 14:43:24.248  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching Post with id: `1`.
-2020-02-26 14:43:24.278  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching Post with id: `1`.
-2020-02-26 14:43:24.278  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded Post with id: `1`.
-2020-02-26 14:43:24.278  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Deleting Post with id: `1`.
-2020-02-26 14:43:24.289  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching Post with id: `1`.
-2020-02-26 14:43:24.289  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded Post with id: `1`.
-2020-02-26 14:43:24.289  INFO 15892 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Updating Post with id: `1`.
+<pre>2020-02-26 15:00:58.734  INFO 17720 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.PostServiceImplTest], using SpringBootContextLoader
+2020-02-26 15:00:58.750  INFO 17720 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.PostServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-26 15:00:58.750  INFO 17720 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.PostServiceImplTest]: PostServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-02-26 15:00:58.750  INFO 17720 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.PostServiceImplTest
+2020-02-26 15:00:58.750  INFO 17720 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2020-02-26 15:00:58.750  INFO 17720 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@7935bf9f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5e2a0249, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@d94c06d, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@57c3e2d1, org.springframework.test.context.support.DirtiesContextTestExecutionListener@35e76f1, org.springframework.test.context.transaction.TransactionalTestExecutionListener@d681499, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@26543af1, org.springframework.test.context.event.EventPublishingTestExecutionListener@6e498180, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@1ed08b46, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@53d188d9, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@54d5b3e0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@76326d7b, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6ca25240]
+2020-02-26 15:00:58.859  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching all Posts.
+2020-02-26 15:00:58.875  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded User with username: `azugaj`.
+2020-02-26 15:00:58.875  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded Category with id: `1`.
+2020-02-26 15:00:58.875  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Saving Post with id: `1`.
+2020-02-26 15:00:58.875  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Setting Post to selected Category with id: ´1´.
+2020-02-26 15:00:58.875  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching Post with id: `1`.
+2020-02-26 15:00:58.906  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching Post with id: `1`.
+2020-02-26 15:00:58.906  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded Post with id: `1`.
+2020-02-26 15:00:58.906  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Deleting Post with id: `1`.
+2020-02-26 15:00:58.906  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Searching Post with id: `1`.
+2020-02-26 15:00:58.906  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Successfully founded Post with id: `1`.
+2020-02-26 15:00:58.906  INFO 17720 --- [    Test worker] c.l.f.service.impl.PostServiceImpl       : Updating Post with id: `1`.
 </pre>
 </span>
 </div>
@@ -151,7 +151,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Feb 26, 2020 2:43:26 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Feb 26, 2020 3:01:00 PM</p>
 </div>
 </div>
 </body>
