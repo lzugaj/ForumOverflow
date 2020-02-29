@@ -1,6 +1,7 @@
 package com.luv2code.forumoverflow.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luv2code.forumoverflow.config.constants.Constants;
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.rest.controller.UserController;
 import com.luv2code.forumoverflow.service.UserService;
@@ -9,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -44,7 +44,7 @@ public class UserControllerTest {
 		this.mockMvc
 				.perform(
 						post("/user")
-							.contentType(MediaType.APPLICATION_JSON)
+							.contentType(Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE)
 							.content(objectMapper.writeValueAsString(user))
 				)
 				.andExpect(status().isCreated());

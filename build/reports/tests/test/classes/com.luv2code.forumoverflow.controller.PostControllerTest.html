@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.432s</div>
+<div class="counter">0.305s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,27 +79,27 @@
 </thead>
 <tr>
 <td class="success">testDelete()</td>
-<td class="success">0.008s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFindAll()</td>
-<td class="success">0.301s</td>
+<td class="success">0.184s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFindById()</td>
-<td class="success">0.012s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testSave()</td>
-<td class="success">0.102s</td>
+<td class="success">0.093s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testUpdate()</td>
-<td class="success">0.009s</td>
+<td class="success">0.013s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -107,22 +107,12 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>15:00:41.185 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-15:00:41.214 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-15:00:41.295 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.luv2code.forumoverflow.controller.PostControllerTest] from class [org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper]
-15:00:41.326 [Test worker] INFO org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.controller.PostControllerTest], using SpringBootContextLoader
-15:00:41.342 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.luv2code.forumoverflow.controller.PostControllerTest]: class path resource [com/luv2code/forumoverflow/controller/PostControllerTest-context.xml] does not exist
-15:00:41.342 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.luv2code.forumoverflow.controller.PostControllerTest]: class path resource [com/luv2code/forumoverflow/controller/PostControllerTestContext.groovy] does not exist
-15:00:41.342 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.luv2code.forumoverflow.controller.PostControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-15:00:41.342 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.luv2code.forumoverflow.controller.PostControllerTest]: PostControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-15:00:41.451 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.luv2code.forumoverflow.controller.PostControllerTest]
-15:00:41.829 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [H:\lzugaj\workspace\Projects\ForumOverflow\build\classes\java\main\com\luv2code\forumoverflow\ForumOverflowApplication.class]
-15:00:41.845 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.controller.PostControllerTest
-15:00:41.860 [Test worker] DEBUG org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - @TestExecutionListeners is not present for class [com.luv2code.forumoverflow.controller.PostControllerTest]: using defaults.
-15:00:41.860 [Test worker] INFO org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-15:00:41.907 [Test worker] INFO org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@53614820, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@66d63389, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@3902488d, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1bd0567c, org.springframework.test.context.support.DirtiesContextTestExecutionListener@42a92d6e, org.springframework.test.context.transaction.TransactionalTestExecutionListener@153404c9, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e5960c2, org.springframework.test.context.event.EventPublishingTestExecutionListener@2723b2c3, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2c6a2914, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@19cd621c, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6c674e97, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@56e84c72, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@2b37fd32]
-15:00:41.923 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@41a66cf7 testClass = PostControllerTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@531ac9b testClass = PostControllerTest, locations = '{}', classes = '{class com.luv2code.forumoverflow.ForumOverflowApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@4a8caa9a, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@7e33c568, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@e4645ad4, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@490ea66c, [ImportsContextCustomizer@411aff98 key = [org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration, org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration, org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration, org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration, org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration, org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration, org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration, org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration, org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration, org.springframework.boot.autoconfigure.jsonb.JsonbAutoConfiguration, org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration, org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration, org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration, org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration, org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration, org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebClientAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcWebDriverAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcSecurityConfiguration]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@81455b5, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1fc1e291, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@bb951096], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map[[empty]]], class annotated with @DirtiesContext [false] with mode [null].
-15:00:42.156 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTestContextBootstrapper=true, server.port=-1}
+<pre>2020-02-28 14:24:35.362  INFO 17092 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.controller.PostControllerTest], using SpringBootContextLoader
+2020-02-28 14:24:35.362  INFO 17092 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.controller.PostControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-02-28 14:24:35.362  INFO 17092 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.controller.PostControllerTest]: PostControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-02-28 14:24:35.602  INFO 17092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.controller.PostControllerTest
+2020-02-28 14:24:35.604  INFO 17092 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2020-02-28 14:24:35.604  INFO 17092 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@580dbfbe, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@53b0a1ce, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@94f75d3, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@6a369305, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5ff321b2, org.springframework.test.context.transaction.TransactionalTestExecutionListener@91b4553, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@7b08484e, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@25784291, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@6340093d, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@30a2f9db, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@9518db9, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6eda3ac8]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -130,20 +120,21 @@
  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
   '  |____| .__|_| |_|_| |_\__, | / / / /
  =========|_|==============|___/=/_/_/_/
- :: Spring Boot ::        (v2.2.4.RELEASE)
+ :: Spring Boot ::        (v2.1.0.RELEASE)
 
-2020-02-26 15:00:42.829  INFO 17720 --- [    Test worker] c.l.f.controller.PostControllerTest      : Starting PostControllerTest on DESKTOP-F169E3V with PID 17720 (started by lzugaj in H:\lzugaj\workspace\Projects\ForumOverflow)
-2020-02-26 15:00:42.845  INFO 17720 --- [    Test worker] c.l.f.controller.PostControllerTest      : No active profile set, falling back to default profiles: default
-2020-02-26 15:00:46.527  INFO 17720 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2020-02-26 15:00:47.043  INFO 17720 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2020-02-26 15:00:47.043  INFO 17720 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2020-02-26 15:00:47.090  INFO 17720 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 47 ms
-2020-02-26 15:00:47.152  INFO 17720 --- [    Test worker] c.l.f.controller.PostControllerTest      : Started PostControllerTest in 4.989 seconds (JVM running for 7.98)
-2020-02-26 15:00:47.433  INFO 17720 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully founded all Posts.
-2020-02-26 15:00:47.576  INFO 17720 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully saved Post with id: `1`.
-2020-02-26 15:00:47.591  INFO 17720 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully founded Post with id: `3`.
-2020-02-26 15:00:47.607  INFO 17720 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully deleted Post with id: `3`.
-2020-02-26 15:00:47.607  INFO 17720 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully updated Post with id: `3`.
+2020-02-28 14:24:35.642  INFO 17092 --- [    Test worker] c.l.f.controller.PostControllerTest      : Starting PostControllerTest on DESKTOP-F169E3V with PID 17092 (started by lzugaj in H:\lzugaj\workspace\Projects\ForumOverflow)
+2020-02-28 14:24:35.642  INFO 17092 --- [    Test worker] c.l.f.controller.PostControllerTest      : No active profile set, falling back to default profiles: default
+2020-02-28 14:24:36.392  INFO 17092 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$e0e13778] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-28 14:24:36.809  INFO 17092 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-28 14:24:37.062  INFO 17092 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-02-28 14:24:37.062  INFO 17092 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-02-28 14:24:37.082  INFO 17092 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 20 ms
+2020-02-28 14:24:37.102  INFO 17092 --- [    Test worker] c.l.f.controller.PostControllerTest      : Started PostControllerTest in 1.498 seconds (JVM running for 18.68)
+2020-02-28 14:24:37.231  INFO 17092 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully founded all Posts.
+2020-02-28 14:24:37.385  INFO 17092 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully saved Post with id: `1`.
+2020-02-28 14:24:37.395  INFO 17092 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully founded Post with id: `3`.
+2020-02-28 14:24:37.405  INFO 17092 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully deleted Post with id: `3`.
+2020-02-28 14:24:37.416  INFO 17092 --- [    Test worker] c.l.f.rest.controller.PostController     : Successfully updated Post with id: `3`.
 </pre>
 </span>
 </div>
@@ -155,7 +146,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Feb 26, 2020 3:01:00 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Feb 28, 2020 2:24:40 PM</p>
 </div>
 </div>
 </body>
