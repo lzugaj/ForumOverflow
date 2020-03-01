@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.014s</div>
+<div class="counter">0.064s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,17 +79,17 @@
 </thead>
 <tr>
 <td class="success">testFindAll()</td>
-<td class="success">0.004s</td>
+<td class="success">0.045s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFindById()</td>
-<td class="success">0.004s</td>
+<td class="success">0.011s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFindByIdEntityNotFoundException()</td>
-<td class="success">0.006s</td>
+<td class="success">0.008s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -97,14 +97,59 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2020-02-26 14:43:24.297  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest], using SpringBootContextLoader
-2020-02-26 14:43:24.297  INFO 15892 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2020-02-26 14:43:24.299  INFO 15892 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: CategoryServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2020-02-26 14:43:24.299  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.CategoryServiceImplTest
-2020-02-26 14:43:24.299  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
-2020-02-26 14:43:24.299  INFO 15892 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1ba9b522, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@59e60b06, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7ecefdb0, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7c3ca754, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2a6a0d54, org.springframework.test.context.transaction.TransactionalTestExecutionListener@433d8d24, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4a17cb8e, org.springframework.test.context.event.EventPublishingTestExecutionListener@5388d39f, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@29f27417, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@68988a0, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@72b67844, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@67b749a6, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@5d5fdb8b]
-2020-02-26 14:43:24.401  INFO 15892 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching all Categories.
-2020-02-26 14:43:24.411  INFO 15892 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching Category with id: `1`.
+<pre>14:24:20.598 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+14:24:20.651 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+14:24:20.696 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+14:24:20.721 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest], using SpringBootContextLoader
+14:24:20.728 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: class path resource [com/luv2code/forumoverflow/service/CategoryServiceImplTest-context.xml] does not exist
+14:24:20.729 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: class path resource [com/luv2code/forumoverflow/service/CategoryServiceImplTestContext.groovy] does not exist
+14:24:20.730 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+14:24:20.733 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: CategoryServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:24:20.808 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]
+14:24:21.131 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [H:\lzugaj\workspace\Projects\ForumOverflow\build\classes\java\main\com\luv2code\forumoverflow\ForumOverflowApplication.class]
+14:24:21.132 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.CategoryServiceImplTest
+14:24:21.306 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: using defaults.
+14:24:21.307 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+14:24:21.338 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@41c7fc30, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@125f294e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7019ad9e, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7625423, org.springframework.test.context.support.DirtiesContextTestExecutionListener@79ba1e83, org.springframework.test.context.transaction.TransactionalTestExecutionListener@12c45da3, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@2f0c7738, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@3a5aedb6, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@13bda278, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@23a4dce9, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@6fddca12, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@207ad02]
+14:24:21.354 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@1b4c7e1e testClass = CategoryServiceImplTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@74346ae7 testClass = CategoryServiceImplTest, locations = '{}', classes = '{class com.luv2code.forumoverflow.ForumOverflowApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@1ab0330d, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@160de5d3, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1dd879f5, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@4cba9a7d], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true]], class annotated with @DirtiesContext [false] with mode [null].
+14:24:21.414 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=-1}
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.0.RELEASE)
+
+2020-02-28 14:24:22.072  INFO 17092 --- [    Test worker] c.l.f.service.CategoryServiceImplTest    : Starting CategoryServiceImplTest on DESKTOP-F169E3V with PID 17092 (started by lzugaj in H:\lzugaj\workspace\Projects\ForumOverflow)
+2020-02-28 14:24:22.087  INFO 17092 --- [    Test worker] c.l.f.service.CategoryServiceImplTest    : No active profile set, falling back to default profiles: default
+2020-02-28 14:24:24.477  INFO 17092 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-02-28 14:24:25.025  INFO 17092 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 531ms. Found 3 repository interfaces.
+2020-02-28 14:24:26.015  INFO 17092 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6160ea46] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-28 14:24:26.109  INFO 17092 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$e0e13778] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-02-28 14:24:26.296  INFO 17092 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-02-28 14:24:26.442  INFO 17092 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-02-28 14:24:27.056  INFO 17092 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2020-02-28 14:24:27.212  INFO 17092 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.7.Final}
+2020-02-28 14:24:27.212  INFO 17092 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2020-02-28 14:24:27.451  INFO 17092 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-02-28 14:24:28.067  INFO 17092 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+2020-02-28 14:24:28.092  INFO 17092 --- [    Test worker] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000422: Disabling contextual LOB creation as connection was null
+2020-02-28 14:24:28.099  INFO 17092 --- [    Test worker] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1b93998
+2020-02-28 14:24:29.197  INFO 17092 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-02-28 14:24:31.160  WARN 17092 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-02-28 14:24:32.138  INFO 17092 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity&lt;springfox.documentation.spring.web.json.Json&gt; springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-02-28 14:24:32.987  INFO 17092 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-02-28 14:24:33.777  INFO 17092 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-02-28 14:24:33.827  INFO 17092 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-02-28 14:24:33.889  INFO 17092 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-02-28 14:24:34.353  INFO 17092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: saveUsingPOST_1
+2020-02-28 14:24:34.393  INFO 17092 --- [    Test worker] c.l.f.service.CategoryServiceImplTest    : Started CategoryServiceImplTest in 12.956 seconds (JVM running for 15.972)
+2020-02-28 14:24:34.757  INFO 17092 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching all Categories.
+2020-02-28 14:24:34.785  INFO 17092 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching Category with id: `1`.
 </pre>
 </span>
 </div>
@@ -116,7 +161,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Feb 26, 2020 2:43:26 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Feb 28, 2020 2:24:40 PM</p>
 </div>
 </div>
 </body>
