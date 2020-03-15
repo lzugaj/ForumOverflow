@@ -49,6 +49,15 @@ public class User {
 	@ApiModelProperty(value = "User's password", example = "luka123")
 	private String password;
 
+	@Column(name = "blocker_counter")
+	@ApiModelProperty(value = "User's blocker counter", example = "2")
+	private int blockerCounter;
+
+	@ManyToOne
+	@JoinColumn(name = "id_status", nullable = false)
+	@ToString.Exclude
+	private UserStatus userStatus;
+
 	@JsonIgnore
 	@ToString.Exclude
 	@OneToMany(mappedBy = "user")

@@ -5,6 +5,13 @@ create table "role" (
     primary key (id)
 );
 
+-- user status
+create table "user_status" (
+    id serial not null,
+    name varchar(50) not null,
+    primary key (id)
+);
+
 -- user table
 create table "user" (
     id serial not null,
@@ -13,7 +20,10 @@ create table "user" (
     username varchar(100) not null,
     email varchar(100) not null,
     password varchar(100) not null,
-    primary key (id)
+    blocker_counter int,
+    id_status bigserial not null,
+    primary key (id),
+    constraint fk_user_status foreign key (id_status) references "user_status" (id) on delete cascade
 );
 
 -- user_role table

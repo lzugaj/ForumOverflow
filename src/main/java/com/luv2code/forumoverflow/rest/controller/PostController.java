@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +39,8 @@ public class PostController {
 			@ApiResponse(code = 201, message = "Successfully created post")
 	})
 	@PostMapping(
-			consumes = Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE,
-			produces = Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE
-	)
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Post> save(@RequestBody Post post) {
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //
@@ -93,9 +93,8 @@ public class PostController {
 			@ApiResponse(code = 404, message = "The resource you were trying to update is not found")
 	})
 	@PutMapping(path = "/{id}",
-			consumes = Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE,
-			produces = Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE
-	)
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Post> update(@PathVariable Long id, @RequestBody Post post) {
 		Post updatedPost = postService.update(id, post);
 		log.info("Successfully updated Post with id: `{}`.", updatedPost.getId());

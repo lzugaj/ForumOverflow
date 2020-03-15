@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,20 +75,38 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	public List<Post> findAllByUsername(String username) {
+		List<Post> posts = findAll();
+		List<Post> searchedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getUser().getUsername().equals(username)) {
+				searchedPosts.add(post);
+			}
+		}
+
+		log.info("Searching all Posts for User with username: `{}`.", username);
+		return searchedPosts;
+	}
+
+	@Override
 	public Post update(Long id, Post post) {
 		Post updatedPost = findById(id);
 		log.info("Successfully founded Post with id: `{}`.", id);
 
+		setUpVariables(post, updatedPost);
+		postRepository.save(updatedPost);
+
+		log.info("Updating Post with id: `{}`.", post.getId());
+		return updatedPost;
+	}
+
+	private void setUpVariables(Post post, Post updatedPost) {
 		updatedPost.setTitle(post.getTitle());
 		updatedPost.setDescription(post.getDescription());
 		updatedPost.setCreatedDate(LocalDateTime.now());
 		updatedPost.setUser(updatedPost.getUser());
 		updatedPost.setCategory(post.getCategory());
-		updatedPost.setComments(post.getComments());
-
-		postRepository.save(updatedPost);
-		log.info("Updating Post with id: `{}`.", post.getId());
-		return updatedPost;
+		updatedPost.setComments(updatedPost.getComments());
 	}
 
 	@Override

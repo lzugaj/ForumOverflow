@@ -16,6 +16,8 @@ public interface PostService {
 
 	List<Post> findAll();
 
+	List<Post> findAllByUsername(String username);
+
 	Post update(Long id, Post post);
 
 	Post delete(Long id);

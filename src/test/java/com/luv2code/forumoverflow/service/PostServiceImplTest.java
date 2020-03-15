@@ -47,7 +47,7 @@ public class PostServiceImplTest {
 	@Test
 	public void testSave() {
 		Long userId = 1L;
-		User user = new User(userId, "Alma", "Zugaj", "azugaj", "azugaj@gmail.com", "azugaj123", null, null, null);
+		User user = new User(userId, "Alma", "Zugaj", "azugaj", "azugaj@gmail.com", "azugaj123", 0, null, null, null, null);
 
 		Long categoryId = 1L;
 		Category category = new Category(categoryId, "Feed", null);
@@ -122,6 +122,32 @@ public class PostServiceImplTest {
 		when(postRepository.findAll()).thenReturn(posts);
 
 		List<Post> searchedPosts = postService.findAll();
+
+		assertEquals(2, searchedPosts.size());
+		verify(postRepository, times(1)).findAll();
+	}
+
+	@Test
+	public void testFindAllByUsername() {
+		Long userId = 1L;
+		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "dtorma10");
+
+		Long categoryId = 1L;
+		Category category = createCategory(categoryId, "School");
+
+		Long firstPostId = 1L;
+		Post firstPost = createPost(firstPostId, "Naslov", "Opis", user, category);
+
+		Long secondPostId = 1L;
+		Post secondPost = createPost(secondPostId, "Title", "Description", user, category);
+
+		List<Post> posts = new ArrayList<>();
+		posts.add(firstPost);
+		posts.add(secondPost);
+
+		when(postRepository.findAll()).thenReturn(posts);
+
+		List<Post> searchedPosts = postService.findAllByUsername(user.getUsername());
 
 		assertEquals(2, searchedPosts.size());
 		verify(postRepository, times(1)).findAll();
