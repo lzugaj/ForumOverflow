@@ -17,3 +17,8 @@ insert into "category" values (11, 'Visiting and travel');
 insert into "category" values (12, 'Business');
 insert into "category" values (13, 'Technology');
 insert into "category" values (14, 'Sessions');
+
+-- insert into table user status
+insert into "user_status" values (1, 'ACTIVE');
+insert into "user_status" values (2, 'INACTIVE');
+insert into "user_status" values (3, 'BLOCKED');

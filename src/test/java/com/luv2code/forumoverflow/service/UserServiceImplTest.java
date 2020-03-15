@@ -1,14 +1,13 @@
 package com.luv2code.forumoverflow.service;
 
-import com.luv2code.forumoverflow.domain.Comment;
-import com.luv2code.forumoverflow.domain.Post;
-import com.luv2code.forumoverflow.domain.Role;
 import com.luv2code.forumoverflow.domain.User;
+import com.luv2code.forumoverflow.domain.UserStatus;
 import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.exception.UserWithEmailAlreadyExistsException;
 import com.luv2code.forumoverflow.exception.UserWithUsernameAlreadyExistsException;
 import com.luv2code.forumoverflow.repository.UserRepository;
 import com.luv2code.forumoverflow.service.impl.UserServiceImpl;
+import com.luv2code.forumoverflow.util.Constants;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +33,9 @@ public class UserServiceImplTest {
 	@Mock
 	private UserRepository userRepository;
 
+	@Mock
+	private UserStatusService userStatusService;
+
 	@InjectMocks
 	private UserServiceImpl userService;
 
@@ -45,10 +46,14 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testSave() {
-		Long id = 1L;
-		User user = createUser(id, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "luka123");
+		Long userId = 1L;
+		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "luka123");
+
+		Long userStatusId = 1L;
+		UserStatus userStatus = new UserStatus(userStatusId, "ACTIVE", null);
 
 		when(userRepository.save(user)).thenReturn(user);
+		when(userStatusService.findByName(Constants.ACTIVE)).thenReturn(userStatus);
 
 		User newUser = userService.save(user);
 
@@ -59,6 +64,7 @@ public class UserServiceImplTest {
 		assertEquals("lzugaj", newUser.getUsername());
 		assertEquals("lzugaj@gmail.com",newUser.getEmail());
 		assertEquals("luka123", newUser.getPassword());
+		assertEquals("ACTIVE", newUser.getUserStatus().getName());
 	}
 
 	@Test
@@ -93,6 +99,33 @@ public class UserServiceImplTest {
 		when(userRepository.save(secondUser)).thenThrow(new UserWithEmailAlreadyExistsException("User", "email", secondUser.getEmail()));
 
 		assertThrows(UserWithEmailAlreadyExistsException.class, () -> userService.save(secondUser));
+	}
+
+	@Test
+	public void testFindById() {
+		Long id = 1L;
+		User firstUser = createUser(id, "Grgur", "Zugaj", "gzugaj", "grgo.zugaj@gmail.com", "grobro10");
+
+		when(userRepository.findById(firstUser.getId())).thenReturn(java.util.Optional.of(firstUser));
+
+		User searchedUser = userService.findById(id);
+
+		assertNotNull(searchedUser);
+		assertEquals("1", searchedUser.getId().toString());
+		assertEquals("Grgur", searchedUser.getFirstName());
+		assertEquals("Zugaj", searchedUser.getLastName());
+		assertEquals("gzugaj", searchedUser.getUsername());
+		assertEquals("grgo.zugaj@gmail.com", searchedUser.getEmail());
+		assertEquals("grobro10", searchedUser.getPassword());
+	}
+
+	@Test
+	public void testFindByIdEntityNotFoundException() {
+		Long id = 1L;
+
+		when(userRepository.findById(id)).thenThrow(new EntityNotFoundException("User", "id", id.toString()));
+
+		assertThrows(EntityNotFoundException.class, () -> userService.findById(id));
 	}
 
 	@Test
@@ -141,41 +174,131 @@ public class UserServiceImplTest {
 
 		when(userRepository.findAll()).thenReturn(users);
 
-		List<User> newUsers = userService.findAll();
+		List<User> searchedUsers = userService.findAll();
 
 		assertEquals(3, users.size());
-		assertEquals(3, newUsers.size());
+		assertEquals(3, searchedUsers.size());
 		verify(userRepository, times(1)).findAll();
 	}
 
-	private Post createPost(Long id, String title, String description, User user) {
-		Post post = new Post();
-		post.setId(id);
-		post.setTitle(title);
-		post.setDescription(description);
-		post.setCreatedDate(LocalDateTime.now());
-		post.setUser(user);
-		post.setComments(null);
-		post.setCategory(null);
-		return post;
+	@Test
+	public void testFindAllThatContainsUsername() {
+		Long firstId = 1L;
+		User firstUser = createUser(firstId, "Luka", "Zugaj", "lpalsizugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		Long secondId = 2L;
+		User secondUser = createUser(secondId, "Dalibor", "Torma", "palsi", "dtorma@gmail.com", "dtorma10");
+
+		Long thirdId = 3L;
+		User thirdUser = createUser(thirdId, "Domagoj", "Cep", "dcep", "dcep@gmail.com", "dcpe12");
+
+		List<User> users = new ArrayList<>();
+		users.add(firstUser);
+		users.add(secondUser);
+		users.add(thirdUser);
+
+		when(userRepository.findAll()).thenReturn(users);
+
+		String username = "palsi";
+		List<User> searchedUsers = userService.findAllThatContainsUsername(username);
+
+		assertEquals(3, users.size());
+		assertEquals(2, searchedUsers.size());
+		verify(userRepository, times(1)).findAll();
 	}
 
-	private Comment createComment(Long id, String description, User user, Post post) {
-		Comment comment = new Comment();
-		comment.setId(id);
-		comment.setDescription(description);
-		comment.setCreatedDate(LocalDateTime.now());
-		comment.setUser(user);
-		comment.setPost(post);
-		return comment;
+	@Test
+	public void testUpdate() {
+		Long id = 1L;
+		User firstUser = createUser(id, "Ivan", "Ivic", "iivic", "iivic@gmail.com", "iivic1111");
+
+		User secondUser = createUser(id, "Ivan", "Ivic", "testko", "test@gmail.com", "iivic1111");
+
+		when(userRepository.findById(firstUser.getId())).thenReturn(java.util.Optional.of(firstUser));
+		when(userRepository.save(secondUser)).thenReturn(secondUser);
+
+		User updatedUser = userService.update(secondUser.getId(), secondUser);
+
+		assertNotNull(updatedUser);
+		assertEquals("1", updatedUser.getId().toString());
+		assertEquals("Ivan", updatedUser.getFirstName());
+		assertEquals("Ivic", updatedUser.getLastName());
+		assertEquals("testko", updatedUser.getUsername());
+		assertEquals("test@gmail.com", updatedUser.getEmail());
+		assertEquals("iivic1111", updatedUser.getPassword());
 	}
 
-	private Role createRole(Long id, String name, List<User> users) {
-		Role role = new Role();
-		role.setId(id);
-		role.setName(name);
-		role.setUsers(users);
-		return role;
+	@Test
+	public void testUpdateEntityNotFoundException() {
+		Long id = 1L;
+		User firstUser = createUser(id, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		when(userRepository.findById(firstUser.getId())).thenThrow(new EntityNotFoundException("User", "id", id.toString()));
+
+		assertThrows(EntityNotFoundException.class, () -> userService.update(id, firstUser));
+	}
+
+	@Test
+	public void testUpdateUserStatus() {
+		UserStatus firstStatus = new UserStatus(1L, "ACTIVE", null);
+		UserStatus secondStatus = new UserStatus(1L, "BLOCKED", null);
+
+		Long id = 1L;
+		String username = "lzugaj";
+		User user = new User(id, "Luka", "Zugaj", "lzugaj", "luka.zugaj@gmail.com", "luka123", 0, firstStatus, null, null, null);
+
+		when(userRepository.findByUsername(username)).thenReturn(java.util.Optional.of(user));
+
+		User updatedUser = userService.updateUserStatus(user.getUsername(), secondStatus);
+
+		assertNotNull(updatedUser);
+		assertEquals("1", updatedUser.getId().toString());
+		assertEquals("Luka", updatedUser.getFirstName());
+		assertEquals("Zugaj", updatedUser.getLastName());
+		assertEquals("lzugaj", updatedUser.getUsername());
+		assertEquals("luka.zugaj@gmail.com", updatedUser.getEmail());
+		assertEquals("luka123", updatedUser.getPassword());
+		assertEquals("BLOCKED", user.getUserStatus().getName());
+	}
+
+	@Test
+	public void testUpdateUserStatusEntityNotFoundException() {
+		UserStatus firstStatus = new UserStatus(1L, "ACTIVE", null);
+
+		Long id = 1L;
+		User user = createUser(id, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		when(userRepository.findByUsername(user.getUsername())).thenThrow(new EntityNotFoundException("User", "username", user.getUsername()));
+
+		assertThrows(EntityNotFoundException.class, () -> userService.updateUserStatus(user.getUsername(), firstStatus));
+	}
+
+	@Test
+	public void testDelete() {
+		Long id = 1L;
+		User firstUser = createUser(id, "Luka", "Zugaj", "palsi", "dtorma@gmail.com", "lzugaj123");
+
+		when(userRepository.findById(id)).thenReturn(java.util.Optional.of(firstUser));
+
+		User deletedUser = userService.delete(firstUser.getId());
+
+		assertNotNull(deletedUser);
+		assertEquals("1", deletedUser.getId().toString());
+		assertEquals("Luka", deletedUser.getFirstName());
+		assertEquals("Zugaj", deletedUser.getLastName());
+		assertEquals("palsi", deletedUser.getUsername());
+		assertEquals("dtorma@gmail.com", deletedUser.getEmail());
+		assertEquals("lzugaj123", deletedUser.getPassword());
+	}
+
+	@Test
+	public void testDeleteEntityNotFoundException() {
+		Long id = 1L;
+		User firstUser = createUser(id, "Luka", "Zugaj", "lzugaj", "lzugaj@gmail.com", "lzugaj123");
+
+		when(userRepository.findById(firstUser.getId())).thenThrow(new EntityNotFoundException("User", "id", id.toString()));
+
+		assertThrows(EntityNotFoundException.class, () -> userService.delete(id));
 	}
 
 	private User createUser(Long id, String firstName, String lastName, String username, String email, String password) {
@@ -186,43 +309,7 @@ public class UserServiceImplTest {
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword(password);
-
-		Long firstPostId = 1L;
-		Post firstPost = createPost(firstPostId, "Title", "Description", user);
-
-		Long secondPostId = 2L;
-		Post secondPost = createPost(secondPostId, "Naslov", "Opis", user);
-
-		List<Post> posts = new ArrayList<>();
-		posts.add(firstPost);
-		posts.add(secondPost);
-
-		Long firstCommentId = 1L;
-		Comment firstComment = createComment(firstCommentId, "Comment", user, firstPost);
-
-		Long secondCommentId = 2L;
-		Comment secondComment = createComment(secondCommentId, "Komentar", user, secondPost);
-
-		List<Comment> comments = new ArrayList<>();
-		comments.add(firstComment);
-		comments.add(secondComment);
-
-		List<User> users = new ArrayList<>();
-		users.add(user);
-
-		Long firstRoleId = 1L;
-		Role firstRole = createRole(firstRoleId, "Admin", users);
-
-		Long secondRoleId = 1L;
-		Role secondRole = createRole(secondRoleId, "User", users);
-
-		List<Role> roles = new ArrayList<>();
-		roles.add(firstRole);
-		roles.add(secondRole);
-
-		user.setPosts(posts);
-		user.setComments(comments);
-		user.setRoles(roles);
+		user.setBlockerCounter(0);
 		return user;
 	}
 }

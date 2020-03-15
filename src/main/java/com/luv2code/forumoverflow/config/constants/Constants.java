@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
  */
 
 public final class Constants {
+
 	public static final String MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE = "application/vnd.com.luv2code.api.v1+json";
 
 	public static final String MEDIA_TYPE_FORUM_OVERFLOW_API_V1_UTF8_VALUE = MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE + ";charset=UTF-8";

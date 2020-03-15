@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -57,7 +58,7 @@ public class PostControllerTest {
 		this.mockMvc
 				.perform(
 						post("/post")
-							.contentType(Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE)
+							.contentType(MediaType.APPLICATION_JSON_VALUE)
 							.content(objectMapper.writeValueAsString(post))
 				)
 				.andExpect(status().isCreated());
@@ -130,7 +131,7 @@ public class PostControllerTest {
 		this.mockMvc
 				.perform(
 						put("/post/{id}", post.getId())
-								.contentType(Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE)
+								.contentType(MediaType.APPLICATION_JSON_VALUE)
 								.content(objectMapper.writeValueAsString(post))
 				)
 				.andExpect(status().isOk());
