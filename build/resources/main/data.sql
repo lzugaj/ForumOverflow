@@ -22,3 +22,7 @@ insert into "category" values (14, 'Sessions');
 insert into "user_status" values (1, 'ACTIVE');
 insert into "user_status" values (2, 'INACTIVE');
 insert into "user_status" values (3, 'BLOCKED');
+
+-- insert into table content status
+insert into "content_status" values (1, 'VALID');
+insert into "content_status" values (2, 'INVALID');

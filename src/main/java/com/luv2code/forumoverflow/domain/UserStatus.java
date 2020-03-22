@@ -1,15 +1,23 @@
 package com.luv2code.forumoverflow.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by lzugaj on Friday, March 2020
@@ -37,5 +45,4 @@ public class UserStatus {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "userStatus")
 	private List<User> user;
-
 }

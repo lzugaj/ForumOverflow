@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">3</div>
+<div class="counter">10</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.037s</div>
+<div class="counter">0.087s</div>
 <p>duration</p>
 </div>
 </td>
@@ -66,9 +66,6 @@
 <li>
 <a href="#tab1">Standard output</a>
 </li>
-<li>
-<a href="#tab2">Standard error</a>
-</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -81,8 +78,13 @@
 </tr>
 </thead>
 <tr>
+<td class="success">testDelete()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testFindAll()</td>
-<td class="success">0.023s</td>
+<td class="success">0.013s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -91,8 +93,38 @@
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testFindByIdEntityNotFoundException()</td>
+<td class="success">testFindByIdNullPointerException()</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testFindByUsername()</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testFindByUsernameNullPointerException()</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testNameAlreadyExistsReturnFalse()</td>
+<td class="success">0.025s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testNameAlreadyExistsReturnTrue()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testSave()</td>
 <td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testUpdate()</td>
+<td class="success">0.006s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -100,78 +132,21 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2020-03-15 16:59:18.671  INFO 16220 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest], using SpringBootContextLoader
-2020-03-15 16:59:18.671  INFO 16220 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2020-03-15 16:59:18.671  INFO 16220 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: CategoryServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2020-03-15 16:59:18.921  INFO 16220 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.CategoryServiceImplTest
-2020-03-15 16:59:18.921  INFO 16220 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-2020-03-15 16:59:18.921  INFO 16220 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@59a5758f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@7364605e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@4de63f82, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@ce742f2, org.springframework.test.context.support.DirtiesContextTestExecutionListener@7e9c57ec, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2e2abef1, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@524c8e99, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@640aa6f0, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7835aeaa, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@3935a6b, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@359d34c6, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@41139a3]
-
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
- :: Spring Boot ::        (v2.1.0.RELEASE)
-
-2020-03-15 16:59:18.984  INFO 16220 --- [    Test worker] c.l.f.service.CategoryServiceImplTest    : Starting CategoryServiceImplTest on DESKTOP-F169E3V with PID 16220 (started by lzugaj in H:\lzugaj\workspace\Projects\ForumOverflow)
-2020-03-15 16:59:18.984  INFO 16220 --- [    Test worker] c.l.f.service.CategoryServiceImplTest    : No active profile set, falling back to default profiles: default
-2020-03-15 16:59:20.890  INFO 16220 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
-2020-03-15 16:59:21.577  INFO 16220 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 672ms. Found 4 repository interfaces.
-2020-03-15 16:59:22.249  INFO 16220 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$2fe268ba] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2020-03-15 16:59:22.327  INFO 16220 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$af62b5ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2020-03-15 16:59:22.499  INFO 16220 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2020-03-15 16:59:22.686  INFO 16220 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2020-03-15 16:59:23.389  INFO 16220 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
-	name: default
-	...]
-2020-03-15 16:59:23.530  INFO 16220 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.7.Final}
-2020-03-15 16:59:23.545  INFO 16220 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
-2020-03-15 16:59:23.717  INFO 16220 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-2020-03-15 16:59:24.717  INFO 16220 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
-2020-03-15 16:59:24.764  INFO 16220 --- [    Test worker] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000422: Disabling contextual LOB creation as connection was null
-2020-03-15 16:59:24.779  INFO 16220 --- [    Test worker] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@71a64aff
-2020-03-15 16:59:25.795  INFO 16220 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2020-03-15 16:59:27.529  WARN 16220 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-03-15 16:59:28.450  INFO 16220 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity&lt;springfox.documentation.spring.web.json.Json&gt; springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
-2020-03-15 16:59:29.060  INFO 16220 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2020-03-15 16:59:29.794  INFO 16220 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.0 created.
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
-  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
-  NOT STARTED.
-  Currently in standby mode.
-  Number of jobs executed: 0
-  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
-  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
-
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.0
-2020-03-15 16:59:29.841  INFO 16220 --- [    Test worker] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@31a4b20f
-2020-03-15 16:59:29.887  INFO 16220 --- [    Test worker] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
-2020-03-15 16:59:30.012  INFO 16220 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2020-03-15 16:59:30.059  INFO 16220 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2020-03-15 16:59:30.153  INFO 16220 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2020-03-15 16:59:30.528  INFO 16220 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
-2020-03-15 16:59:30.544  INFO 16220 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findAllUsingGET_1
-2020-03-15 16:59:30.575  INFO 16220 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findByIdUsingGET_1
-2020-03-15 16:59:30.575  INFO 16220 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: saveUsingPOST_1
-2020-03-15 16:59:30.590  INFO 16220 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPUT_1
-2020-03-15 16:59:30.622  INFO 16220 --- [    Test worker] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
-2020-03-15 16:59:30.637  INFO 16220 --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2020-03-15 16:59:30.637  INFO 16220 --- [    Test worker] c.l.f.service.CategoryServiceImplTest    : Started CategoryServiceImplTest in 11.7 seconds (JVM running for 25.743)
-2020-03-15 16:59:30.794  INFO 16220 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching all Categories.
-2020-03-15 16:59:30.825  INFO 16220 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching Category with id: `1`.
-</pre>
-</span>
-</div>
-<div id="tab2" class="tab">
-<h2>Standard error</h2>
-<span class="code">
-<pre>[2020.03.15 16:59:20] (Coverage): Error during class instrumentation: org.springframework.mail.javamail.JavaMailSenderImpl: java.lang.RuntimeException: java.io.IOException: Class not found
+<pre>2020-03-22 23:19:37.210  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest], using SpringBootContextLoader
+2020-03-22 23:19:37.211  INFO 16760 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-03-22 23:19:37.212  INFO 16760 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.CategoryServiceImplTest]: CategoryServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-03-22 23:19:37.231  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.CategoryServiceImplTest
+2020-03-22 23:19:37.234  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2020-03-22 23:19:37.235  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@12d7ee7d, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1354c10e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5452c1a6, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@87d8723, org.springframework.test.context.support.DirtiesContextTestExecutionListener@25743457, org.springframework.test.context.transaction.TransactionalTestExecutionListener@101ddd46, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@52807112, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@36a0b0fe, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@32f2fcf1, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@4cfbe004, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@1d221068, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@2eb67472]
+2020-03-22 23:19:37.453  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching all Categories.
+2020-03-22 23:19:37.462  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching all Categories.
+2020-03-22 23:19:37.468  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching all Categories.
+2020-03-22 23:19:37.485  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Saving new Category with id: `1`
+2020-03-22 23:19:37.494  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching Category with id: `1`.
+2020-03-22 23:19:37.500  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Searching Category with name: `Marketing`.
+2020-03-22 23:19:37.525  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Successfully deleted Category with id: `1`
+2020-03-22 23:19:37.532  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Setting up variables for updated Category with id: `1`
+2020-03-22 23:19:37.533  INFO 16760 --- [    Test worker] c.l.f.service.impl.CategoryServiceImpl   : Updating Category with id: `1`.
 </pre>
 </span>
 </div>
@@ -183,7 +158,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Mar 15, 2020 4:59:33 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Mar 22, 2020 11:19:38 PM</p>
 </div>
 </div>
 </body>

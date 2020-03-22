@@ -17,6 +17,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import javassist.NotFoundException;
+
 /**
  * Created by lzugaj on Saturday, February 2020
  */
@@ -36,26 +38,65 @@ public class CategoryServiceImplTest {
 	}
 
 	@Test
-	public void testFindById() {
+	public void testSave() {
 		Long id = 1L;
-		Category category = createCategory(id, "Feed");
+		Category category = new Category(id, "Feed", null);
 
-		when(categoryRepository.findById(id)).thenReturn(java.util.Optional.of(category));
+		when(categoryRepository.save(category)).thenReturn(category);
 
-		Category searchedCategory = categoryService.findById(id);
+		Category newCategory = categoryService.save(category);
 
-		assertNotNull(searchedCategory);
-		assertEquals("1", searchedCategory.getId().toString());
-		assertEquals("Feed", searchedCategory.getName());
+		assertNotNull(newCategory);
+		assertEquals("1", newCategory.getId().toString());
+		assertEquals("Feed", newCategory.getName());
 	}
 
 	@Test
-	public void testFindByIdEntityNotFoundException() {
+	public void testFindById() {
 		Long id = 1L;
+		Category category = createCategory(id, "Marketing");
 
-		when(categoryRepository.findById(id)).thenThrow(new EntityNotFoundException("Category", "id", id.toString()));
+		when(categoryRepository.findById(category.getId())).thenReturn(java.util.Optional.of(category));
 
-		assertThrows(EntityNotFoundException.class, () -> categoryService.findById(id));
+		Category searchedCategory = categoryService.findById(category.getId());
+
+		assertNotNull(searchedCategory);
+		assertEquals("1", searchedCategory.getId().toString());
+		assertEquals("Marketing", searchedCategory.getName());
+	}
+
+	@Test
+	public void testFindByIdNullPointerException() {
+		Long id = 1L;
+		Category category = createCategory(id, "Feed");
+
+		when(categoryRepository.findById(category.getId())).thenThrow(new NullPointerException());
+
+		assertThrows(NullPointerException.class, () -> categoryService.findById(category.getId()));
+	}
+
+	@Test
+	public void testFindByUsername() {
+		Long id = 1L;
+		Category category = createCategory(id, "Marketing");
+
+		when(categoryRepository.findByName(category.getName())).thenReturn(java.util.Optional.of(category));
+
+		Category searchedCategory = categoryService.findByName(category.getName());
+
+		assertNotNull(searchedCategory);
+		assertEquals("1", searchedCategory.getId().toString());
+		assertEquals("Marketing", searchedCategory.getName());
+	}
+
+	@Test
+	public void testFindByUsernameNullPointerException() {
+		Long id = 1L;
+		Category category = createCategory(id, "Feed");
+
+		when(categoryRepository.findByName(category.getName())).thenThrow(new NullPointerException());
+
+		assertThrows(NullPointerException.class, () -> categoryService.findByName(category.getName()));
 	}
 
 	@Test
@@ -64,7 +105,7 @@ public class CategoryServiceImplTest {
 		Category firstCategory = createCategory(firstCategoryId, "Feed");
 
 		Long secondCategoryId = 2L;
-		Category secondCategory = createCategory(secondCategoryId, "School");
+		Category secondCategory = createCategory(secondCategoryId, "Marketing");
 
 		List<Category> categories = new ArrayList<>();
 		categories.add(firstCategory);
@@ -74,15 +115,84 @@ public class CategoryServiceImplTest {
 
 		List<Category> searchedCategories = categoryService.findAll();
 
+		assertEquals(2, categories.size());
 		assertEquals(2, searchedCategories.size());
 		verify(categoryRepository, times(1)).findAll();
+	}
+
+	@Test
+	public void testUpdate() {
+		Long firstCategoryId = 1L;
+		Category firstCategory = createCategory(firstCategoryId, "Feed");
+
+		Long secondCategoryId = 2L;
+		Category secondCategory = createCategory(secondCategoryId, "Marketing");
+
+		when(categoryRepository.save(secondCategory)).thenReturn(secondCategory);
+
+		Category updatedCategory = categoryService.update(firstCategory, secondCategory);
+
+		assertNotNull(updatedCategory);
+		assertEquals("1", updatedCategory.getId().toString());
+		assertEquals("Marketing", updatedCategory.getName());
+	}
+
+	@Test
+	public void testDelete() {
+		Long id = 1L;
+		Category category = createCategory(id, "Feed");
+
+		Category deletedCategory = categoryService.delete(category);
+
+		assertEquals("1", deletedCategory.getId().toString());
+		assertEquals("Feed", deletedCategory.getName());
+		verify(categoryRepository, times(1)).delete(category);
+	}
+
+	@Test
+	public void testNameAlreadyExistsReturnTrue() {
+		Long firstCategoryId = 1L;
+		Category firstCategory = createCategory(firstCategoryId, "Feed");
+
+		Long secondCategoryId = 2L;
+		Category secondCategory = createCategory(secondCategoryId, "Marketing");
+
+		List<Category> categories = new ArrayList<>();
+		categories.add(firstCategory);
+		categories.add(secondCategory);
+
+		when(categoryRepository.findAll()).thenReturn(categories);
+
+		String name = "Marketing";
+		boolean nameAlreadyExists = categoryService.nameAlreadyExists(name);
+
+		assertTrue(nameAlreadyExists);
+	}
+
+	@Test
+	public void testNameAlreadyExistsReturnFalse() {
+		Long firstCategoryId = 1L;
+		Category firstCategory = createCategory(firstCategoryId, "Feed");
+
+		Long secondCategoryId = 2L;
+		Category secondCategory = createCategory(secondCategoryId, "Marketing");
+
+		List<Category> categories = new ArrayList<>();
+		categories.add(firstCategory);
+		categories.add(secondCategory);
+
+		when(categoryRepository.findAll()).thenReturn(categories);
+
+		String name = "School";
+		boolean nameAlreadyExists = categoryService.nameAlreadyExists(name);
+
+		assertFalse(nameAlreadyExists);
 	}
 
 	private Category createCategory(Long id, String name) {
 		Category category = new Category();
 		category.setId(id);
 		category.setName(name);
-		category.setPosts(null);
 		return category;
 	}
 }

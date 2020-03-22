@@ -1,15 +1,27 @@
 package com.luv2code.forumoverflow.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by lzugaj on Friday, February 2020
@@ -49,13 +61,15 @@ public class User {
 	@ApiModelProperty(value = "User's password", example = "luka123")
 	private String password;
 
+	@JsonIgnore
 	@Column(name = "blocker_counter")
 	@ApiModelProperty(value = "User's blocker counter", example = "2")
 	private int blockerCounter;
 
+	@JsonIgnore
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_status", nullable = false)
-	@ToString.Exclude
 	private UserStatus userStatus;
 
 	@JsonIgnore
@@ -75,5 +89,4 @@ public class User {
 			joinColumns = @JoinColumn(name = "id_user", nullable = false),
 			inverseJoinColumns = @JoinColumn(name = "id_role", nullable = false))
 	private List<Role> roles;
-
 }
