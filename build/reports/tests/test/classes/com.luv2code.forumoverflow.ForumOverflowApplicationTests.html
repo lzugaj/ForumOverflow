@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.073s</div>
+<div class="counter">0.003s</div>
 <p>duration</p>
 </div>
 </td>
@@ -66,9 +66,6 @@
 <li>
 <a href="#tab1">Standard output</a>
 </li>
-<li>
-<a href="#tab2">Standard error</a>
-</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -82,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">contextLoads()</td>
-<td class="success">0.073s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -90,22 +87,12 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>23:19:25.184 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-23:19:25.237 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-23:19:25.285 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
-23:19:25.311 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests], using SpringBootContextLoader
-23:19:25.319 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: class path resource [com/luv2code/forumoverflow/ForumOverflowApplicationTests-context.xml] does not exist
-23:19:25.320 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: class path resource [com/luv2code/forumoverflow/ForumOverflowApplicationTestsContext.groovy] does not exist
-23:19:25.320 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
-23:19:25.322 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: ForumOverflowApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-23:19:25.411 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]
-23:19:25.543 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\lzugaj\Workspace\ForumOverflow\build\classes\java\main\com\luv2code\forumoverflow\ForumOverflowApplication.class]
-23:19:25.544 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.ForumOverflowApplicationTests
-23:19:25.741 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: using defaults.
-23:19:25.742 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-23:19:25.777 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@53766adc, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@feb9d1f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@21d5a337, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3d54d31b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5d146ee7, org.springframework.test.context.transaction.TransactionalTestExecutionListener@e44133f, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@284d5db, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@1953029b, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@674e2400, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@493d0e3d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@6db320cc, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@6cf5a03b]
-23:19:25.783 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@30b99b33 testClass = ForumOverflowApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@24ecb68c testClass = ForumOverflowApplicationTests, locations = '{}', classes = '{class com.luv2code.forumoverflow.ForumOverflowApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@4aa3c16b, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3368cd0d, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@673eafa0, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@55f0936b], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true]], class annotated with @DirtiesContext [false] with mode [null].
-23:19:25.827 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=-1}
+<pre>2020-03-24 10:52:36.812  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests], using SpringBootContextLoader
+2020-03-24 10:52:36.813  INFO 15092 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-03-24 10:52:36.814  INFO 15092 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.ForumOverflowApplicationTests]: ForumOverflowApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-03-24 10:52:36.821  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.ForumOverflowApplicationTests
+2020-03-24 10:52:36.823  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2020-03-24 10:52:36.824  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3581a25c, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5a9fec4a, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@4fa07ad7, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7aa86c83, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4283a2c8, org.springframework.test.context.transaction.TransactionalTestExecutionListener@67dbeb6e, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@2be14380, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@1294ee0b, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@4d5e9b73, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@75e6892d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@54ba3952, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@61eb7178]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -115,32 +102,32 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.1.0.RELEASE)
 
-2020-03-22 23:19:26.460  INFO 16760 --- [    Test worker] c.l.f.ForumOverflowApplicationTests      : Starting ForumOverflowApplicationTests on lzugaj with PID 16760 (started by lzugaj in C:\Users\lzugaj\Workspace\ForumOverflow)
-2020-03-22 23:19:26.462  INFO 16760 --- [    Test worker] c.l.f.ForumOverflowApplicationTests      : No active profile set, falling back to default profiles: default
-2020-03-22 23:19:28.419  INFO 16760 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
-2020-03-22 23:19:28.558  INFO 16760 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 126ms. Found 5 repository interfaces.
-2020-03-22 23:19:29.578  INFO 16760 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$317cff6c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2020-03-22 23:19:29.656  INFO 16760 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$b0fd4c9e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2020-03-22 23:19:29.854  INFO 16760 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2020-03-22 23:19:30.027  INFO 16760 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2020-03-22 23:19:30.385  INFO 16760 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+2020-03-24 10:52:36.862  INFO 15092 --- [    Test worker] c.l.f.ForumOverflowApplicationTests      : Starting ForumOverflowApplicationTests on lzugaj with PID 15092 (started by lzugaj in C:\Users\lzugaj\Workspace\ForumOverflow)
+2020-03-24 10:52:36.862  INFO 15092 --- [    Test worker] c.l.f.ForumOverflowApplicationTests      : No active profile set, falling back to default profiles: default
+2020-03-24 10:52:37.598  INFO 15092 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-03-24 10:52:37.691  INFO 15092 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86ms. Found 5 repository interfaces.
+2020-03-24 10:52:38.026  INFO 15092 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6c7a9e8e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-03-24 10:52:38.070  INFO 15092 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.hateoas.config.HateoasConfiguration' of type [org.springframework.hateoas.config.HateoasConfiguration$$EnhancerBySpringCGLIB$$ebfaebc0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-03-24 10:52:38.153  INFO 15092 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-03-24 10:52:38.280  INFO 15092 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-03-24 10:52:38.490  INFO 15092 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
 	name: default
 	...]
-2020-03-22 23:19:30.561  INFO 16760 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.7.Final}
-2020-03-22 23:19:30.564  INFO 16760 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
-2020-03-22 23:19:30.802  INFO 16760 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-2020-03-22 23:19:31.057  INFO 16760 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
-2020-03-22 23:19:31.085  INFO 16760 --- [    Test worker] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000422: Disabling contextual LOB creation as connection was null
-2020-03-22 23:19:31.093  INFO 16760 --- [    Test worker] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@65ae916c
-2020-03-22 23:19:32.349  INFO 16760 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2020-03-22 23:19:34.050  WARN 16760 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-03-22 23:19:34.888  INFO 16760 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity&lt;springfox.documentation.spring.web.json.Json&gt; springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
-2020-03-22 23:19:35.588  INFO 16760 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2020-03-22 23:19:36.313  INFO 16760 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
-2020-03-22 23:19:36.344  INFO 16760 --- [    Test worker] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2020-03-22 23:19:36.344  INFO 16760 --- [    Test worker] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.0 created.
-2020-03-22 23:19:36.346  INFO 16760 --- [    Test worker] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
-2020-03-22 23:19:36.348  INFO 16760 --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2020-03-24 10:52:38.620  INFO 15092 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.7.Final}
+2020-03-24 10:52:38.622  INFO 15092 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2020-03-24 10:52:38.696  INFO 15092 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-03-24 10:52:38.903  INFO 15092 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+2020-03-24 10:52:38.927  INFO 15092 --- [    Test worker] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000422: Disabling contextual LOB creation as connection was null
+2020-03-24 10:52:38.934  INFO 15092 --- [    Test worker] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@4486ba4d
+2020-03-24 10:52:39.798  INFO 15092 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-03-24 10:52:40.674  WARN 15092 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-03-24 10:52:41.157  INFO 15092 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity&lt;springfox.documentation.spring.web.json.Json&gt; springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-03-24 10:52:41.617  INFO 15092 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-24 10:52:42.061  INFO 15092 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2020-03-24 10:52:42.080  INFO 15092 --- [    Test worker] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2020-03-24 10:52:42.080  INFO 15092 --- [    Test worker] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.0 created.
+2020-03-24 10:52:42.081  INFO 15092 --- [    Test worker] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2020-03-24 10:52:42.083  INFO 15092 --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -148,33 +135,26 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2020-03-22 23:19:36.348  INFO 16760 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2020-03-22 23:19:36.348  INFO 16760 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.0
-2020-03-22 23:19:36.349  INFO 16760 --- [    Test worker] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@6ac55278
-2020-03-22 23:19:36.382  INFO 16760 --- [    Test worker] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
-2020-03-22 23:19:36.472  INFO 16760 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2020-03-22 23:19:36.516  INFO 16760 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2020-03-22 23:19:36.606  INFO 16760 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2020-03-22 23:19:36.934  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
-2020-03-22 23:19:36.943  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findAllUsingGET_1
-2020-03-22 23:19:36.961  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findByIdUsingGET_1
-2020-03-22 23:19:36.977  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: saveUsingPOST_1
-2020-03-22 23:19:36.984  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPUT_1
-2020-03-22 23:19:37.000  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_2
-2020-03-22 23:19:37.006  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findAllUsingGET_2
-2020-03-22 23:19:37.018  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findByIdUsingGET_2
-2020-03-22 23:19:37.030  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: saveUsingPOST_2
-2020-03-22 23:19:37.037  INFO 16760 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPUT_2
-2020-03-22 23:19:37.078  INFO 16760 --- [    Test worker] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
-2020-03-22 23:19:37.078  INFO 16760 --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2020-03-22 23:19:37.098  INFO 16760 --- [    Test worker] c.l.f.ForumOverflowApplicationTests      : Started ForumOverflowApplicationTests in 11.25 seconds (JVM running for 13.69)
-</pre>
-</span>
-</div>
-<div id="tab2" class="tab">
-<h2>Standard error</h2>
-<span class="code">
-<pre>[2020.03.22 23:19:27] (Coverage): Error during class instrumentation: org.springframework.mail.javamail.JavaMailSenderImpl: java.lang.RuntimeException: java.io.IOException: Class not found
+2020-03-24 10:52:42.083  INFO 15092 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2020-03-24 10:52:42.083  INFO 15092 --- [    Test worker] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.0
+2020-03-24 10:52:42.083  INFO 15092 --- [    Test worker] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@5d07f069
+2020-03-24 10:52:42.110  INFO 15092 --- [    Test worker] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2020-03-24 10:52:42.179  INFO 15092 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-03-24 10:52:42.209  INFO 15092 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-03-24 10:52:42.260  INFO 15092 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-03-24 10:52:42.436  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
+2020-03-24 10:52:42.440  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findAllUsingGET_1
+2020-03-24 10:52:42.453  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findByIdUsingGET_1
+2020-03-24 10:52:42.461  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: saveUsingPOST_1
+2020-03-24 10:52:42.466  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPUT_1
+2020-03-24 10:52:42.478  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_2
+2020-03-24 10:52:42.482  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findAllUsingGET_2
+2020-03-24 10:52:42.492  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findByIdUsingGET_2
+2020-03-24 10:52:42.499  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: saveUsingPOST_2
+2020-03-24 10:52:42.504  INFO 15092 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPUT_2
+2020-03-24 10:52:42.524  INFO 15092 --- [    Test worker] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2020-03-24 10:52:42.525  INFO 15092 --- [    Test worker] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2020-03-24 10:52:42.537  INFO 15092 --- [    Test worker] c.l.f.ForumOverflowApplicationTests      : Started ForumOverflowApplicationTests in 5.71 seconds (JVM running for 12.682)
 </pre>
 </span>
 </div>
@@ -186,7 +166,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Mar 22, 2020 11:19:38 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Mar 24, 2020 10:52:43 AM</p>
 </div>
 </div>
 </body>

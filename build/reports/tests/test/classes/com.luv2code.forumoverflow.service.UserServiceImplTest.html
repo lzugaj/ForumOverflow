@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.069s</div>
+<div class="counter">0.060s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,12 +79,12 @@
 </thead>
 <tr>
 <td class="success">testDelete()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFindAll()</td>
-<td class="success">0.005s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -94,7 +94,7 @@
 </tr>
 <tr>
 <td class="success">testFindById()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -104,32 +104,32 @@
 </tr>
 <tr>
 <td class="success">testFindByUsername()</td>
-<td class="success">0.004s</td>
+<td class="success">0.005s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFindByUsernameEntityNotFoundException()</td>
-<td class="success">0.008s</td>
+<td class="success">0.007s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testIsEmailAlreadyUsedReturnsFalse()</td>
-<td class="success">0.005s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testIsEmailAlreadyUsedReturnsTrue()</td>
-<td class="success">0.005s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testIsUsernameAlreadyUsedReturnsFalse()</td>
 <td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">testIsEmailAlreadyUsedReturnsTrue()</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testIsUsernameAlreadyUsedReturnsFalse()</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testIsUsernameAlreadyUsedReturnsTrue()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -144,7 +144,7 @@
 </tr>
 <tr>
 <td class="success">testUpdateUserStatus()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -152,28 +152,28 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2020-03-22 23:19:37.539  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.UserServiceImplTest], using SpringBootContextLoader
-2020-03-22 23:19:37.540  INFO 16760 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.UserServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-2020-03-22 23:19:37.541  INFO 16760 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.UserServiceImplTest]: UserServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2020-03-22 23:19:37.544  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.UserServiceImplTest
-2020-03-22 23:19:37.547  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-2020-03-22 23:19:37.548  INFO 16760 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2b6207c9, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5d35595, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@6130d543, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@200d8d3f, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1b6a9ab8, org.springframework.test.context.transaction.TransactionalTestExecutionListener@40a1bbd, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@63f74cb2, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2fdf5186, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@602fb19f, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@34ac99d4, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@6de7d12f, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@3861fe74]
-2020-03-22 23:19:37.617  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
-2020-03-22 23:19:37.624  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
-2020-03-22 23:19:37.630  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
-2020-03-22 23:19:37.636  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Successfully founded User status with name: `ACTIVE`.
-2020-03-22 23:19:37.637  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Saving User with id: `1`.
-2020-03-22 23:19:37.643  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Change status for User `lzugaj` to `BLOCKED`
-2020-03-22 23:19:37.643  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Updating User with id: `1`.
-2020-03-22 23:19:37.660  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
-2020-03-22 23:19:37.665  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching User with id: `1`
-2020-03-22 23:19:37.670  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching User with username: `dtorma`.
-2020-03-22 23:19:37.682  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
-2020-03-22 23:19:37.687  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
-2020-03-22 23:19:37.688  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users that contains `zug` in username.
-2020-03-22 23:19:37.693  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Deleting User with id: `1`.
-2020-03-22 23:19:37.700  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Setting up variables for updated User with id: `1`
-2020-03-22 23:19:37.701  INFO 16760 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Updating User with id: `1`.
+<pre>2020-03-24 10:52:42.815  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.luv2code.forumoverflow.service.UserServiceImplTest], using SpringBootContextLoader
+2020-03-24 10:52:42.818  INFO 15092 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.luv2code.forumoverflow.service.UserServiceImplTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2020-03-24 10:52:42.818  INFO 15092 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.luv2code.forumoverflow.service.UserServiceImplTest]: UserServiceImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2020-03-24 10:52:42.820  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.luv2code.forumoverflow.ForumOverflowApplication for test class com.luv2code.forumoverflow.service.UserServiceImplTest
+2020-03-24 10:52:42.822  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2020-03-24 10:52:42.822  INFO 15092 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6c26eb6e, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@7d058f6e, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@44cda987, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@a8f0428, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5129f38c, org.springframework.test.context.transaction.TransactionalTestExecutionListener@867838, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@292e783e, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@5b728777, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@45d9aa06, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@762d5d3d, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@2c18244e, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@639e5785]
+2020-03-24 10:52:42.858  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
+2020-03-24 10:52:42.863  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
+2020-03-24 10:52:42.868  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
+2020-03-24 10:52:42.873  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Successfully founded User status with name: `ACTIVE`.
+2020-03-24 10:52:42.873  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Saving User with id: `1`.
+2020-03-24 10:52:42.878  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Change status for User `lzugaj` to `BLOCKED`
+2020-03-24 10:52:42.878  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Updating User with id: `1`.
+2020-03-24 10:52:42.891  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
+2020-03-24 10:52:42.895  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching User with id: `1`
+2020-03-24 10:52:42.900  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching User with username: `dtorma`.
+2020-03-24 10:52:42.912  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
+2020-03-24 10:52:42.918  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users.
+2020-03-24 10:52:42.918  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Searching all Users that contains `zug` in username.
+2020-03-24 10:52:42.923  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Deleting User with id: `1`.
+2020-03-24 10:52:42.929  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Setting up variables for updated User with id: `1`
+2020-03-24 10:52:42.929  INFO 15092 --- [    Test worker] c.l.f.service.impl.UserServiceImpl       : Updating User with id: `1`.
 </pre>
 </span>
 </div>
@@ -185,7 +185,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Mar 22, 2020 11:19:38 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Mar 24, 2020 10:52:43 AM</p>
 </div>
 </div>
 </body>

@@ -32,9 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Api(value = "Post Controller")
-@RestController
 @RequestMapping(path = "/post",
 		produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RestController
 public class PostController {
 
 	private final PostService postService;
@@ -49,18 +49,9 @@ public class PostController {
 			@ApiResponse(code = 201, message = "Successfully created post")
 	})
 	@PostMapping(
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> save(@RequestBody Post post) {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//		// TODO: Need this or not?
-//		if (authentication instanceof AnonymousAuthenticationToken) {
-//			log.info("Currently User is not registered in application.");
-//			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//		}
-
-//		Post newPost = postService.save(authentication.getName(), post);
 		Post newPost = postService.save("lzugaj", post);
 		log.info("Successfully saved Post with id: `{}`.", newPost.getId());
 		return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
@@ -160,8 +151,8 @@ public class PostController {
 			@ApiResponse(code = 404, message = "The resource you were trying to update is not found")
 	})
 	@PutMapping(path = "/info/{id}",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> updateContentStatus(@PathVariable Long id, @RequestBody ContentStatus contentStatus) {
 		Optional<Post> searchedPost = Optional.ofNullable(postService.findById(id));
 		if (searchedPost.isPresent()) {

@@ -12,7 +12,6 @@ import com.luv2code.forumoverflow.domain.Category;
 import com.luv2code.forumoverflow.domain.ContentStatus;
 import com.luv2code.forumoverflow.domain.Post;
 import com.luv2code.forumoverflow.domain.User;
-import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.repository.PostRepository;
 import com.luv2code.forumoverflow.service.CategoryService;
 import com.luv2code.forumoverflow.service.ContentStatusService;
