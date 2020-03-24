@@ -46,7 +46,7 @@ public class UserActivityScheduler {
 				if (post.getCreatedDate().isBefore(LocalDateTime.now().minusMonths(6))
 						&& user.getUserStatus().getName().equals(Constants.ACTIVE)) {
 					UserStatus userStatus = userStatusService.findByName(Constants.INACTIVE);
-					userService.updateUserStatus(user.getUsername(), userStatus);
+					userService.updateUserStatus(user, userStatus);
 					log.info("Change status for User `{}` to `{}`", user.getUsername(), user.getUserStatus().getName());
 
 					// TODO: Slanje maila

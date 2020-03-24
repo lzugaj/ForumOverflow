@@ -12,6 +12,10 @@ public class Constants {
 
 	public static final String BLOCKED = "BLOCKED";
 
+	public static final String VALID = "VALID";
+
+	public static final String INVALID = "INVALID";
+
 	private Constants() {
 		// private default constructor
 	}

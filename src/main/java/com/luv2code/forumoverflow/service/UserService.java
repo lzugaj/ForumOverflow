@@ -4,6 +4,7 @@ import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lzugaj on Friday, February 2020
@@ -21,10 +22,14 @@ public interface UserService {
 
 	List<User> findAllThatContainsUsername(String username); // TODO: Naziv metode?
 
-	User update(Long id, User user);
+	User update(User oldUser, User newUser);
 
-	User updateUserStatus(String username, UserStatus userStatus);
+	User updateUserStatus(User user, UserStatus userStatus);
 
-	User delete(Long id);
+	User delete(User user);
+
+	boolean isUsernameAlreadyUsed(User user);
+
+	boolean isEmailAlreadyUsed(User user);
 
 }

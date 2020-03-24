@@ -42,6 +42,13 @@ create table "category" (
     primary key (id)
 );
 
+-- content status table
+create table "content_status" (
+    id serial not null,
+    name varchar(50) not null,
+    primary key (id)
+);
+
 -- post table
 create table "post" (
     id serial not null,
@@ -50,9 +57,11 @@ create table "post" (
     created_date timestamp not null,
     id_user bigserial not null,
     id_category bigserial not null,
+    id_status bigserial not null,
     primary key (id),
     constraint fk_user_post foreign key (id_user) references "user" (id) on delete cascade,
-    constraint fk_category_post foreign key (id_category) references "category" (id) on delete cascade
+    constraint fk_category_post foreign key (id_category) references "category" (id) on delete cascade,
+    constraint fk_post_status foreign key (id_status) references "content_status" (id) on delete cascade
 );
 
 -- comment table
@@ -62,8 +71,10 @@ create table "comment" (
     created_date timestamp not null,
     id_user bigserial not null,
     id_post bigserial not null,
+    id_status bigserial not null,
     primary key (id),
     constraint fk_user_comment foreign key(id_user) references "user"(id) on delete cascade,
-    constraint fk_post_comment foreign key(id_post) references "post"(id) on delete cascade
+    constraint fk_post_comment foreign key(id_post) references "post"(id) on delete cascade,
+    constraint fk_post_status foreign key (id_status) references "content_status" (id) on delete cascade
 );
 

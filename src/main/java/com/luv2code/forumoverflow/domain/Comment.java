@@ -1,12 +1,22 @@
 package com.luv2code.forumoverflow.domain;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * Created by lzugaj on Friday, February 2020
@@ -30,14 +40,22 @@ public class Comment {
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
 
+	@JsonIgnore
+	@ToString.Exclude
+	@ManyToOne
+	@JoinColumn(name = "id_status", nullable = false)
+	private ContentStatus contentStatus;
+
+	@JsonIgnore
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
-	@ToString.Exclude
 	private User user;
 
+	@JsonIgnore
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_post", nullable = false)
-	@ToString.Exclude
 	private Post post;
 
 }

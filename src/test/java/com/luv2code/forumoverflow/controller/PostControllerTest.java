@@ -1,12 +1,17 @@
 package com.luv2code.forumoverflow.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.luv2code.forumoverflow.config.constants.Constants;
-import com.luv2code.forumoverflow.domain.Category;
-import com.luv2code.forumoverflow.domain.Post;
-import com.luv2code.forumoverflow.domain.User;
-import com.luv2code.forumoverflow.rest.controller.PostController;
-import com.luv2code.forumoverflow.service.PostService;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +21,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luv2code.forumoverflow.domain.Category;
+import com.luv2code.forumoverflow.domain.ContentStatus;
+import com.luv2code.forumoverflow.domain.Post;
+import com.luv2code.forumoverflow.domain.User;
+import com.luv2code.forumoverflow.domain.UserStatus;
+import com.luv2code.forumoverflow.rest.controller.PostController;
+import com.luv2code.forumoverflow.service.PostService;
 
 /**
  * Created by lzugaj on Sunday, February 2020
@@ -36,160 +42,300 @@ public class PostControllerTest {
 	private MockMvc mockMvc;
 
 	@Autowired
-	ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 
 	@MockBean
 	private PostService postService;
 
-	// TODO: Refactor with Authentication username
-	@Test
-	public void testSave() throws Exception {
-		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@racunarstvo.hr", "lzugaj123");
+//	@Test
+//	public void testSave() throws Exception {
+//	    Long contentStatusId = 1L;
+//        ContentStatus contentStatus = createContentStatus(contentStatusId, "VALID");
+//
+//        Long userStatusId = 1L;
+//        UserStatus userStatus = new UserStatus(userStatusId, "ACTIVE", null);
+//
+//        Long userId = 1L;
+//        User user = new User(userId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj11", 0, userStatus, null, null, null);
+//
+//        Long categoryId = 1L;
+//        Category category = createCategory(categoryId, "Feed");
+//
+//	    Long postId = 1L;
+//        Post post = createPost(postId, "Title", "Description");
+//        post.setContentStatus(contentStatus);
+//        post.setCategory(category);
+//
+//        when(postService.save(user.getUsername(), post)).thenReturn(post);
+//
+//        this.mockMvc
+//                .perform(
+//                        post("/post")
+//                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+//                            .content(objectMapper.writeValueAsString(post))
+//                )
+//                .andExpect(status().isCreated());
+//    }
 
-		Long categoryId = 1L;
-		Category category = createCategory(categoryId, "School");
+    @Test
+    public void testFindAllByCategory() throws Exception {
+        Long firstCategoryId = 1L;
+        Category firstCategory = createCategory(firstCategoryId, "Feed");
 
-		Long postId = 1L;
-		Post post = createPost(postId, "Title", "Description", user, category);
+        Long secondCategoryId = 2L;
+        Category secondCategory = createCategory(secondCategoryId, "Marketing");
 
-		when(postService.save(user.getUsername(), post)).thenReturn(post);
+        Long firstPostId = 1L;
+        Post firstPost = createPost(firstPostId, "Title 1", "Description 1");
+        firstPost.setCategory(firstCategory);
 
-		this.mockMvc
-				.perform(
-						post("/post")
-							.contentType(MediaType.APPLICATION_JSON_VALUE)
-							.content(objectMapper.writeValueAsString(post))
-				)
-				.andExpect(status().isCreated());
-	}
+        Long secondPostId = 1L;
+        Post secondPost = createPost(secondPostId, "Title 2", "Description 2");
+        secondPost.setCategory(firstCategory);
 
-	@Test
-	public void testFindById() throws Exception {
-		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@racunarstvo.hr", "lzugaj123");
+        Long thirdPostId = 1L;
+        Post thirdPost = createPost(thirdPostId, "Title 3", "Description 3");
+        thirdPost.setCategory(secondCategory);
 
-		Long categoryId = 1L;
-		Category category = createCategory(categoryId, "School");
+        List<Post> posts = new ArrayList<>();
+        posts.add(firstPost);
+        posts.add(secondPost);
 
-		Long postId = 3L;
-		Post post = createPost(postId, "Title", "Description", user, category);
+        when(postService.findAllByCategory(firstCategory.getId())).thenReturn(posts);
 
-		when(postService.findById(post.getId())).thenReturn(post);
+        this.mockMvc
+                .perform(
+                        post("/post/{categoryId}", firstCategory.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(posts))
+                )
+                .andExpect(status().isOk());
+    }
 
-		this.mockMvc
-				.perform(
-						get("/post/{id}", post.getId())
-							.contentType(Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE)
-							.content(objectMapper.writeValueAsString(post))
-				)
-				.andExpect(status().isOk());
-	}
+    @Test
+    public void testFindById() throws Exception {
+        Long postId = 1L;
+        Post post = createPost(postId, "Title", "Description");
 
-	@Test
-	public void testFindAll() throws Exception {
-		Long userId = 1L;
-		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "dtorma10");
+        when(postService.findById(post.getId())).thenReturn(post);
 
-		Long categoryId = 1L;
-		Category category = createCategory(categoryId, "Feed");
+        this.mockMvc
+                .perform(
+                        get("/post/{id}", post.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(post))
+                )
+                .andExpect(status().isOk());
+    }
 
-		Long firstPostId = 1L;
-		Post firstPost = createPost(firstPostId, "Naslov", "Opis", user, category);
+    @Test
+    public void testFindByIdNotFound() throws Exception {
+        Long postId = 1L;
+        Post post = createPost(postId, "Title", "Description");
 
-		Long secondPostId = 2L;
-		Post secondPost = createPost(secondPostId, "Title", "Description", user, category);
+        when(postService.findById(post.getId())).thenReturn(null);
 
-		List<Post> posts = new ArrayList<>();
-		posts.add(firstPost);
-		posts.add(secondPost);
+        this.mockMvc
+                .perform(
+                        get("/post/{id}", post.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(post))
+                )
+                .andExpect(status().isNotFound());
+    }
 
-		when(postService.findAll()).thenReturn(posts);
+    @Test
+    public void testFindAll() throws Exception {
+        Long firstPostId = 1L;
+        Post firstPost = createPost(firstPostId, "Title 1", "Description 1");
 
-		this.mockMvc
-				.perform(
-						get("/post")
-							.contentType(Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE)
-							.content(objectMapper.writeValueAsString(posts))
-				)
-				.andExpect(status().isOk());
-	}
+        Long secondPostId = 1L;
+        Post secondPost = createPost(secondPostId, "Title 2", "Description 2");
 
-	@Test
-	public void testUpdate() throws Exception {
-		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Zugaj", "lzugaj", "lzugaj@racunarstvo.hr", "lzugaj123");
+        Long thirdPostId = 1L;
+        Post thirdPost = createPost(thirdPostId, "Title 3", "Description 3");
 
-		Long categoryId = 1L;
-		Category category = createCategory(categoryId, "School");
+        List<Post> posts = new ArrayList<>();
+        posts.add(firstPost);
+        posts.add(secondPost);
+        posts.add(thirdPost);
 
-		Long postId = 3L;
-		Post post = createPost(postId, "Title", "Description", user, category);
+        when(postService.findAll()).thenReturn(posts);
 
-		when(postService.update(post.getId(), post)).thenReturn(post);
+        this.mockMvc
+                .perform(
+                        get("/post")
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(posts))
+                )
+                .andExpect(status().isOk());
+    }
 
-		this.mockMvc
-				.perform(
-						put("/post/{id}", post.getId())
-								.contentType(MediaType.APPLICATION_JSON_VALUE)
-								.content(objectMapper.writeValueAsString(post))
-				)
-				.andExpect(status().isOk());
-	}
+    @Test
+    public void testFindAllReported() throws Exception {
+        Long validContentStatusId = 1L;
+        ContentStatus validContentStatus = createContentStatus(validContentStatusId, "VALID");
 
-	@Test
-	public void testDelete() throws Exception {
-		Long userId = 1L;
-		User user = createUser(userId, "Tereza", "Zugaj", "tzugaj", "tzugaj@gmail.com", "tzugaj1");
+        Long invalidContentStatusId = 1L;
+        ContentStatus invalidContentStatus = createContentStatus(invalidContentStatusId, "INVALID");
 
-		Long categoryId = 1L;
-		Category category = createCategory(categoryId, "Marketing");
+        Long firstPostId = 1L;
+        Post firstPost = createPost(firstPostId, "Title 1", "Description 1");
+        firstPost.setContentStatus(validContentStatus);
 
-		Long postId = 3L;
-		Post post = createPost(postId, "Naslov 2", "Opis popis", user, category);
+        Long secondPostId = 1L;
+        Post secondPost = createPost(secondPostId, "Title 2", "Description 2");
+        secondPost.setContentStatus(invalidContentStatus);
 
-		when(postService.delete(post.getId())).thenReturn(post);
+        Long thirdPostId = 1L;
+        Post thirdPost = createPost(thirdPostId, "Title 3", "Description 3");
+        thirdPost.setContentStatus(invalidContentStatus);
 
-		this.mockMvc
-				.perform(
-						delete("/post/{id}", post.getId())
-							.contentType(Constants.MEDIA_TYPE_FORUM_OVERFLOW_API_V1_VALUE)
-							.content(objectMapper.writeValueAsString(post))
-				)
-				.andExpect(status().isOk());
-	}
+        List<Post> posts = new ArrayList<>();
+        posts.add(secondPost);
+        posts.add(thirdPost);
 
-	private User createUser(Long id, String firstName, String lastName, String username, String email, String password) {
-		User user = new User();
-		user.setId(id);
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setUsername(username);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setComments(null);
-		user.setPosts(null);
-		user.setRoles(null);
-		return user;
-	}
+        when(postService.findAllReported()).thenReturn(posts);
 
-	private Category createCategory(Long id, String name) {
-		Category category = new Category();
-		category.setId(id);
-		category.setName(name);
-		category.setPosts(null);
-		return category;
-	}
+        this.mockMvc
+                .perform(
+                        get("/post/reported")
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(posts))
+                )
+                .andExpect(status().isOk());
+    }
 
-	private Post createPost(Long id, String title, String description, User user, Category category) {
-		Post post = new Post();
-		post.setId(id);
-		post.setTitle(title);
-		post.setDescription(description);
-		post.setCreatedDate(LocalDateTime.now());
-		post.setUser(user);
-		post.setCategory(category);
-		post.setComments(null);
-		return post;
-	}
+    @Test
+    public void testUpdate() throws Exception {
+        Long firstPostId = 1L;
+        Post firstPost = createPost(firstPostId, "Title 1", "Description 1");
+
+        Long secondPostId = 1L;
+        Post secondPost = createPost(secondPostId, "Title 2", "Description 2");
+
+        when(postService.findById(firstPost.getId())).thenReturn(firstPost);
+        when(postService.update(firstPost, secondPost)).thenReturn(secondPost);
+
+        this.mockMvc
+                .perform(
+                        put("/post/{id}", firstPost.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(secondPost))
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUpdateNotFound() throws Exception {
+        Long firstPostId = 1L;
+        Post firstPost = createPost(firstPostId, "Title 1", "Description 1");
+
+        when(postService.findById(firstPost.getId())).thenReturn(null);
+
+        this.mockMvc
+                .perform(
+                        put("/post/{id}", firstPost.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(firstPost))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testUpdateContentStatus() throws Exception {
+        Long contentStatusId = 1L;
+        ContentStatus contentStatus = createContentStatus(contentStatusId, "INVALID");
+
+        Long postId = 1L;
+        Post post = createPost(postId, "Title", "Description");
+
+        when(postService.findById(post.getId())).thenReturn(post);
+        when(postService.updateStatus(post, contentStatus)).thenReturn(post);
+
+        this.mockMvc
+                .perform(
+                        put("/post/info/{id}", post.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(contentStatus))
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUpdateContentStatusNotFound() throws Exception {
+        Long contentStatusId = 1L;
+        ContentStatus contentStatus = createContentStatus(contentStatusId, "INVALID");
+
+        Long postId = 1L;
+        Post post = createPost(postId, "Title", "Description");
+
+        when(postService.findById(post.getId())).thenReturn(null);
+
+        this.mockMvc
+                .perform(
+                        put("/post/info/{id}", post.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(contentStatus))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        Long postId = 1L;
+        Post post = createPost(postId, "Title", "Description");
+
+        when(postService.findById(post.getId())).thenReturn(post);
+        when(postService.delete(post)).thenReturn(post);
+
+        this.mockMvc
+                .perform(
+                        delete("/post/{id}", post.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(post))
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        Long postId = 1L;
+        Post post = createPost(postId, "Title", "Description");
+
+        when(postService.findById(post.getId())).thenReturn(null);
+
+        this.mockMvc
+                .perform(
+                        delete("/post/{id}", post.getId())
+                            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                            .content(objectMapper.writeValueAsString(post))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    private ContentStatus createContentStatus(Long id, String name) {
+	    ContentStatus contentStatus = new ContentStatus();
+	    contentStatus.setId(id);
+	    contentStatus.setName(name);
+	    contentStatus.setPosts(null);
+	    return contentStatus;
+    }
+
+    private Category createCategory(Long id, String name) {
+	    Category category = new Category();
+	    category.setId(id);
+	    category.setName(name);
+	    category.setPosts(null);
+	    return category;
+    }
+
+    private Post createPost(Long id, String title, String description) {
+        Post post = new Post();
+        post.setId(id);
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setCreatedDate(LocalDateTime.now());
+        return post;
+    }
 }

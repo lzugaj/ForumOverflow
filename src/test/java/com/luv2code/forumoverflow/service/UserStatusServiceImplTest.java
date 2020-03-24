@@ -38,7 +38,7 @@ public class UserStatusServiceImplTest {
 	@Test
 	public void testFindById() {
 		Long id = 1L;
-		UserStatus userStatus = createUserStatus(id, "ACTIVE");
+		UserStatus userStatus = new UserStatus(id, "ACTIVE", null);
 
 		when(userStatusRepository.findById(id)).thenReturn(java.util.Optional.of(userStatus));
 
