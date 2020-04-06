@@ -27,66 +27,56 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category save(Category category) {
-		Category newCategory = categoryRepository.save(category);
-		log.info("Saving new Category with id: `{}`", category.getId());
-		return newCategory;
+	public Category save(final Category category) {
+		categoryRepository.save(category);
+		log.info("Saving new Category with id: `{}`.", category.getId());
+		return category;
 	}
 
 	@Override
-	public Category findById(Long id) {
-		Category searchedCategory = categoryRepository.findById(id).orElse(null);
+	public Category findById(final Long id) {
+		final Category searchedCategory = categoryRepository.findById(id).orElse(null);
 		log.info("Searching Category with id: `{}`.", id);
 		return searchedCategory;
 	}
 
 	@Override
-	public Category findByName(String name) {
-		Category searchedCategory = categoryRepository.findByName(name).orElse(null);
-		log.info("Searching Category with name: `{}`.", name);
+	public Category findByName(final String name) {
+		final Category searchedCategory = categoryRepository.findByName(name).orElse(null);
+		log.info("Searching Category by with: `{}`.", name);
 		return searchedCategory;
 	}
 
 	@Override
 	public List<Category> findAll() {
-		List<Category> categories = categoryRepository.findAll();
+		final List<Category> categories = categoryRepository.findAll();
 		log.info("Searching all Categories.");
 		return categories;
 	}
 
 	@Override
-	public Category update(Category oldCategory, Category newCategory) {
-		Category updatedCategory = setUpVariables(oldCategory, newCategory);
+	public Category update(final Category oldCategory, final Category newCategory) {
+		final Category updatedCategory = setUpVariables(oldCategory, newCategory);
 		categoryRepository.save(updatedCategory);
 		log.info("Updating Category with id: `{}`.", updatedCategory.getId());
 		return updatedCategory;
 	}
 
-	private Category setUpVariables(Category oldCategory, Category newCategory) {
-		Category updatedCategory = new Category();
-		updatedCategory.setId(oldCategory.getId());
-		updatedCategory.setName(newCategory.getName());
-		updatedCategory.setPosts(oldCategory.getPosts());
-
-		log.info("Setting up variables for updated Category with id: `{}`", oldCategory.getId());
-		return updatedCategory;
+	private Category setUpVariables(final Category oldCategory, final Category newCategory) {
+		oldCategory.setName(newCategory.getName());
+		return oldCategory;
 	}
 
 	@Override
-	public Category delete(Category category) {
+	public Category delete(final Category category) {
 		categoryRepository.delete(category);
-		log.info("Successfully deleted Category with id: `{}`", category.getId());
+		log.info("Deleting Category with id: `{}`.", category.getId());
 		return category;
 	}
 
 	@Override
-	public boolean nameAlreadyExists(String name) {
-		for (Category category : findAll()) {
-			if (category.getName().equals(name)) {
-				return true;
-			}
-		}
-
-		return false;
+	public boolean isNameAlreadyUsed(final String name) {
+		return findAll().stream()
+				.anyMatch(searchedCategory -> searchedCategory.getName().equals(name));
 	}
 }

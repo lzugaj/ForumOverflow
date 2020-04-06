@@ -22,6 +22,6 @@ public interface CategoryService {
 
 	Category delete(Category category);
 
-	boolean nameAlreadyExists(String name);
+	boolean isNameAlreadyUsed(String name);
 
 }

@@ -32,7 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Api(value = "Post Controller")
-@RequestMapping(path = "/post",
+@RequestMapping(
+		path = "/post",
 		produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @RestController
 public class PostController {
@@ -52,21 +53,22 @@ public class PostController {
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> save(@RequestBody Post post) {
-		Post newPost = postService.save("lzugaj", post);
+		Post newPost = postService.save(post.getUser().getUsername(), post);
 		log.info("Successfully saved Post with id: `{}`.", newPost.getId());
-		return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
+		return new ResponseEntity<>(newPost, HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Find all by category")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Successfully founded all posts by category")
 	})
-	@PostMapping(path = "/{categoryId}",
+	@PostMapping(
+			path = "/{categoryId}",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> findAllByCategory(@PathVariable Long categoryId) {
 		List<Post> searchedPosts = postService.findAllByCategory(categoryId);
 		log.info("Successfully founded all Posts by Category id: `{}`", categoryId);
-		return ResponseEntity.status(HttpStatus.OK).body(searchedPosts);
+		return new ResponseEntity<>(searchedPosts, HttpStatus.OK);
 	}
 
 	// TODO: Method for User to report Post
@@ -78,16 +80,17 @@ public class PostController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to find is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to find is not found")
 	})
-	@GetMapping(path = "/{id}",
+	@GetMapping(
+			path = "/{id}",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		Optional<Post> searchedPost = Optional.ofNullable(postService.findById(id));
 		if (searchedPost.isPresent()) {
 			log.info("Successfully founded Post with id: `{}`", id);
-			return ResponseEntity.status(HttpStatus.OK).body(searchedPost.get());
+			return new ResponseEntity<>(searchedPost.get(), HttpStatus.OK);
 		} else {
 			log.info("Post with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched Post wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -102,7 +105,7 @@ public class PostController {
 	public ResponseEntity<?> findAll() {
 		List<Post> searchedPosts = postService.findAll();
 		log.info("Successfully founded all Posts.");
-		return ResponseEntity.status(HttpStatus.OK).body(searchedPosts);
+		return new ResponseEntity<>(searchedPosts, HttpStatus.OK);
 	}
 
 	// TODO: Send info which user has reported this post as invalid -> SecurityContextHolder.getContext().getAuthentication().getName();
@@ -113,12 +116,13 @@ public class PostController {
 			@ApiResponse(code = 403, message = "Accessing the resources you were trying to find is forbidden"),
 			@ApiResponse(code = 404, message = "The resources you were trying to find is not found")
 	})
-	@GetMapping(path = "/reported",
+	@GetMapping(
+			path = "/reported",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> findAllReported() {
 		List<Post> reportedPosts = postService.findAllReported();
 		log.info("Successfully founded all reported Posts.");
-		return ResponseEntity.status(HttpStatus.OK).body(reportedPosts);
+		return new ResponseEntity<>(reportedPosts, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Update")
@@ -128,7 +132,8 @@ public class PostController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to update is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to update is not found")
 	})
-	@PutMapping(path = "/{id}",
+	@PutMapping(
+			path = "/{id}",
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Post post) {
@@ -136,10 +141,10 @@ public class PostController {
 		if (searchedPost.isPresent()) {
 			Post updatedPost = postService.update(searchedPost.get(), post);
 			log.info("Successfully updated Post with id: `{}`", id);
-			return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
+			return new ResponseEntity<>(updatedPost, HttpStatus.OK);
 		} else {
 			log.info("Post with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched Post wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -150,7 +155,8 @@ public class PostController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to update is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to update is not found")
 	})
-	@PutMapping(path = "/info/{id}",
+	@PutMapping(
+			path = "/info/{id}",
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> updateContentStatus(@PathVariable Long id, @RequestBody ContentStatus contentStatus) {
@@ -158,10 +164,10 @@ public class PostController {
 		if (searchedPost.isPresent()) {
 			Post updatedPost = postService.updateStatus(searchedPost.get(), contentStatus);
 			log.info("Successfully update content status for Post with id: `{}`", id);
-			return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
+			return new ResponseEntity<>(updatedPost, HttpStatus.OK);
 		} else {
 			log.info("Post with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched Post wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -172,17 +178,18 @@ public class PostController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to delete is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to delete is not found")
 	})
-	@DeleteMapping(path = "/{id}",
+	@DeleteMapping(
+			path = "/{id}",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Optional<Post> searchedPost = Optional.ofNullable(postService.findById(id));
 		if (searchedPost.isPresent()) {
 			Post deletedPost = postService.delete(searchedPost.get());
 			log.info("Successfully deleted Post with id: `{}`", deletedPost.getId());
-			return new ResponseEntity<>("Post was successfully deleted.", HttpStatus.OK);
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		} else {
 			log.info("Post with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched Post wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 }

@@ -24,7 +24,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@RequestMapping(path = "/post/{postId}/comment",
+@RequestMapping(
+        path = "/comment",
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @RestController
 public class CommentController {
@@ -43,7 +44,7 @@ public class CommentController {
     public ResponseEntity<?> save(@PathVariable Long postId, @RequestBody Comment comment) {
         Comment newComment = commentService.save("lzugaj", postId, comment);
         log.info("Successfully save Comment with id: `{}`", comment.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(newComment);
+        return new ResponseEntity<>(newComment, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{commentId}",
@@ -52,10 +53,10 @@ public class CommentController {
         Optional<Comment> searchedComment = Optional.ofNullable(commentService.findById(commentId));
         if (searchedComment.isPresent()) {
             log.info("Successfully founded Comment with id: `{}`", commentId);
-            return ResponseEntity.status(HttpStatus.OK).body(searchedComment);
+            return new ResponseEntity<>(searchedComment, HttpStatus.OK);
         } else {
             log.info("Comment with id `{}` wasn't founded", commentId);
-            return new ResponseEntity<>("Searched Comment wasn't founded", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -63,8 +64,6 @@ public class CommentController {
     public ResponseEntity<?> findAllForPost(@PathVariable Long id) {
         List<Comment> searchedComments = commentService.findAll();
         log.info("Successfully found all Comments.");
-        return ResponseEntity.status(HttpStatus.OK).body(searchedComments);
+        return new ResponseEntity<>(searchedComments, HttpStatus.OK);
     }
-
-
 }

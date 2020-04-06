@@ -1,8 +1,8 @@
 package com.luv2code.forumoverflow.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,10 +56,10 @@ public class CommentServiceImpl implements CommentService {
         ContentStatus validContentStatus = contentStatusService.findByName(Constants.VALID);
         log.info("Successfully founded ContentStatus with name: `{}`", validContentStatus.getName());
 
+        comment.setCreatedDate(LocalDateTime.now());
+        comment.setContentStatus(validContentStatus);
         comment.setUser(user);
         comment.setPost(post);
-        comment.setContentStatus(validContentStatus);
-        comment.setCreatedDate(LocalDateTime.now());
         commentRepository.save(comment);
         log.info("Saving Comment with id: `{}`.", comment.getId());
         return comment;
@@ -81,16 +81,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAllForPost(Long postId) {
-        List<Comment> comments = findAll();
-        List<Comment> searchedComments = new ArrayList<>();
-        for (Comment comment : comments) {
-            if (comment.getPost().getId().equals(postId)) {
-                searchedComments.add(comment);
-            }
-        }
-
-        log.info("Searching Comments for Post with id: `{}`", postId);
-        return searchedComments;
+        return findAll().stream()
+                .filter(searchedPost -> searchedPost.getPost().getId().equals(postId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -102,16 +95,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Comment setUpVariables(Comment oldComment, Comment newComment) {
-        Comment comment = new Comment();
-        comment.setId(oldComment.getId());
-        comment.setDescription(newComment.getDescription());
-        comment.setCreatedDate(newComment.getCreatedDate());
-        comment.setContentStatus(oldComment.getContentStatus());
-        comment.setPost(oldComment.getPost());
-        comment.setUser(oldComment.getUser());
-
+        oldComment.setDescription(newComment.getDescription());
+        oldComment.setCreatedDate(newComment.getCreatedDate());
         log.info("Setting up variables for updated Comment with id: `{}`.", oldComment.getId());
-        return comment;
+        return oldComment;
     }
 
     @Override

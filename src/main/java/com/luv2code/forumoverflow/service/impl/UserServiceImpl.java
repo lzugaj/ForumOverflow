@@ -1,15 +1,14 @@
 package com.luv2code.forumoverflow.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
-import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.repository.UserRepository;
 import com.luv2code.forumoverflow.service.UserService;
 import com.luv2code.forumoverflow.service.UserStatusService;
@@ -21,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * Created by lzugaj on Friday, February 2020
  */
 
-@Slf4j
+@Slf4j // TODO: Da li je potrebno sve logirati
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -42,11 +41,14 @@ public class UserServiceImpl implements UserService {
 
 		user.setBlockerCounter(0);
 		user.setUserStatus(activeUserStatus);
-		User newUser = userRepository.save(user);
+		userRepository.save(user);
 		log.info("Saving User with id: `{}`.", user.getId());
 
-		activeUserStatus.setUser(Collections.singletonList(newUser));
-		return newUser;
+		activeUserStatus.setUser(Collections.singletonList(user));
+
+		// TODO: Setup roles
+
+		return user;
 	}
 
 	@Override
@@ -58,8 +60,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByUsername(String username) {
-		User searchedUser = userRepository.findByUsername(username)
-				.orElseThrow(() -> new EntityNotFoundException("User", "username", username));
+		User searchedUser = userRepository.findByUsername(username).orElse(null);
 		log.info("Searching User with username: `{}`.", username);
 		return searchedUser;
 	}
@@ -73,16 +74,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAllThatContainsUsername(String username) {
-		List<User> users = findAll();
-		List<User> searchedUsers = new ArrayList<>();
-		for (User user : users) {
-			if (user.getUsername().contains(username)) {
-				searchedUsers.add(user);
-			}
-		}
-
 		log.info("Searching all Users that contains `{}` in username.", username);
-		return searchedUsers;
+		return findAll().stream()
+				.filter(user -> user.getUsername().toLowerCase().contains(username.toLowerCase()))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -93,22 +88,11 @@ public class UserServiceImpl implements UserService {
 		return updatedUser;
 	}
 
+	// TODO: User could change his password also
 	private User setUpVariables(User oldUser, User newUser) {
-		User updatedUser = new User();
-		updatedUser.setId(oldUser.getId());
-		updatedUser.setFirstName(oldUser.getFirstName());
-		updatedUser.setLastName(oldUser.getLastName());
-		updatedUser.setUsername(newUser.getUsername());
-		updatedUser.setEmail(newUser.getEmail());
-		updatedUser.setPassword(oldUser.getPassword()); // TODO: User could change his password
-		updatedUser.setBlockerCounter(oldUser.getBlockerCounter());
-		updatedUser.setUserStatus(oldUser.getUserStatus());
-		updatedUser.setPosts(oldUser.getPosts());
-		updatedUser.setComments(oldUser.getComments());
-		updatedUser.setRoles(oldUser.getRoles());
-
-		log.info("Setting up variables for updated User with id: `{}`", oldUser.getId());
-		return updatedUser;
+		oldUser.setUsername(newUser.getUsername());
+		oldUser.setEmail(newUser.getEmail());
+		return oldUser;
 	}
 
 	@Override
@@ -134,23 +118,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean isUsernameAlreadyUsed(User user) {
-		for (User searchedUser : findAll()) {
-			if (searchedUser.getUsername().equals(user.getUsername())) {
-				return true;
-			}
-		}
-
-		return false;
+		return findAll().stream()
+				.anyMatch(searchedUser -> searchedUser.getUsername().equals(user.getUsername()));
 	}
 
 	@Override
 	public boolean isEmailAlreadyUsed(User user) {
-		for (User searchedUser : findAll()) {
-			if (searchedUser.getEmail().equals(user.getEmail())) {
-				return true;
-			}
-		}
+		return findAll().stream()
+				.anyMatch(searchedUser -> searchedUser.getEmail().equals(user.getEmail()));
+	}
 
-		return false;
+	@Override
+	public boolean isUserPasswordCorrect(User user, String password) {
+		return user.getPassword().equals(password);
 	}
 }
