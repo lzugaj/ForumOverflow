@@ -1,7 +1,7 @@
 server:
-  port: 8080
+  port: 8090
   servlet:
-    context-path: /forum-overflow/api
+    context-path: /forum-overflow/api/v1
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

@@ -27,16 +27,14 @@ public class UserStatusServiceImpl implements UserStatusService {
 
 	@Override
 	public UserStatus findById(Long id) {
-		UserStatus userStatus = userStatusRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("UserStatus", "id", id.toString()));
+		UserStatus userStatus = userStatusRepository.findById(id).orElse(null);
 		log.info("Searching UserStatus with id: `{}`.", id);
 		return userStatus;
 	}
 
 	@Override
 	public UserStatus findByName(String name) {
-		UserStatus userStatus = userStatusRepository.findByName(name)
-				.orElseThrow(() -> new EntityNotFoundException("UserStatus", "name", name));;
+		UserStatus userStatus = userStatusRepository.findByName(name).orElse(null);
 		log.info("Searching UserStatus with name: `{}`.", name);
 		return userStatus;
 	}

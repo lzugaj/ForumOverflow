@@ -31,7 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Api(value = "Category Controller")
-@RequestMapping(path = "/category",
+@RequestMapping(
+        path = "/category",
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @RestController
 public class CategoryController {
@@ -54,11 +55,11 @@ public class CategoryController {
         Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findByName(category.getName()));
         if (!searchedCategory.isPresent()) {
             Category newCategory = categoryService.save(category);
-            log.info("Successfully created new Category with id: `{}`", category.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
+            log.info("Successfully created new Category with id: `{}`.", category.getId());
+            return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
         } else {
             log.info("Category with name `{}` already exists.", category.getName());
-            return new ResponseEntity<>("Category with this name already exists", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -69,16 +70,17 @@ public class CategoryController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to find is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to find is not found")
     })
-    @GetMapping(path = "/{id}",
+    @GetMapping(
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findById(id));
         if (searchedCategory.isPresent()) {
             log.info("Successfully founded Category with id: `{}`", id);
-            return ResponseEntity.status(HttpStatus.OK).body(searchedCategory.get());
+            return new ResponseEntity<>(searchedCategory.get(), HttpStatus.OK);
         } else {
             log.info("Category with id `{}` wasn't founded.", id);
-            return new ResponseEntity<>("Searched Category wasn't founded.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Category with this id wasn't founded.", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -93,7 +95,7 @@ public class CategoryController {
     public ResponseEntity<?> findAll() {
         List<Category> searchedCategories = categoryService.findAll();
         log.info("Successfully founded all Categories.");
-        return ResponseEntity.status(HttpStatus.OK).body(searchedCategories);
+        return new ResponseEntity<>(searchedCategories, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update")
@@ -103,23 +105,24 @@ public class CategoryController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to update is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to update is not found")
     })
-    @PutMapping(path = "/{id}",
+    @PutMapping(
+            path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Category category) {
         Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findById(id));
         if (searchedCategory.isPresent()) {
-            if (categoryService.nameAlreadyExists(category.getName())) {
+            if (categoryService.isNameAlreadyUsed(category.getName())) {
                 log.info("Category with name `{}` already exists.", category.getName());
-                return new ResponseEntity<>("Category with this name already exists", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             } else {
                 Category updatedCategory = categoryService.update(searchedCategory.get(), category);
                 log.info("Successfully updated Category with id: `{}`", id);
-                return ResponseEntity.status(HttpStatus.OK).body(updatedCategory);
+                return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
             }
         } else {
             log.info("Category with id `{}` wasn't founded.", id);
-            return new ResponseEntity<>("Searched Category wasn't founded.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -130,17 +133,18 @@ public class CategoryController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to delete is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to delete is not found")
     })
-    @DeleteMapping(path = "/{id}",
+    @DeleteMapping(
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findById(id));
         if (searchedCategory.isPresent()) {
             Category deletedCategory = categoryService.delete(searchedCategory.get());
             log.info("Successfully deleted Category with id: `{}`", deletedCategory.getId());
-            return new ResponseEntity<>("Category was successfully deleted", HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         } else {
             log.info("Category with id `{}` wasn't founded.", id);
-            return new ResponseEntity<>("Searched Category wasn't founded.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -4,6 +4,7 @@ package com.luv2code.forumoverflow.util;
  * Created by lzugaj on Friday, March 2020
  */
 
+// TODO: Enum?
 public class Constants {
 
 	public static final String ACTIVE = "ACTIVE";

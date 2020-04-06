@@ -32,8 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Api(value = "User Controller")
-@RequestMapping(path = "/user",
-			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(
+		path = "/user",
+		produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @RestController
 public class UserController {
 
@@ -54,14 +55,14 @@ public class UserController {
 	public ResponseEntity<?> save(@RequestBody User user) {
 		if (userService.isUsernameAlreadyUsed(user)) {
 			log.info("User with username `{}` already exists.", user.getUsername());
-			return new ResponseEntity<>("User with this username already exists.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		} else if (userService.isEmailAlreadyUsed(user)) {
 			log.info("User with email `{}` already exists.", user.getEmail());
-			return new ResponseEntity<>("User with this email already exists.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		} else {
 			User newUser = userService.save(user);
 			log.info("Successfully create new User.");
-			return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		}
 	}
 
@@ -72,16 +73,37 @@ public class UserController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to find is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to find is not found")
 	})
-	@GetMapping(path = "/{id}",
+	@GetMapping(
+			path = "/{id}",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		Optional<User> searchedUser = Optional.ofNullable(userService.findById(id));
 		if (searchedUser.isPresent()) {
 			log.info("Successfully founded User with id: `{}`", id);
-			return ResponseEntity.status(HttpStatus.OK).body(searchedUser.get());
+			return new ResponseEntity<>(searchedUser, HttpStatus.OK);
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched User wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+	}
+
+	// TODO: Mislim da ovo nije dobra metoda?
+	@GetMapping(
+			path = "/search/username/{username}/password/{password}",
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<?> findByUsername(@PathVariable String username, @PathVariable String password) {
+		Optional<User> searchedUser = Optional.ofNullable(userService.findByUsername(username));
+		if (searchedUser.isPresent()) {
+			if (userService.isUserPasswordCorrect(searchedUser.get(), password)) {
+				log.info("Successfully founded User with username: `{}`", username);
+				return new ResponseEntity<>(searchedUser, HttpStatus.OK);
+			} else {
+				log.info("User with username `{}` already exists", username);
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}
+		} else {
+			log.info("User with username `{}` was't founded", username);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -96,7 +118,7 @@ public class UserController {
 	public ResponseEntity<?> findAll() {
 		List<User> searchedUsers = userService.findAll();
 		log.info("Successfully found all Users.");
-		return ResponseEntity.status(HttpStatus.OK).body(searchedUsers);
+		return new ResponseEntity<>(searchedUsers, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Find all by given username")
@@ -106,12 +128,13 @@ public class UserController {
 			@ApiResponse(code = 403, message = "Accessing the resources you were trying to find is forbidden"),
 			@ApiResponse(code = 404, message = "The resources you were trying to find is not found")
 	})
-	@GetMapping(path = "/username/{username}",
+	@GetMapping(
+			path = "/username/{username}",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> findAllByUsername(@PathVariable String username) {
 		List<User> searchedUsers = userService.findAllThatContainsUsername(username);
 		log.info("Successfully founded all Users that contains `{}` in username", username);
-		return ResponseEntity.status(HttpStatus.OK).body(searchedUsers);
+		return new ResponseEntity<>(searchedUsers, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Update")
@@ -121,7 +144,8 @@ public class UserController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to update is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to update is not found")
 	})
-	@PutMapping(path = "/{id}",
+	@PutMapping(
+			path = "/{id}",
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User user) {
@@ -129,18 +153,18 @@ public class UserController {
 		if (searchedUser.isPresent()) {
 			if (userService.isUsernameAlreadyUsed(user)) {
 				log.info("User with username `{}` already exists.", user.getUsername());
-				return new ResponseEntity<>("User with this username already exists.", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			} else if (userService.isEmailAlreadyUsed(user)) {
 				log.info("User with email `{}` already exists.", user.getEmail());
-				return new ResponseEntity<>("User with this email already exists.", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			} else {
 				User updatedUser = userService.update(searchedUser.get(), user);
 				log.info("Successfully updated User with id: `{}`", id);
-				return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+				return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 			}
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched User wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -151,7 +175,8 @@ public class UserController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to update is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to update is not found")
 	})
-	@PutMapping(path = "/info/{id}",
+	@PutMapping(
+			path = "/info/{id}",
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> updateUserStatus(@PathVariable Long id, @RequestBody UserStatus userStatus) {
@@ -159,10 +184,10 @@ public class UserController {
 		if (searchedUser.isPresent()) {
 			User updatedUser = userService.updateUserStatus(searchedUser.get(), userStatus);
 			log.info("Successfully update User status to `{}` for User with id: `{}`", userStatus.getName(), id);
-			return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched User wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -173,17 +198,18 @@ public class UserController {
 			@ApiResponse(code = 403, message = "Accessing the resource you were trying to delete is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to delete is not found")
 	})
-	@DeleteMapping(path = "/{id}",
+	@DeleteMapping(
+			path = "/{id}",
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Optional<User> searchedUser = Optional.ofNullable(userService.findById(id));
 		if (searchedUser.isPresent()) {
 			User deletedUser = userService.delete(searchedUser.get());
 			log.info("Successfully deleted User with id: `{}`", deletedUser.getId());
-			return new ResponseEntity<>("User was successfully deleted.", HttpStatus.OK);
+			return new ResponseEntity<>(deletedUser, HttpStatus.OK);
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>("Searched User wasn't founded.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
 }

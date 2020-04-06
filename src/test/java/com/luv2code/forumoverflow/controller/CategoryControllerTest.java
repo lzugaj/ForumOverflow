@@ -142,7 +142,7 @@ public class CategoryControllerTest {
         Category secondCategory = createCategory(secondCategoryId, "Feed");
 
         when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-        when(categoryService.nameAlreadyExists(secondCategory.getName())).thenReturn(false);
+        when(categoryService.isNameAlreadyUsed(secondCategory.getName())).thenReturn(false);
         when(categoryService.update(firstCategory, secondCategory)).thenReturn(secondCategory);
 
         this.mockMvc
@@ -163,7 +163,7 @@ public class CategoryControllerTest {
         Category secondCategory = createCategory(secondCategoryId, "Feed");
 
         when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-        when(categoryService.nameAlreadyExists(secondCategory.getName())).thenReturn(true);
+        when(categoryService.isNameAlreadyUsed(secondCategory.getName())).thenReturn(true);
 
         this.mockMvc
                 .perform(

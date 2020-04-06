@@ -1,7 +1,6 @@
 package com.luv2code.forumoverflow.service;
 
 import com.luv2code.forumoverflow.domain.Category;
-import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.repository.CategoryRepository;
 import com.luv2code.forumoverflow.service.impl.CategoryServiceImpl;
 import org.junit.Before;
@@ -16,8 +15,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-
-import javassist.NotFoundException;
 
 /**
  * Created by lzugaj on Saturday, February 2020
@@ -164,7 +161,7 @@ public class CategoryServiceImplTest {
 		when(categoryRepository.findAll()).thenReturn(categories);
 
 		String name = "Marketing";
-		boolean nameAlreadyExists = categoryService.nameAlreadyExists(name);
+		boolean nameAlreadyExists = categoryService.isNameAlreadyUsed(name);
 
 		assertTrue(nameAlreadyExists);
 	}
@@ -184,7 +181,7 @@ public class CategoryServiceImplTest {
 		when(categoryRepository.findAll()).thenReturn(categories);
 
 		String name = "School";
-		boolean nameAlreadyExists = categoryService.nameAlreadyExists(name);
+		boolean nameAlreadyExists = categoryService.isNameAlreadyUsed(name);
 
 		assertFalse(nameAlreadyExists);
 	}

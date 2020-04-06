@@ -57,7 +57,6 @@ public class Post {
 	@JoinColumn(name = "id_status", nullable = false)
 	private ContentStatus contentStatus;
 
-	@JsonIgnore
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)

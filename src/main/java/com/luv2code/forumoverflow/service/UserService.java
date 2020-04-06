@@ -20,7 +20,7 @@ public interface UserService {
 
 	List<User> findAll();
 
-	List<User> findAllThatContainsUsername(String username); // TODO: Naziv metode?
+	List<User> findAllThatContainsUsername(String username);
 
 	User update(User oldUser, User newUser);
 
@@ -31,5 +31,7 @@ public interface UserService {
 	boolean isUsernameAlreadyUsed(User user);
 
 	boolean isEmailAlreadyUsed(User user);
+
+	boolean isUserPasswordCorrect(User user, String password);
 
 }

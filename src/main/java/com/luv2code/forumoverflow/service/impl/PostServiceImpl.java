@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,7 @@ public class PostServiceImpl implements PostService {
 		this.contentStatusService = contentStatusService;
 	}
 
+	// TODO: Refactor method
 	@Override
 	public Post save(String username, Post post) {
 		User postCreator = userService.findByUsername(username);
@@ -57,16 +59,20 @@ public class PostServiceImpl implements PostService {
 		ContentStatus validContentStatus = contentStatusService.findByName(Constants.VALID);
 		log.info("Successfully founded ContentStatus with name: `{}`.", validContentStatus.getName());
 
-		post.setContentStatus(validContentStatus);
+		// TODO: Separate method?
 		post.setCreatedDate(LocalDateTime.now());
+		post.setContentStatus(validContentStatus);
 		post.setUser(postCreator);
 		post.setCategory(selectedCategory);
-		post.setComments(null);
+
 		postRepository.save(post);
 		log.info("Saving Post with id: `{}`.", post.getId());
 
+		// TODO: Separate methods?
+		validContentStatus.setPosts(Collections.singletonList(post));
+		postCreator.setPosts(Collections.singletonList(post));
 		selectedCategory.setPosts(Collections.singletonList(post));
-		log.info("Setting Post to selected Category with id: ´{}´.", selectedCategory.getId());
+
 		return post;
 	}
 
@@ -110,44 +116,26 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> findAllByUsername(String username) {
-		List<Post> posts = findAll();
-		List<Post> searchedPosts = new ArrayList<>();
-		for (Post post : posts) {
-			if (post.getUser().getUsername().equals(username)) {
-				searchedPosts.add(post);
-			}
-		}
-
 		log.info("Searching all Posts for User with username: `{}`.", username);
-		return searchedPosts;
+		return findAll().stream()
+				.filter(searchedPost -> searchedPost.getUser().getUsername().equals(username))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Post> findAllByCategory(Long categoryId) {
-		List<Post> posts = findAll();
-		List<Post> searchedPosts = new ArrayList<>();
-		for (Post post : posts) {
-			if (post.getCategory().getId().equals(categoryId)) {
-				searchedPosts.add(post);
-			}
-		}
-
 		log.info("Searching all Posts by Category id: `{}`.", categoryId);
-		return searchedPosts;
+		return findAll().stream()
+				.filter(searchedPost -> searchedPost.getCategory().getId().equals(categoryId))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Post> findAllReported() {
-		List<Post> posts = findAll();
-		List<Post> reportedPosts = new ArrayList<>();
-		for (Post post : posts) {
-			if (post.getContentStatus().getName().equals(Constants.INVALID)) {
-				reportedPosts.add(post);
-			}
-		}
-
 		log.info("Searching all reported Posts.");
-		return reportedPosts;
+		return findAll().stream()
+				.filter(searchedPost -> searchedPost.getContentStatus().getName().equals(Constants.INVALID))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -159,18 +147,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Post setUpVariables(Post oldPost, Post newPost) {
-		Post updatedPost = new Post();
-		updatedPost.setId(oldPost.getId());
-		updatedPost.setTitle(newPost.getTitle());
-		updatedPost.setDescription(newPost.getDescription());
-		updatedPost.setCreatedDate(LocalDateTime.now());
-		updatedPost.setContentStatus(oldPost.getContentStatus());
-		updatedPost.setUser(oldPost.getUser());
-		updatedPost.setCategory(newPost.getCategory());
-		updatedPost.setComments(oldPost.getComments());
-
-		log.info("Setting up variables for updated Post with id: `{}`.", oldPost.getId());
-		return updatedPost;
+		oldPost.setTitle(newPost.getTitle());
+		oldPost.setDescription(newPost.getDescription());
+		oldPost.setCreatedDate(LocalDateTime.now());
+		oldPost.setCategory(newPost.getCategory());
+		return oldPost;
 	}
 
 	@Override
