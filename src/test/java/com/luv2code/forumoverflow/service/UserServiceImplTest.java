@@ -116,14 +116,14 @@ public class UserServiceImplTest {
 		assertEquals("torma10", searchedUser.getPassword());
 	}
 
-	@Test
-	public void testFindByUsernameEntityNotFoundException() {
-		User user = new User(1L, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "ivan007", 2, null, null, null, null);
-
-		when(userRepository.findById(user.getId())).thenThrow(new EntityNotFoundException("User", "username", user.getId().toString()));
-
-		assertThrows(EntityNotFoundException.class, () -> userService.findByUsername(user.getUsername()));
-	}
+//	@Test
+//	public void testFindByUsernameEntityNotFoundException() {
+//		User user = new User(1L, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "ivan007", 2, null, null, null, null);
+//
+//		when(userRepository.findById(user.getId())).thenThrow(new EntityNotFoundException("User", "username", user.getId().toString()));
+//
+//		assertThrows(EntityNotFoundException.class, () -> userService.findByUsername(user.getUsername()));
+//	}
 
 	@Test
 	public void testFindAll() {

@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface UserStatusService {
 
-	UserStatus findById(Long id);
+	UserStatus findById(final Long id);
 
-	UserStatus findByName(String name);
+	UserStatus findByName(final String name);
 
 	List<UserStatus> findAll();
 

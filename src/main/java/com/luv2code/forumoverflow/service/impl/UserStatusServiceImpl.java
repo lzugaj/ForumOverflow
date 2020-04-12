@@ -1,7 +1,6 @@
 package com.luv2code.forumoverflow.service.impl;
 
 import com.luv2code.forumoverflow.domain.UserStatus;
-import com.luv2code.forumoverflow.exception.EntityNotFoundException;
 import com.luv2code.forumoverflow.repository.UserStatusRepository;
 import com.luv2code.forumoverflow.service.UserStatusService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,22 +25,22 @@ public class UserStatusServiceImpl implements UserStatusService {
 	}
 
 	@Override
-	public UserStatus findById(Long id) {
-		UserStatus userStatus = userStatusRepository.findById(id).orElse(null);
+	public UserStatus findById(final Long id) {
+		final UserStatus userStatus = userStatusRepository.findById(id).orElse(null);
 		log.info("Searching UserStatus with id: `{}`.", id);
 		return userStatus;
 	}
 
 	@Override
-	public UserStatus findByName(String name) {
-		UserStatus userStatus = userStatusRepository.findByName(name).orElse(null);
+	public UserStatus findByName(final String name) {
+		final UserStatus userStatus = userStatusRepository.findByName(name).orElse(null);
 		log.info("Searching UserStatus with name: `{}`.", name);
 		return userStatus;
 	}
 
 	@Override
 	public List<UserStatus> findAll() {
-		List<UserStatus> userStatuses = userStatusRepository.findAll();
+		final List<UserStatus> userStatuses = userStatusRepository.findAll();
 		log.info("Searching all UserStatuses.");
 		return userStatuses;
 	}

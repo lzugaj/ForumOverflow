@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,8 +33,9 @@ import lombok.ToString;
 public class Category {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
+	@GeneratedValue (strategy= GenerationType.SEQUENCE, generator="category_seq")
+	@SequenceGenerator(name = "category_seq", sequenceName = "category_seq_generator", allocationSize = 1)
 	@ApiModelProperty(value = "Category's id", example = "1")
 	private Long id;
 

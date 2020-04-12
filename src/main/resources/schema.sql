@@ -42,6 +42,8 @@ create table "category" (
     primary key (id)
 );
 
+create sequence category_seq_generator no maxvalue increment 1 start 15 no cycle;
+
 -- content status table
 create table "content_status" (
     id serial not null,

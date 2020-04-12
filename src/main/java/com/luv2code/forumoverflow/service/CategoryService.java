@@ -10,18 +10,18 @@ import java.util.List;
 
 public interface CategoryService {
 
-	Category save(Category category);
+	Category save(final Category category);
 
-	Category findById(Long id);
+	Category findById(final Long id);
 
-	Category findByName(String name);
+	Category findByName(final String name);
 
 	List<Category> findAll();
 
-	Category update(Category oldCategory, Category newCategory);
+	Category update(final Category oldCategory, final Category newCategory);
 
-	Category delete(Category category);
+	Category delete(final Category category);
 
-	boolean isNameAlreadyUsed(String name);
+	boolean isNameAlreadyUsed(final String name);
 
 }

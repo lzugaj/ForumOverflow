@@ -49,14 +49,14 @@ public class UserStatusServiceImplTest {
 		assertEquals("ACTIVE", newUserStatus.getName());
 	}
 
-	@Test
-	public void testFindByIdEntityNotFoundException() {
-		Long id = 1L;
-
-		when(userStatusRepository.findById(id)).thenThrow(new EntityNotFoundException("UserStatus", "id", id.toString()));
-
-		assertThrows(EntityNotFoundException.class, () -> userStatusService.findById(id));
-	}
+//	@Test
+//	public void testFindByIdEntityNotFoundException() {
+//		Long id = 1L;
+//
+//		when(userStatusRepository.findById(id)).thenThrow(new EntityNotFoundException("UserStatus", "id", id.toString()));
+//
+//		assertThrows(EntityNotFoundException.class, () -> userStatusService.findById(id));
+//	}
 
 	@Test
 	public void testFindByName() {
@@ -72,15 +72,15 @@ public class UserStatusServiceImplTest {
 		assertEquals("ACTIVE", newUserStatus.getName());
 	}
 
-	@Test
-	public void testFindByNameEntityNotFoundException() {
-		Long id = 1L;
-		UserStatus userStatus = createUserStatus(id, "INACTIVE");
-
-		when(userStatusRepository.findByName(userStatus.getName())).thenThrow(new EntityNotFoundException("UserStatus", "name", userStatus.getName()));
-
-		assertThrows(EntityNotFoundException.class, () -> userStatusService.findByName(userStatus.getName()));
-	}
+//	@Test
+//	public void testFindByNameEntityNotFoundException() {
+//		Long id = 1L;
+//		UserStatus userStatus = createUserStatus(id, "INACTIVE");
+//
+//		when(userStatusRepository.findByName(userStatus.getName())).thenThrow(new EntityNotFoundException("UserStatus", "name", userStatus.getName()));
+//
+//		assertThrows(EntityNotFoundException.class, () -> userStatusService.findByName(userStatus.getName()));
+//	}
 
 	@Test
 	public void testFindAll() {

@@ -27,22 +27,22 @@ public class ContentStatusServiceImpl implements ContentStatusService {
     }
 
     @Override
-    public ContentStatus findById(Long id) {
-        ContentStatus contentStatus = contentStatusRepository.findById(id).orElse(null);
+    public ContentStatus findById(final Long id) {
+        final ContentStatus contentStatus = contentStatusRepository.findById(id).orElse(null);
         log.info("Searching ContentStatus with id: `{}`", id);
         return contentStatus;
     }
 
     @Override
-    public ContentStatus findByName(String name) {
-        ContentStatus contentStatus = contentStatusRepository.findByName(name).orElse(null);
+    public ContentStatus findByName(final String name) {
+        final ContentStatus contentStatus = contentStatusRepository.findByName(name).orElse(null);
         log.info("Searching ContentStatus with name: `{}`", name);
         return contentStatus;
     }
 
     @Override
     public List<ContentStatus> findAll() {
-        List<ContentStatus> contentStatuses = contentStatusRepository.findAll();
+        final List<ContentStatus> contentStatuses = contentStatusRepository.findAll();
         log.info("Searching all ContentStatuses.");
         return contentStatuses;
     }
