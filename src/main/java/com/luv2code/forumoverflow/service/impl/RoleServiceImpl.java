@@ -30,14 +30,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findById(final Long id) {
         final Role role = roleRepository.findById(id).orElse(null);
-        log.info("Searching Role with id: `{}`", id);
+        log.info("Searching Role with id: `{}`.", id);
         return role;
     }
 
     @Override
     public Role findByName(final String name) {
         final Role role = roleRepository.findByName(name).orElse(null);
-        log.info("Searching Role with name: `{}`", name);
+        log.info("Searching Role with name: `{}`.", name);
         return role;
     }
 

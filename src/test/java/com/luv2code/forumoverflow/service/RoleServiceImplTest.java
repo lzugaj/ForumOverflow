@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.luv2code.forumoverflow.domain.Role;
@@ -26,6 +30,7 @@ import com.luv2code.forumoverflow.service.impl.RoleServiceImpl;
  */
 
 @SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class RoleServiceImplTest {
 
     @Mock
@@ -34,85 +39,71 @@ public class RoleServiceImplTest {
     @InjectMocks
     private RoleServiceImpl roleService;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+    private Role firstRole;
+
+    private Role secondRole;
+
+    private List<Role> roles;
+
+    @BeforeEach
+    public void setup() {
+        firstRole = new Role();
+        firstRole.setId(1L);
+        firstRole.setName("ADMIN");
+        firstRole.setUsers(null);
+
+        secondRole = new Role();
+        secondRole.setId(2L);
+        secondRole.setName("USER");
+        secondRole.setUsers(null);
+
+        roles = new ArrayList<>();
+        roles.add(firstRole);
+        roles.add(secondRole);
+
+        Mockito.when(roleRepository.findById(firstRole.getId())).thenReturn(java.util.Optional.ofNullable(firstRole));
+        Mockito.when(roleRepository.findByName(firstRole.getName())).thenReturn(java.util.Optional.ofNullable(firstRole));
+        Mockito.when(roleRepository.findAll()).thenReturn(roles);
     }
 
     @Test
     public void testFindById() {
-        Long id = 1L;
-        Role role = createRole(id, "USER");
-
-        when(roleRepository.findById(role.getId())).thenReturn(java.util.Optional.of(role));
-
-        Role searchedRole = roleService.findById(role.getId());
+        Role searchedRole = roleService.findById(firstRole.getId());
 
         assertNotNull(searchedRole);
         assertEquals("1", searchedRole.getId().toString());
-        assertEquals("USER", searchedRole.getName());
+        assertEquals("ADMIN", searchedRole.getName());
     }
 
     @Test
     public void testFindByIdNullPointerException() {
-        Long id = 1L;
-        Role role = createRole(id, "ADMIN");
+        when(roleRepository.findById(secondRole.getId())).thenThrow(new NullPointerException());
 
-        when(roleRepository.findById(role.getId())).thenThrow(new NullPointerException());
-
-        assertThrows(NullPointerException.class, () -> roleService.findById(role.getId()));
+        assertThrows(NullPointerException.class, () -> roleService.findById(secondRole.getId()));
     }
 
     @Test
     public void testFindByName() {
-        Long id = 1L;
-        Role role = createRole(id, "USER");
-
-        when(roleRepository.findByName(role.getName())).thenReturn(java.util.Optional.of(role));
-
-        Role searchedRole = roleService.findByName(role.getName());
+        Role searchedRole = roleService.findByName(firstRole.getName());
 
         assertNotNull(searchedRole);
         assertEquals("1", searchedRole.getId().toString());
-        assertEquals("USER", searchedRole.getName());
+        assertEquals("ADMIN", searchedRole.getName());
     }
 
     @Test
     public void testFindByNameNullPointerException() {
-        Long id = 1L;
-        Role role = createRole(id, "ADMIN");
+        when(roleRepository.findByName(secondRole.getName())).thenThrow(new NullPointerException());
 
-        when(roleRepository.findByName(role.getName())).thenReturn(java.util.Optional.of(role));
-
-        assertThrows(NullPointerException.class, () -> roleService.findByName(role.getName()));
+        assertThrows(NullPointerException.class, () -> roleService.findByName(secondRole.getName()));
     }
 
     @Test
     public void testFindAll() {
-        Long firstRoleId = 1L;
-        Role firstRole = createRole(firstRoleId, "ADMIN");
-
-        Long secondRoleId = 2L;
-        Role secondRole = createRole(secondRoleId, "USER");
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(firstRole);
-        roles.add(secondRole);
-
-        when(roleRepository.findAll()).thenReturn(roles);
-
         List<Role> searchedRoles = roleService.findAll();
 
         assertEquals(2, roles.size());
         assertEquals(2, searchedRoles.size());
         verify(roleRepository, times(1)).findAll();
-    }
-
-    private Role createRole(Long id, String name) {
-        Role role = new Role();
-        role.setId(id);
-        role.setName(name);
-        role.setUsers(null);
-        return role;
     }
 }

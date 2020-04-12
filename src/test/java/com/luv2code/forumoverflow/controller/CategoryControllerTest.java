@@ -69,7 +69,6 @@ public class CategoryControllerTest {
     public void testSave() throws Exception {
         Mockito.when(categoryService.findByName(firstCategory.getName())).thenReturn(firstCategory);
         Mockito.when(categoryService.save(secondCategory)).thenReturn(secondCategory);
-
         this.mockMvc
                 .perform(
                         post("/category")
@@ -82,7 +81,6 @@ public class CategoryControllerTest {
     @Test
     public void testSaveNotFound() throws Exception {
         Mockito.when(categoryService.findByName(firstCategory.getName())).thenReturn(firstCategory);
-
         this.mockMvc
                 .perform(
                         post("/category")
@@ -95,7 +93,6 @@ public class CategoryControllerTest {
     @Test
     public void testFindById() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-
         this.mockMvc
                 .perform(
                         get("/category/{id}", firstCategory.getId())
@@ -108,7 +105,6 @@ public class CategoryControllerTest {
     @Test
     public void testFindByIdNotFound() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(secondCategory);
-
         this.mockMvc
                 .perform(
                         get("/category/{id}", secondCategory.getId())
@@ -121,7 +117,6 @@ public class CategoryControllerTest {
     @Test
     public void testFindAll() throws Exception {
         Mockito.when(categoryService.findAll()).thenReturn(categories);
-
         this.mockMvc
                 .perform(
                         get("/category")
@@ -135,7 +130,6 @@ public class CategoryControllerTest {
     public void testUpdate() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
         Mockito.when(categoryService.update(firstCategory, secondCategory)).thenReturn(secondCategory);
-
         this.mockMvc
                 .perform(
                         put("/category/{id}", firstCategory.getId())
@@ -149,7 +143,6 @@ public class CategoryControllerTest {
     public void testUpdateNameAlreadyExistsBadRequest() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
         Mockito.when(categoryService.isNameAlreadyUsed(firstCategory.getName())).thenReturn(true);
-
         this.mockMvc
                 .perform(
                         put("/category/{id}", firstCategory.getId())
@@ -162,7 +155,6 @@ public class CategoryControllerTest {
     @Test
     public void testUpdateNotFound() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-
         this.mockMvc
                 .perform(
                         put("/category/{id}", secondCategory.getId())
@@ -176,7 +168,6 @@ public class CategoryControllerTest {
     public void testDelete() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
         Mockito.when(categoryService.delete(firstCategory)).thenReturn(firstCategory);
-
         this.mockMvc
                 .perform(
                         delete("/category/{id}", firstCategory.getId())
@@ -189,7 +180,6 @@ public class CategoryControllerTest {
     @Test
     public void testDeleteNotFound() throws Exception {
         Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-
         this.mockMvc
                 .perform(
                         delete("/category/{id}", secondCategory.getId())

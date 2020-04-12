@@ -1,27 +1,34 @@
 package com.luv2code.forumoverflow.service;
 
-import com.luv2code.forumoverflow.domain.UserStatus;
-import com.luv2code.forumoverflow.exception.EntityNotFoundException;
-import com.luv2code.forumoverflow.repository.UserStatusRepository;
-import com.luv2code.forumoverflow.service.impl.UserStatusServiceImpl;
-import org.junit.Before;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.luv2code.forumoverflow.domain.UserStatus;
+import com.luv2code.forumoverflow.repository.UserStatusRepository;
+import com.luv2code.forumoverflow.service.impl.UserStatusServiceImpl;
 
 /**
  * Created by lzugaj on Friday, March 2020
  */
 
 @SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class UserStatusServiceImplTest {
 
 	@Mock
@@ -30,88 +37,71 @@ public class UserStatusServiceImplTest {
 	@InjectMocks
 	private UserStatusServiceImpl userStatusService;
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+	private UserStatus firstUserStatus;
+
+	private UserStatus secondUserStatus;
+
+	private List<UserStatus> userStatuses;
+
+	@BeforeEach
+	public void setup() {
+		firstUserStatus = new UserStatus();
+		firstUserStatus.setId(1L);
+		firstUserStatus.setName("ACTIVE");
+		firstUserStatus.setUser(null);
+
+		secondUserStatus = new UserStatus();
+		secondUserStatus.setId(1L);
+		secondUserStatus.setName("INACTIVE");
+		secondUserStatus.setUser(null);
+
+		userStatuses = new ArrayList<>();
+		userStatuses.add(firstUserStatus);
+		userStatuses.add(secondUserStatus);
+
+		Mockito.when(userStatusRepository.findById(firstUserStatus.getId())).thenReturn(java.util.Optional.ofNullable(firstUserStatus));
+		Mockito.when(userStatusRepository.findByName(firstUserStatus.getName())).thenReturn(java.util.Optional.ofNullable(firstUserStatus));
+		Mockito.when(userStatusRepository.findAll()).thenReturn(userStatuses);
 	}
 
 	@Test
 	public void testFindById() {
-		Long id = 1L;
-		UserStatus userStatus = new UserStatus(id, "ACTIVE", null);
-
-		when(userStatusRepository.findById(id)).thenReturn(java.util.Optional.of(userStatus));
-
-		UserStatus newUserStatus = userStatusService.findById(id);
+		UserStatus newUserStatus = userStatusService.findById(firstUserStatus.getId());
 
 		assertNotNull(newUserStatus);
 		assertEquals("1", newUserStatus.getId().toString());
 		assertEquals("ACTIVE", newUserStatus.getName());
 	}
 
-//	@Test
-//	public void testFindByIdEntityNotFoundException() {
-//		Long id = 1L;
-//
-//		when(userStatusRepository.findById(id)).thenThrow(new EntityNotFoundException("UserStatus", "id", id.toString()));
-//
-//		assertThrows(EntityNotFoundException.class, () -> userStatusService.findById(id));
-//	}
+	@Test
+	public void testFindByIdEntityNotFoundException() {
+		when(userStatusRepository.findById(secondUserStatus.getId())).thenThrow(new NullPointerException());
+
+		assertThrows(NullPointerException.class, () -> userStatusService.findById(secondUserStatus.getId()));
+	}
 
 	@Test
 	public void testFindByName() {
-		Long id = 1L;
-		UserStatus userStatus = createUserStatus(id, "ACTIVE");
-
-		when(userStatusRepository.findByName(userStatus.getName())).thenReturn(java.util.Optional.of(userStatus));
-
-		UserStatus newUserStatus = userStatusService.findByName(userStatus.getName());
+		UserStatus newUserStatus = userStatusService.findByName(firstUserStatus.getName());
 
 		assertNotNull(newUserStatus);
 		assertEquals("1", newUserStatus.getId().toString());
 		assertEquals("ACTIVE", newUserStatus.getName());
 	}
 
-//	@Test
-//	public void testFindByNameEntityNotFoundException() {
-//		Long id = 1L;
-//		UserStatus userStatus = createUserStatus(id, "INACTIVE");
-//
-//		when(userStatusRepository.findByName(userStatus.getName())).thenThrow(new EntityNotFoundException("UserStatus", "name", userStatus.getName()));
-//
-//		assertThrows(EntityNotFoundException.class, () -> userStatusService.findByName(userStatus.getName()));
-//	}
+	@Test
+	public void testFindByNameEntityNotFoundException() {
+		when(userStatusRepository.findByName(secondUserStatus.getName())).thenThrow(new NullPointerException());
+
+		assertThrows(NullPointerException.class, () -> userStatusService.findByName(secondUserStatus.getName()));
+	}
 
 	@Test
 	public void testFindAll() {
-		Long firstId = 1L;
-		UserStatus firstUserStatus = createUserStatus(firstId, "ACTIVE");
-
-		Long secondId = 1L;
-		UserStatus secondUserStatus = createUserStatus(secondId, "ACTIVE");
-
-		Long thirdId = 1L;
-		UserStatus thirdUserStatus = createUserStatus(thirdId, "ACTIVE");
-
-		List<UserStatus> userStatuses = new ArrayList<>();
-		userStatuses.add(firstUserStatus);
-		userStatuses.add(secondUserStatus);
-		userStatuses.add(thirdUserStatus);
-
-		when(userStatusRepository.findAll()).thenReturn(userStatuses);
-
 		List<UserStatus> searchedUserStatuses = userStatusService.findAll();
 
-		assertEquals(3, userStatuses.size());
-		assertEquals(3, searchedUserStatuses.size());
+		assertEquals(2, userStatuses.size());
+		assertEquals(2, searchedUserStatuses.size());
 		verify(userStatusRepository, times(1)).findAll();
-	}
-
-	private UserStatus createUserStatus(Long id, String name) {
-		UserStatus userStatus = new UserStatus();
-		userStatus.setId(id);
-		userStatus.setName(name);
-		userStatus.setUser(null);
-		return userStatus;
 	}
 }
