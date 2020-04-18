@@ -3,6 +3,36 @@ server:
   servlet:
     context-path: /forum-overflow/api/v1
 spring:
+  profiles:
+    active: prod
+
+---
+spring:
+  profiles: dev
+  h2:
+    console:
+      path: /h2
+      enabled: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    platform: h2
+    username: sa
+    password:
+#    initialization-mode: always
+  jpa:
+    show-sql: false
+    database: h2
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+---
+spring:
+  profiles: prod
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/forum
@@ -10,9 +40,9 @@ spring:
     password: '#forum-2020'
 #    initialization-mode: always
   jpa:
+    show-sql: false
     hibernate:
       ddl-auto: none
-    show-sql: false
     properties:
       hibernate:
         show_sql: false
@@ -22,3 +52,15 @@ spring:
           use_jdbc_metadata_defaults: false
         default_schema: 'public'
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    password: meqkbwdewbuhvvqa
+    username: luka.zugaj7@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

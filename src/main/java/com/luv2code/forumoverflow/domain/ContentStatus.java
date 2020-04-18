@@ -21,10 +21,10 @@ import lombok.ToString;
  * Created by lzugaj on Wednesday, March 2020
  */
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "content_status")
 public class ContentStatus {
 

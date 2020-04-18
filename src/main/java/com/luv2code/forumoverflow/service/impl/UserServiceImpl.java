@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.luv2code.forumoverflow.domain.Role;
@@ -12,6 +13,7 @@ import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
 import com.luv2code.forumoverflow.domain.type.RoleType;
 import com.luv2code.forumoverflow.repository.UserRepository;
+import com.luv2code.forumoverflow.service.EmailService;
 import com.luv2code.forumoverflow.service.RoleService;
 import com.luv2code.forumoverflow.service.UserService;
 import com.luv2code.forumoverflow.service.UserStatusService;
@@ -23,9 +25,11 @@ import lombok.extern.slf4j.Slf4j;
  * Created by lzugaj on Friday, February 2020
  */
 
-@Slf4j // TODO: Da li je potrebno sve logirati
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	private final UserRepository userRepository;
 
@@ -33,12 +37,33 @@ public class UserServiceImpl implements UserService {
 
 	private final RoleService roleService;
 
+	private final EmailService emailService;
+
 	@Autowired
-	public UserServiceImpl(final UserRepository userRepository, final UserStatusService userStatusService,
-			final RoleService roleService) {
+	public UserServiceImpl(final BCryptPasswordEncoder bCryptPasswordEncoder, final UserRepository userRepository,
+			final UserStatusService userStatusService, final RoleService roleService, final EmailService emailService) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.userRepository = userRepository;
 		this.userStatusService = userStatusService;
 		this.roleService = roleService;
+		this.emailService = emailService;
+	}
+
+	@Override
+	public boolean isUsernameAlreadyUsed(final User user) {
+		return findAll().stream()
+				.anyMatch(searchedUser -> searchedUser.getUsername().equals(user.getUsername()));
+	}
+
+	@Override
+	public boolean isEmailAlreadyUsed(final User user) {
+		return findAll().stream()
+				.anyMatch(searchedUser -> searchedUser.getEmail().equals(user.getEmail()));
+	}
+
+	@Override
+	public boolean isUserPasswordCorrect(final User user, String password) {
+		return user.getPassword().equals(password);
 	}
 
 	@Override
@@ -52,6 +77,7 @@ public class UserServiceImpl implements UserService {
 		user.setBlockerCounter(0);
 		user.setUserStatus(activeUserStatus);
 		user.setRoles(Collections.singletonList(userRole));
+		// user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		log.info("Saving User with id: `{}`.", user.getId());
 
@@ -63,7 +89,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findById(final Long id) {
 		final User searchedUser = userRepository.findById(id).orElse(null);
-		log.info("Searching User with id: `{}`", id);
+		log.info("Searching User with id: `{}`.", id);
 		return searchedUser;
 	}
 
@@ -83,7 +109,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAllThatContainsUsername(final String username) {
-		log.info("Searching all Users that contains `{}` in username.", username);
 		return findAll().stream()
 				.filter(user -> user.getUsername().toLowerCase().contains(username.toLowerCase()))
 				.collect(Collectors.toList());
@@ -91,31 +116,67 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User update(final User oldUser, final User newUser) {
-		final User updatedUser = setUpVariables(oldUser, newUser);
+		final User updatedUser = setUpUpdatedVariables(oldUser, newUser);
 		userRepository.save(updatedUser);
 		log.info("Updating User with id: `{}`.", updatedUser.getId());
 		return updatedUser;
 	}
 
-	// TODO: User could change his password also
-	private User setUpVariables(final User oldUser, final User newUser) {
-		oldUser.setUsername(newUser.getUsername());
-		oldUser.setEmail(newUser.getEmail());
+	private User setUpUpdatedVariables(final User oldUser, final User newUser) {
+		if (!newUser.getUsername().isEmpty()) {
+			changeUsername(oldUser, newUser);
+		}
+
+		if (!newUser.getEmail().isEmpty()) {
+			changeEmail(oldUser, newUser);
+		}
+
+		if (!newUser.getPassword().isEmpty()) {
+			changePassword(oldUser, newUser);
+		}
+
 		return oldUser;
+	}
+
+	private void changeUsername(final User oldUser, final User newUser) {
+		oldUser.setUsername(newUser.getUsername());
+	}
+
+	private void changeEmail(final User oldUser, final User newUser) {
+		oldUser.setEmail(newUser.getEmail());
+	}
+
+	private void changePassword(final User oldUser, final User newUser) {
+		oldUser.setEmail(bCryptPasswordEncoder.encode(newUser.getPassword()));
 	}
 
 	@Override
 	public User updateUserStatus(final User user, final UserStatus userStatus) {
 		user.setUserStatus(userStatus);
-		log.info("Change status for User `{}` to `{}`", user.getUsername(), userStatus.getName());
+		log.info("Change status for User `{}` to `{}`.", user.getUsername(), userStatus.getName());
 
 		userRepository.save(user);
 		log.info("Updating User with id: `{}`.", user.getId());
 
 		// TODO: Send notification if Active -> Inactive
 		// TODO: Send notification if Active or Inactive -> Blocked
+		sendNotificationAboutStatusChangedHandler(user);
 
 		return user;
+	}
+
+	private void sendNotificationAboutStatusChangedHandler(final User user) {
+		if (user.getUserStatus().getName().equals(Constants.INACTIVE)) {
+			sendNotification(user);
+
+			// TODO: Scheduler for disabling for next 24 hours
+		} else if (user.getUserStatus().getName().equals(Constants.BLOCKED)) {
+			sendNotification(user);
+		}
+	}
+
+	private void sendNotification(final User user) {
+		emailService.send(user);
 	}
 
 	@Override
@@ -123,22 +184,5 @@ public class UserServiceImpl implements UserService {
 		userRepository.delete(user);
 		log.info("Deleting User with id: `{}`.", user.getId());
 		return user;
-	}
-
-	@Override
-	public boolean isUsernameAlreadyUsed(final User user) {
-		return findAll().stream()
-				.anyMatch(searchedUser -> searchedUser.getUsername().equals(user.getUsername()));
-	}
-
-	@Override
-	public boolean isEmailAlreadyUsed(final User user) {
-		return findAll().stream()
-				.anyMatch(searchedUser -> searchedUser.getEmail().equals(user.getEmail()));
-	}
-
-	@Override
-	public boolean isUserPasswordCorrect(final User user, String password) {
-		return user.getPassword().equals(password);
 	}
 }

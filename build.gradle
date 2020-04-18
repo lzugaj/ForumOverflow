@@ -35,6 +35,10 @@ dependencies {
     implementation 'org.mockito:mockito-all:1.10.19'
     implementation 'org.springframework.boot:spring-boot-starter-quartz:2.1.8.RELEASE'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.0'
+    implementation 'org.springframework.security:spring-security-crypto:3.1.0.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-mail:1.2.0.RELEASE'
+    implementation 'javax.mail:mail:1.4.1'
+    implementation 'javax.activation:activation:1.1'
 
     implementation 'commons-codec:commons-codec:1.5'
 

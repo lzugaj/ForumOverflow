@@ -12,6 +12,12 @@ import java.util.Optional;
 
 public interface UserService {
 
+	boolean isUsernameAlreadyUsed(final User user);
+
+	boolean isEmailAlreadyUsed(final User user);
+
+	boolean isUserPasswordCorrect(final User user, final String password);
+
 	User save(final User user);
 
 	User findById(final Long id);
@@ -27,11 +33,5 @@ public interface UserService {
 	User updateUserStatus(final User user, final UserStatus userStatus);
 
 	User delete(final User user);
-
-	boolean isUsernameAlreadyUsed(final User user);
-
-	boolean isEmailAlreadyUsed(final User user);
-
-	boolean isUserPasswordCorrect(final User user, final String password);
 
 }

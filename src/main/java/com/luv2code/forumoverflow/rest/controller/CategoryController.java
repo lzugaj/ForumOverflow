@@ -58,7 +58,7 @@ public class CategoryController {
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> save(@RequestBody Category category) {
+    public ResponseEntity<?> save(@RequestBody final Category category) {
         final Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findByName(category.getName()));
         if (!searchedCategory.isPresent()) {
             final Category newCategory = categoryService.save(category);
@@ -80,7 +80,7 @@ public class CategoryController {
     @GetMapping(
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable final Long id) {
         final Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findById(id));
         if (searchedCategory.isPresent()) {
             log.info("Successfully founded Category with id: `{}`.", id);
@@ -116,7 +116,7 @@ public class CategoryController {
             path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Category category) {
+    public ResponseEntity<?> update(@PathVariable final Long id, @RequestBody Category category) {
         final Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findById(id));
         if (searchedCategory.isPresent()) {
             if (categoryService.isNameAlreadyUsed(category.getName())) {
@@ -143,7 +143,7 @@ public class CategoryController {
     @DeleteMapping(
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable final Long id) {
         final Optional<Category> searchedCategory = Optional.ofNullable(categoryService.findById(id));
         if (searchedCategory.isPresent()) {
             categoryService.delete(searchedCategory.get());

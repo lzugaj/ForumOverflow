@@ -27,10 +27,10 @@ import lombok.ToString;
  * Created by lzugaj on Friday, February 2020
  */
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "user")
 @ApiModel(value = "User", description = "Defines User instance variables")
 public class User {
@@ -57,6 +57,7 @@ public class User {
 	@ApiModelProperty(value = "User's email", example = "luka.zugaj@gmail.com")
 	private String email;
 
+	// TODO: Ne bi se smjelo vidit u GET
 	@Column(name = "password")
 	@ApiModelProperty(value = "User's password", example = "luka123")
 	private String password;
@@ -70,12 +71,12 @@ public class User {
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_status", nullable = false)
-	private UserStatus userStatus;
+	private UserStatus userStatus; // TODO
 
 	@JsonIgnore
 	@ToString.Exclude
 	@OneToMany(mappedBy = "user")
-	private List<Post> posts;
+	private List<Post> posts; // TODO
 
 	@JsonIgnore
 	@ToString.Exclude
