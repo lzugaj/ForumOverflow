@@ -1,5 +1,25 @@
-# Created by https://www.gitignore.io/api/java,gradle,eclipse,java-web,intellij,netbeans,code-java,intellij+all,intellij+iml,oxygenxmleditor
-# Edit at https://www.gitignore.io/?templates=java,gradle,eclipse,java-web,intellij,netbeans,code-java,intellij+all,intellij+iml,oxygenxmleditor
+
+# Created by https://www.gitignore.io/api/test,java,clean,eclipse,java-web,intellij,netbeans,code-java,appbuilder,codeblocks,flexbuilder,testcomplete,intellij+all,intellij+iml,flashbuilder,oxygenxmleditor
+# Edit at https://www.gitignore.io/?templates=test,java,clean,eclipse,java-web,intellij,netbeans,code-java,appbuilder,codeblocks,flexbuilder,testcomplete,intellij+all,intellij+iml,flashbuilder,oxygenxmleditor
+
+### AppBuilder ###
+.ab/
+
+### Clean ###
+# Binaries
+*.exe
+*.out
+
+# Project files
+*.prj
+
+# Directory used to store object files, abc files and assembly files
+Clean System Files/
+
+# iTasks environment extra data
+*-data/
+*-www/
+*-sapl/
 
 ### Code-Java ###
 # Language Support for Java(TM) by Red Hat extension for Visual Studio Code - https://marketplace.visualstudio.com/items?itemName=redhat.java
@@ -8,9 +28,16 @@
 .classpath
 factoryConfiguration.json
 
+### CodeBlocks ###
+# specific to CodeBlocks IDE
+*.layout
+*.depend
+# generated directories
+bin/
+obj/
+
 ### Eclipse ###
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -74,6 +101,29 @@ local.properties
 .apt_generated
 
 .sts4-cache/
+
+### FlashBuilder ###
+# Build and Release Folders
+bin-debug/
+bin-release/
+.actionScriptProperties
+.flexConfig.xml
+
+# only for a non-library project
+.flexProperties
+
+# only for library project
+.flexLibProperties
+
+# Other files and folders
+.project/
+
+.FlexUnitSettings
+.externalToolBuilders
+.model
+
+
+### FlexBuilder ###
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
@@ -311,22 +361,99 @@ nbdist/
 # https://www.oxygenxml.com
 /**/out/
 
-### Gradle ###
-.gradle
+### Test ###
+### Ignore all files that could be used to test your code and
+### you wouldn't want to push
 
-# Ignore Gradle GUI config
-gradle-app.setting
+# Reference https://en.wikipedia.org/wiki/Metasyntactic_variable
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# Most common
+*foo
+*bar
+*fubar
+*foobar
+*baz
 
-# Cache of project
-.gradletasknamecache
+# Less common
+*qux
+*quux
+*bongo
+*bazola
+*ztesch
 
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
+# UK, Australia
+*wibble
+*wobble
+*wubble
+*flob
+*blep
+*blah
+*boop
+*beep
 
-### Gradle Patch ###
-**/build/
+# Japanese
+*hoge
+*piyo
+*fuga
+*hogera
+*hogehoge
 
-# End of https://www.gitignore.io/api/java,gradle,eclipse,java-web,intellij,netbeans,code-java,intellij+all,intellij+iml,oxygenxmleditor
+# Portugal, Spain
+*fulano
+*sicrano
+*beltrano
+*mengano
+*perengano
+*zutano
+
+# France, Italy, the Netherlands
+*toto
+*titi
+*tata
+*tutu
+*pipppo
+*pluto
+*paperino
+*aap
+*noot
+*mies
+
+# Other names that would make sense
+*tests
+*testsdir
+*testsfile
+*testsfiles
+*test
+*testdir
+*testfile
+*testfiles
+*testing
+*testingdir
+*testingfile
+*testingfiles
+*temp
+*tempdir
+*tempfile
+*tempfiles
+*tmp
+*tmpdir
+*tmpfile
+*tmpfiles
+*lol
+
+### TestComplete ###
+# Test Complete ignore files: https://support.smartbear.com/viewarticle/68002/
+
+# Tester-specific Settings
+*.tcCFGExtender
+*.tcLS
+
+# Type library declarations
+*.tlb
+
+# Log files
+*.tcLogs
+
+# Backup files
+
+# End of https://www.gitignore.io/api/test,java,clean,eclipse,java-web,intellij,netbeans,code-java,appbuilder,codeblocks,flexbuilder,testcomplete,intellij+all,intellij+iml,flashbuilder,oxygenxmleditor

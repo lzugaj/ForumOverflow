@@ -10,20 +10,19 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.luv2code.forumoverflow.domain.Role;
 import com.luv2code.forumoverflow.repository.RoleRepository;
 import com.luv2code.forumoverflow.service.impl.RoleServiceImpl;
+import com.luv2code.forumoverflow.util.Constants;
 
 /**
  * Created by lzugaj on Wednesday, March 2020
@@ -49,12 +48,12 @@ public class RoleServiceImplTest {
     public void setup() {
         firstRole = new Role();
         firstRole.setId(1L);
-        firstRole.setName("ADMIN");
+        firstRole.setName(Constants.ADMIN);
         firstRole.setUsers(null);
 
         secondRole = new Role();
         secondRole.setId(2L);
-        secondRole.setName("USER");
+        secondRole.setName(Constants.USER);
         secondRole.setUsers(null);
 
         roles = new ArrayList<>();
