@@ -46,14 +46,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment save(String username, Long postId, Comment comment) {
-        User user = userService.findByUsername(username);
+    public Comment save(final String username, final Long postId, final Comment comment) {
+        final User user = userService.findByUsername(username);
         log.info("Successfully founded User with username: `{}`", username);
 
-        Post post = postService.findById(postId);
+        final Post post = postService.findById(postId);
         log.info("Successfully founded Post with id: `{}`", postId);
 
-        ContentStatus validContentStatus = contentStatusService.findByName(Constants.VALID);
+        final ContentStatus validContentStatus = contentStatusService.findByName(Constants.VALID);
         log.info("Successfully founded ContentStatus with name: `{}`", validContentStatus.getName());
 
         comment.setCreatedDate(LocalDateTime.now());
@@ -66,8 +66,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment findById(Long id) {
-        Comment searchedComment = commentRepository.findById(id).orElse(null);
+    public Comment findById(final Long id) {
+        final Comment searchedComment = commentRepository.findById(id).orElse(null);
         log.info("Searching Comment with id: `{}`", id);
         return searchedComment;
     }
@@ -80,21 +80,21 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findAllForPost(Long postId) {
+    public List<Comment> findAllForPost(final Long postId) {
         return findAll().stream()
                 .filter(searchedPost -> searchedPost.getPost().getId().equals(postId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Comment update(Comment oldComment, Comment newComment) {
-        Comment updatedComment = setUpVariables(oldComment, newComment);
+    public Comment update(final Comment oldComment, final Comment newComment) {
+        final Comment updatedComment = setUpVariables(oldComment, newComment);
         commentRepository.save(updatedComment);
         log.info("Updating Comment with id: `{}`.", updatedComment.getId());
         return updatedComment;
     }
 
-    private Comment setUpVariables(Comment oldComment, Comment newComment) {
+    private Comment setUpVariables(final Comment oldComment, final Comment newComment) {
         oldComment.setDescription(newComment.getDescription());
         oldComment.setCreatedDate(newComment.getCreatedDate());
         log.info("Setting up variables for updated Comment with id: `{}`.", oldComment.getId());
@@ -102,7 +102,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment updateStatus(Comment updatedComment, ContentStatus contentStatus) {
+    public Comment updateStatus(final Comment updatedComment, final ContentStatus contentStatus) {
         updatedComment.setContentStatus(contentStatus);
         log.info("Updating content status to: `{}`", contentStatus.getName());
 
@@ -112,7 +112,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment delete(Comment comment) {
+    public Comment delete(final Comment comment) {
         commentRepository.delete(comment);
         log.info("Deleting Comment with id: `{}`.", comment.getId());
 

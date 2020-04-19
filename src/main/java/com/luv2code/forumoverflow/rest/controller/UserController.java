@@ -88,6 +88,7 @@ public class UserController {
 	}
 
 	// TODO: Mislim da ovo nije dobra metoda?
+	// TODO: Ovdje trebam implementirati Spring Security + JWT
 	@GetMapping(
 			path = "/search/username/{username}/password/{password}",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -26,10 +26,10 @@ import lombok.ToString;
  * Created by lzugaj on Friday, February 2020
  */
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "post")
 @ApiModel(value = "Post", description = "Defines Post instance variables")
 public class Post {
@@ -51,26 +51,26 @@ public class Post {
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
 
-	@JsonIgnore
-	@ToString.Exclude
+	 @JsonIgnore
+	 @ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_status", nullable = false)
-	private ContentStatus contentStatus;
+	private ContentStatus contentStatus; // TODO
 
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_user", nullable = false)
 	@ApiModelProperty(value = "Post's user")
-	private User user;
+	private User user; // TODO
 
 	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_category", nullable = false)
 	@ApiModelProperty(value = "Post's category")
-	private Category category;
+	private Category category; // TODO
 
 	@JsonIgnore
 	@ToString.Exclude
 	@OneToMany(mappedBy = "post")
-	private List<Comment> comments;
+	private List<Comment> comments; // TODO
 }

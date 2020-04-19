@@ -49,14 +49,14 @@ public class PostServiceImpl implements PostService {
 
 	// TODO: Refactor method
 	@Override
-	public Post save(String username, Post post) {
-		User postCreator = userService.findByUsername(username);
+	public Post save(final String username, final Post post) {
+		final User postCreator = userService.findByUsername(username);
 		log.info("Successfully founded User with username: `{}`.", username);
 
-		Category selectedCategory = categoryService.findById(post.getCategory().getId());
+		final Category selectedCategory = categoryService.findById(post.getCategory().getId());
 		log.info("Successfully founded Category with id: `{}`.", post.getCategory().getId());
 
-		ContentStatus validContentStatus = contentStatusService.findByName(Constants.VALID);
+		final ContentStatus validContentStatus = contentStatusService.findByName(Constants.VALID);
 		log.info("Successfully founded ContentStatus with name: `{}`.", validContentStatus.getName());
 
 		// TODO: Separate method?
@@ -77,11 +77,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post reportAsInvalid(Long id) {
-		Post searchedPost = findById(id);
+	public Post reportAsInvalid(final Long id) {
+		final Post searchedPost = findById(id);
 		log.info("Successfully founded Post with id: `{}`.", id);
 
-		ContentStatus invalidContentStatus = contentStatusService.findByName(Constants.INVALID);
+		final ContentStatus invalidContentStatus = contentStatusService.findByName(Constants.INVALID);
 		log.info("Successfully founded ContentStatus with name: `{}`.", invalidContentStatus.getName());
 
 		searchedPost.setContentStatus(invalidContentStatus);
@@ -101,30 +101,28 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post findById(Long id) {
-		Post searchedPost = postRepository.findById(id).orElse(null);
+	public Post findById(final Long id) {
+		final Post searchedPost = postRepository.findById(id).orElse(null);
 		log.info("Searching Post with id: `{}`.", id);
 		return searchedPost;
 	}
 
 	@Override
 	public List<Post> findAll() {
-		List<Post> posts = postRepository.findAll();
+		final List<Post> posts = postRepository.findAll();
 		log.info("Searching all Posts.");
 		return posts;
 	}
 
 	@Override
-	public List<Post> findAllByUsername(String username) {
-		log.info("Searching all Posts for User with username: `{}`.", username);
+	public List<Post> findAllByUsername(final String username) {
 		return findAll().stream()
 				.filter(searchedPost -> searchedPost.getUser().getUsername().equals(username))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Post> findAllByCategory(Long categoryId) {
-		log.info("Searching all Posts by Category id: `{}`.", categoryId);
+	public List<Post> findAllByCategory(final Long categoryId) {
 		return findAll().stream()
 				.filter(searchedPost -> searchedPost.getCategory().getId().equals(categoryId))
 				.collect(Collectors.toList());
@@ -132,21 +130,20 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> findAllReported() {
-		log.info("Searching all reported Posts.");
 		return findAll().stream()
 				.filter(searchedPost -> searchedPost.getContentStatus().getName().equals(Constants.INVALID))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Post update(Post oldPost, Post newPost) {
-		Post updatedPost = setUpVariables(oldPost, newPost);
+	public Post update(final Post oldPost, final Post newPost) {
+		final Post updatedPost = setUpVariables(oldPost, newPost);
 		postRepository.save(updatedPost);
 		log.info("Updating Post with id: `{}`.", updatedPost.getId());
 		return updatedPost;
 	}
 
-	private Post setUpVariables(Post oldPost, Post newPost) {
+	private Post setUpVariables(final Post oldPost, final Post newPost) {
 		oldPost.setTitle(newPost.getTitle());
 		oldPost.setDescription(newPost.getDescription());
 		oldPost.setCreatedDate(LocalDateTime.now());
@@ -155,7 +152,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post updateStatus(Post updatedStatus, ContentStatus contentStatus) {
+	public Post updateStatus(final Post updatedStatus, final ContentStatus contentStatus) {
 		updatedStatus.setContentStatus(contentStatus);
 		log.info("Updating content status to: `{}`", contentStatus.getName());
 
@@ -165,7 +162,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post delete(Post post) {
+	public Post delete(final Post post) {
 		postRepository.delete(post);
 		log.info("Deleting Post with id: `{}`.", post.getId());
 

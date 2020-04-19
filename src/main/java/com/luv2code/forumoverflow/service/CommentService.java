@@ -11,18 +11,18 @@ import com.luv2code.forumoverflow.domain.ContentStatus;
 
 public interface CommentService {
 
-    Comment save(String username, Long postId, Comment comment);
+    Comment save(final String username, final Long postId, final Comment comment);
 
-    Comment findById(Long id);
+    Comment findById(final Long id);
 
     List<Comment> findAll();
 
-    List<Comment> findAllForPost(Long postId);
+    List<Comment> findAllForPost(final Long postId);
 
-    Comment update(Comment oldComment, Comment newComment);
+    Comment update(final Comment oldComment, final Comment newComment);
 
-    Comment updateStatus(Comment updatedComment, ContentStatus contentStatus);
+    Comment updateStatus(final Comment updatedComment, final ContentStatus contentStatus);
 
-    Comment delete(Comment comment);
+    Comment delete(final Comment comment);
 
 }

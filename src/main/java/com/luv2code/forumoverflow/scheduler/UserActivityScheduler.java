@@ -3,6 +3,7 @@ package com.luv2code.forumoverflow.scheduler;
 import com.luv2code.forumoverflow.domain.Post;
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
+import com.luv2code.forumoverflow.domain.type.UserStatusType;
 import com.luv2code.forumoverflow.service.PostService;
 import com.luv2code.forumoverflow.service.UserService;
 import com.luv2code.forumoverflow.service.UserStatusService;
@@ -31,7 +32,7 @@ public class UserActivityScheduler {
 
 	@Autowired
 	public UserActivityScheduler(final UserService userService, final UserStatusService userStatusService,
-								 final PostService postService) {
+			final PostService postService) {
 		this.userService = userService;
 		this.userStatusService = userStatusService;
 		this.postService = postService;
@@ -39,13 +40,13 @@ public class UserActivityScheduler {
 
 	@Scheduled(cron = "0 0 12 * * ?")
 	public void checkIfUserWasActiveInLastSixMonths() {
-		List<User> users = userService.findAll();
+		final List<User> users = userService.findAll();
 		for (User user : users) {
-			List<Post> posts = postService.findAllByUsername(user.getUsername());
+			final List<Post> posts = postService.findAllByUsername(user.getUsername());
 			for (Post post : posts) {
 				if (post.getCreatedDate().isBefore(LocalDateTime.now().minusMonths(6))
-						&& user.getUserStatus().getName().equals(Constants.ACTIVE)) {
-					UserStatus userStatus = userStatusService.findByName(Constants.INACTIVE);
+						&& user.getUserStatus().getName().equals(String.valueOf(UserStatusType.ACTIVE))) {
+					final UserStatus userStatus = userStatusService.findByName(String.valueOf(UserStatusType.INACTIVE));
 					userService.updateUserStatus(user, userStatus);
 					log.info("Change status for User `{}` to `{}`", user.getUsername(), user.getUserStatus().getName());
 

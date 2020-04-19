@@ -22,10 +22,10 @@ import lombok.ToString;
  * Created by lzugaj on Friday, February 2020
  */
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "comment")
 public class Comment {
 

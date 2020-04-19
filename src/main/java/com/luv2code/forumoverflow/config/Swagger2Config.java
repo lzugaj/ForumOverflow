@@ -33,7 +33,7 @@ public class Swagger2Config {
 		return new ApiInfoBuilder()
 				.title("ForumOverflow Rest API")
 				.description("Rest API application for simulating Forum.")
-				.contact(new Contact("Luka Žugaj", "http://localhost:8080/forum-overflow/api", "luka.zugaj7@gmail.com"))
+				.contact(new Contact("Luka Žugaj", "http://localhost:8090/forum-overflow/api/v1", "luka.zugaj7@gmail.com"))
 				.license("Apache 2.0")
 				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
 				.version("0.0.1-SNAPSHOT")

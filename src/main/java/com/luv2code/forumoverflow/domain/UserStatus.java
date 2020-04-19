@@ -23,10 +23,10 @@ import lombok.ToString;
  * Created by lzugaj on Friday, March 2020
  */
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "user_status")
 @ApiModel(value = "User status", description = "Defines User status instance variables")
 public class UserStatus {

@@ -10,9 +10,9 @@ import com.luv2code.forumoverflow.domain.Role;
 
 public interface RoleService {
 
-    Role findById(Long id);
+    Role findById(final Long id);
 
-    Role findByName(String name);
+    Role findByName(final String name);
 
     List<Role> findAll();
 

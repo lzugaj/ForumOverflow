@@ -1,6 +1,5 @@
 package com.luv2code.forumoverflow.controller;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,8 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -41,89 +42,81 @@ public class CategoryControllerTest {
     @MockBean
     private CategoryService categoryService;
 
+    private Category firstCategory;
+
+    private Category secondCategory;
+
+    private List<Category> categories;
+
+    @BeforeEach
+    public void setup() {
+        firstCategory = new Category();
+        firstCategory.setId(1L);
+        firstCategory.setName("Iot");
+        firstCategory.setPosts(null);
+
+        secondCategory = new Category();
+        secondCategory.setId(2L);
+        secondCategory.setName("AI");
+        secondCategory.setPosts(null);
+
+        categories = new ArrayList<>();
+        categories.add(firstCategory);
+        categories.add(secondCategory);
+    }
+
     @Test
     public void testSave() throws Exception {
-        Long id = 1L;
-        Category category = createCategory(id, "Programming");
-
-        when(categoryService.findByName(category.getName())).thenReturn(null);
-        when(categoryService.save(category)).thenReturn(category);
-
+        Mockito.when(categoryService.findByName(firstCategory.getName())).thenReturn(firstCategory);
+        Mockito.when(categoryService.save(secondCategory)).thenReturn(secondCategory);
         this.mockMvc
                 .perform(
                         post("/category")
                             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                            .content(objectMapper.writeValueAsString(category))
+                            .content(objectMapper.writeValueAsString(secondCategory))
                 )
                 .andExpect(status().isCreated());
     }
 
     @Test
     public void testSaveNotFound() throws Exception {
-        Long id = 1L;
-        Category category = createCategory(id, "Feed");
-
-        when(categoryService.findByName(category.getName())).thenReturn(category);
-
+        Mockito.when(categoryService.findByName(firstCategory.getName())).thenReturn(firstCategory);
         this.mockMvc
                 .perform(
                         post("/category")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(category))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testFindById() throws Exception {
-        Long id = 1L;
-        Category category = createCategory(id, "Programming");
-
-        when(categoryService.findById(category.getId())).thenReturn(category);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
         this.mockMvc
                 .perform(
-                        get("/category/{id}", category.getId())
+                        get("/category/{id}", firstCategory.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(category))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testFindByIdNotFound() throws Exception {
-        Long id = 1L;
-        Category category = createCategory(id, "Programming");
-
-        when(categoryService.findById(category.getId())).thenReturn(null);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(secondCategory);
         this.mockMvc
                 .perform(
-                        get("/category/{id}", category.getId())
+                        get("/category/{id}", secondCategory.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(category))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void testFindAll() throws Exception {
-        Long firstCategoryId = 1L;
-        Category firstCategory = createCategory(firstCategoryId, "Programming");
-
-        Long secondCategoryId = 2L;
-        Category secondCategory = createCategory(secondCategoryId, "Feed");
-
-        Long thirdCategoryId = 3L;
-        Category thirdCategory = createCategory(thirdCategoryId, "Education");
-
-        List<Category> categories = new ArrayList<>();
-        categories.add(firstCategory);
-        categories.add(secondCategory);
-        categories.add(thirdCategory);
-
-        when(categoryService.findAll()).thenReturn(categories);
-
+        Mockito.when(categoryService.findAll()).thenReturn(categories);
         this.mockMvc
                 .perform(
                         get("/category")
@@ -135,16 +128,8 @@ public class CategoryControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        Long firstCategoryId = 1L;
-        Category firstCategory = createCategory(firstCategoryId, "Programming");
-
-        Long secondCategoryId = 2L;
-        Category secondCategory = createCategory(secondCategoryId, "Feed");
-
-        when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-        when(categoryService.isNameAlreadyUsed(secondCategory.getName())).thenReturn(false);
-        when(categoryService.update(firstCategory, secondCategory)).thenReturn(secondCategory);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
+        Mockito.when(categoryService.update(firstCategory, secondCategory)).thenReturn(secondCategory);
         this.mockMvc
                 .perform(
                         put("/category/{id}", firstCategory.getId())
@@ -156,81 +141,51 @@ public class CategoryControllerTest {
 
     @Test
     public void testUpdateNameAlreadyExistsBadRequest() throws Exception {
-        Long firstCategoryId = 1L;
-        Category firstCategory = createCategory(firstCategoryId, "Programming");
-
-        Long secondCategoryId = 2L;
-        Category secondCategory = createCategory(secondCategoryId, "Feed");
-
-        when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
-        when(categoryService.isNameAlreadyUsed(secondCategory.getName())).thenReturn(true);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
+        Mockito.when(categoryService.isNameAlreadyUsed(firstCategory.getName())).thenReturn(true);
         this.mockMvc
                 .perform(
                         put("/category/{id}", firstCategory.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(secondCategory))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testUpdateNotFound() throws Exception {
-        Long firstCategoryId = 1L;
-        Category firstCategory = createCategory(firstCategoryId, "Programming");
-
-        Long secondCategoryId = 2L;
-        Category secondCategory = createCategory(secondCategoryId, "Feed");
-
-        when(categoryService.findById(firstCategory.getId())).thenReturn(null);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
         this.mockMvc
                 .perform(
-                        put("/category/{id}", firstCategory.getId())
+                        put("/category/{id}", secondCategory.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(secondCategory))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void testDelete() throws Exception {
-        Long id = 1L;
-        Category category = createCategory(id, "Programming");
-
-        when(categoryService.findById(category.getId())).thenReturn(category);
-        when(categoryService.delete(category)).thenReturn(category);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
+        Mockito.when(categoryService.delete(firstCategory)).thenReturn(firstCategory);
         this.mockMvc
                 .perform(
-                        delete("/category/{id}", category.getId())
+                        delete("/category/{id}", firstCategory.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(category))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void testDeleteNotFound() throws Exception {
-        Long id = 1L;
-        Category category = createCategory(id, "Programming");
-
-        when(categoryService.findById(category.getId())).thenReturn(null);
-
+        Mockito.when(categoryService.findById(firstCategory.getId())).thenReturn(firstCategory);
         this.mockMvc
                 .perform(
-                        delete("/category/{id}", category.getId())
+                        delete("/category/{id}", secondCategory.getId())
                                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                                .content(objectMapper.writeValueAsString(category))
+                                .content(objectMapper.writeValueAsString(firstCategory))
                 )
                 .andExpect(status().isNotFound());
-    }
-
-    private Category createCategory(Long id, String name) {
-        Category category = new Category();
-        category.setId(id);
-        category.setName(name);
-        category.setPosts(null);
-        return category;
     }
 }

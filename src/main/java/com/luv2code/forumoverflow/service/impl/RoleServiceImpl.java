@@ -28,22 +28,22 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findById(Long id) {
-        Role role = roleRepository.findById(id).orElse(null);
-        log.info("Searching Role with id: `{}`", id);
+    public Role findById(final Long id) {
+        final Role role = roleRepository.findById(id).orElse(null);
+        log.info("Searching Role with id: `{}`.", id);
         return role;
     }
 
     @Override
-    public Role findByName(String name) {
-        Role role = roleRepository.findByName(name).orElse(null);
-        log.info("Searching Role with name: `{}`", name);
+    public Role findByName(final String name) {
+        final Role role = roleRepository.findByName(name).orElse(null);
+        log.info("Searching Role with name: `{}`.", name);
         return role;
     }
 
     @Override
     public List<Role> findAll() {
-        List<Role> roles = roleRepository.findAll();
+        final List<Role> roles = roleRepository.findAll();
         log.info("Searching all Roles.");
         return roles;
     }

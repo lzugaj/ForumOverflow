@@ -12,26 +12,26 @@ import java.util.Optional;
 
 public interface UserService {
 
-	User save(User user);
+	boolean isUsernameAlreadyUsed(final User user);
 
-	User findById(Long id);
+	boolean isEmailAlreadyUsed(final User user);
 
-	User findByUsername(String username);
+	boolean isUserPasswordCorrect(final User user, final String password);
+
+	User save(final User user);
+
+	User findById(final Long id);
+
+	User findByUsername(final String username);
 
 	List<User> findAll();
 
-	List<User> findAllThatContainsUsername(String username);
+	List<User> findAllThatContainsUsername(final String username);
 
-	User update(User oldUser, User newUser);
+	User update(final User oldUser, final User newUser);
 
-	User updateUserStatus(User user, UserStatus userStatus);
+	User updateUserStatus(final User user, final UserStatus userStatus);
 
-	User delete(User user);
-
-	boolean isUsernameAlreadyUsed(User user);
-
-	boolean isEmailAlreadyUsed(User user);
-
-	boolean isUserPasswordCorrect(User user, String password);
+	User delete(final User user);
 
 }

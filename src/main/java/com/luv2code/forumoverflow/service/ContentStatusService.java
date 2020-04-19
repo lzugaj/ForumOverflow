@@ -10,9 +10,9 @@ import com.luv2code.forumoverflow.domain.ContentStatus;
 
 public interface ContentStatusService {
 
-    ContentStatus findById(Long id);
+    ContentStatus findById(final Long id);
 
-    ContentStatus findByName(String name);
+    ContentStatus findByName(final String name);
 
     List<ContentStatus> findAll();
 
