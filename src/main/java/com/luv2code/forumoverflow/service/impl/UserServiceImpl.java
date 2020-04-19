@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.luv2code.forumoverflow.domain.Role;
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
-import com.luv2code.forumoverflow.domain.type.RoleType;
 import com.luv2code.forumoverflow.repository.UserRepository;
 import com.luv2code.forumoverflow.service.EmailService;
 import com.luv2code.forumoverflow.service.RoleService;
