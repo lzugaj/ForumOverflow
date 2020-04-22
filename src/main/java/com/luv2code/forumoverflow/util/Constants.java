@@ -21,6 +21,8 @@ public class Constants {
 
 	public static final String USER = "USER";
 
+	public static final String ADMIN_EMAIL = "luka.zugaj7@gmail.com";
+
 	private Constants() {
 		// private default constructor
 	}

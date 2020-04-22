@@ -8,6 +8,10 @@ import com.luv2code.forumoverflow.domain.User;
 
 public interface EmailService {
 
-    void send(final User user);
+    void sendBlockerNotification(final User user);
+
+    void sendInactiveNotification(final User user);
+
+    void sendUserStatusChangedNotification(final User updatedUser);
 
 }

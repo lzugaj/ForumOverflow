@@ -1,7 +1,6 @@
 package com.luv2code.forumoverflow.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,16 +11,20 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.luv2code.forumoverflow.domain.Role;
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
-import com.luv2code.forumoverflow.exception.EntityNotFoundException;
+import com.luv2code.forumoverflow.domain.notification.InactiveUserStatusNotification;
 import com.luv2code.forumoverflow.repository.UserRepository;
 import com.luv2code.forumoverflow.service.impl.UserServiceImpl;
 import com.luv2code.forumoverflow.util.Constants;
@@ -31,7 +34,11 @@ import com.luv2code.forumoverflow.util.Constants;
  */
 
 @SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
+
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@Mock
 	private UserRepository userRepository;
@@ -39,106 +46,145 @@ public class UserServiceImplTest {
 	@Mock
 	private UserStatusService userStatusService;
 
+	@Mock
+	private RoleService roleService;
+
+	@Mock
+	private EmailService emailService;
+
 	@InjectMocks
 	private UserServiceImpl userService;
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+	private UserStatus userStatus;
+
+	private User firstUser;
+
+	private User secondUser;
+
+	private User thirdUser;
+
+	private List<User> users;
+
+	public static final String TEST_PASSWORD = "test";
+
+	public static final String TEST_PASSWORD_ENCODED = "$2y$12$RxttGdEa.uMwjF1CqrcymeKHnA.CGk4fEMWNfL7QriwRZcgzqei7W";
+
+	@BeforeEach
+	public void setup() {
+		userStatus = new UserStatus();
+		userStatus.setId(1L);
+		userStatus.setName(Constants.INACTIVE);
+
+		Role role = new Role();
+		role.setId(1L);
+		role.setName(Constants.USER);
+
+		firstUser = new User();
+		firstUser.setId(1L);
+		firstUser.setFirstName("Luka");
+		firstUser.setLastName("Žugaj");
+		firstUser.setUsername("lzugaj");
+		firstUser.setEmail("lzugaj@racunarstvo.hr");
+		firstUser.setPassword("test");
+
+		secondUser = new User();
+		secondUser.setId(2L);
+		secondUser.setFirstName("Dalibor");
+		secondUser.setLastName("Torma");
+		secondUser.setUsername("dtorma");
+		secondUser.setEmail("dtorma@racunarstvo.hr");
+		secondUser.setPassword("password");
+
+		thirdUser = new User();
+		thirdUser.setId(3L);
+		thirdUser.setFirstName("Anna");
+		thirdUser.setLastName("Smith");
+		thirdUser.setUsername("asmith");
+		thirdUser.setEmail("asmith@gmail.com");
+		thirdUser.setPassword("hello");
+
+		users = new ArrayList<>();
+		users.add(firstUser);
+		users.add(secondUser);
+
+		Mockito.when(userStatusService.findByName(Constants.ACTIVE)).thenReturn(userStatus);
+		Mockito.when(roleService.findByName(Constants.USER)).thenReturn(role);
+		Mockito.when(passwordEncoder.encode(TEST_PASSWORD)).thenReturn(TEST_PASSWORD_ENCODED);
+		Mockito.when(userRepository.save(firstUser)).thenReturn(firstUser);
+		Mockito.when(userRepository.findById(firstUser.getId())).thenReturn(java.util.Optional.ofNullable(firstUser));
+		Mockito.when(userRepository.findByUsername(secondUser.getUsername())).thenReturn(java.util.Optional.ofNullable(secondUser));
+		Mockito.when(userRepository.findAll()).thenReturn(users);
+	}
+
+	@Test
+	public void testIsUsernameAlreadyUsed() {
+		boolean isUsernameAlreadyUsed = userService.isUsernameAlreadyUsed(secondUser);
+
+		assertTrue(isUsernameAlreadyUsed);
+	}
+
+	@Test
+	public void testIsEmailAlreadyUsed() {
+		boolean isEmailAlreadyUsed = userService.isEmailAlreadyUsed(firstUser);
+
+		assertTrue(isEmailAlreadyUsed);
 	}
 
 	@Test
 	public void testSave() {
-		Long userStatusId = 1L;
-		UserStatus userStatus = createUserStatus(userStatusId, "ACTIVE");
-
-		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		when(userStatusService.findByName(Constants.ACTIVE)).thenReturn(userStatus);
-		when(userRepository.save(user)).thenReturn(user);
-
-		User newUser = userService.save(user);
+		User newUser = userService.save(firstUser);
 
 		assertNotNull(newUser);
 		assertEquals("1", newUser.getId().toString());
 		assertEquals("Luka", newUser.getFirstName());
 		assertEquals("Žugaj", newUser.getLastName());
 		assertEquals("lzugaj", newUser.getUsername());
-		assertEquals("lzugaj@gmail.com", newUser.getEmail());
-		assertEquals("#Lzugaj12312", newUser.getPassword());
+		assertEquals("lzugaj@racunarstvo.hr", newUser.getEmail());
 		assertEquals(0, newUser.getBlockerCounter());
 		assertEquals("ACTIVE", newUser.getUserStatus().getName());
 	}
 
 	@Test
 	public void testFindById() {
-		Long userId = 1L;
-		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "torma10");
+		User searchedUser = userService.findById(firstUser.getId());
 
-		when(userRepository.findById(user.getId())).thenReturn(java.util.Optional.of(user));
-
-		User searchedUser = userService.findById(user.getId());
-
-		assertNotNull(searchedUser);
 		assertEquals("1", searchedUser.getId().toString());
-		assertEquals("Dalibor", searchedUser.getFirstName());
-		assertEquals("Torma", searchedUser.getLastName());
-		assertEquals("dtorma", searchedUser.getUsername());
-		assertEquals("dtorma@gmail.com", searchedUser.getEmail());
-		assertEquals("torma10", searchedUser.getPassword());
+		assertEquals("Luka", searchedUser.getFirstName());
+		assertEquals("Žugaj", searchedUser.getLastName());
+		assertEquals("lzugaj", searchedUser.getUsername());
+		assertEquals("lzugaj@racunarstvo.hr", searchedUser.getEmail());
+		assertEquals(0, searchedUser.getBlockerCounter());
+		assertEquals("ACTIVE", searchedUser.getUserStatus().getName());
 	}
 
 	@Test
 	public void testFindByIdNullPointerException() {
-		User user = new User(1L, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "ivan007", 2, null, null, null, null);
+		when(userRepository.findById(secondUser.getId())).thenThrow(new NullPointerException());
 
-		when(userRepository.findById(user.getId())).thenThrow(new NullPointerException());
-
-		assertThrows(NullPointerException.class, () -> userService.findById(user.getId()));
+		assertThrows(NullPointerException.class, () -> userService.findById(secondUser.getId()));
 	}
 
 	@Test
 	public void testFindByUsername() {
-		Long userId = 1L;
-		User user = createUser(userId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "torma10");
-
-		when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
-
-		User searchedUser = userService.findByUsername(user.getUsername());
+		User searchedUser = userService.findByUsername(secondUser.getUsername());
 
 		assertNotNull(searchedUser);
-		assertEquals("1", searchedUser.getId().toString());
+		assertEquals("2", searchedUser.getId().toString());
 		assertEquals("Dalibor", searchedUser.getFirstName());
 		assertEquals("Torma", searchedUser.getLastName());
 		assertEquals("dtorma", searchedUser.getUsername());
-		assertEquals("dtorma@gmail.com", searchedUser.getEmail());
-		assertEquals("torma10", searchedUser.getPassword());
+		assertEquals("dtorma@racunarstvo.hr", searchedUser.getEmail());
 	}
 
-//	@Test
-//	public void testFindByUsernameEntityNotFoundException() {
-//		User user = new User(1L, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "ivan007", 2, null, null, null, null);
-//
-//		when(userRepository.findById(user.getId())).thenThrow(new EntityNotFoundException("User", "username", user.getId().toString()));
-//
-//		assertThrows(EntityNotFoundException.class, () -> userService.findByUsername(user.getUsername()));
-//	}
+	@Test
+	public void testFindByUsernameEntityNotFoundException() {
+		when(userRepository.findByUsername(firstUser.getUsername())).thenThrow(new NullPointerException());
+
+		assertThrows(NullPointerException.class, () -> userService.findByUsername(firstUser.getUsername()));
+	}
 
 	@Test
 	public void testFindAll() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "torma10");
-
-		List<User> users = new ArrayList<>();
-		users.add(firstUser);
-		users.add(secondUser);
-
-		when(userRepository.findAll()).thenReturn(users);
-
 		List<User> searchedUsers = userService.findAll();
 
 		assertEquals(2, users.size());
@@ -148,200 +194,47 @@ public class UserServiceImplTest {
 
 	@Test
 	public void testFindAllThatContainsUsername() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
+		List<User> searchedUsers = userService.findAllThatContainsUsername(firstUser.getUsername());
 
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "izugaj1111");
-
-		Long thirdUserId = 3L;
-		User thirdUser = createUser(thirdUserId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "torma10");
-
-		List<User> users = new ArrayList<>();
-		users.add(firstUser);
-		users.add(secondUser);
-		users.add(thirdUser);
-
-		when(userRepository.findAll()).thenReturn(users);
-
-		String username = "zug";
-		List<User> searchedUsers = userService.findAllThatContainsUsername(username);
-
-		assertEquals(3, users.size());
-		assertEquals(2, searchedUsers.size());
+		assertEquals(2, users.size());
+		assertEquals(1, searchedUsers.size());
 		verify(userRepository, times(1)).findAll();
 	}
 
 	@Test
 	public void testUpdate() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "izugaj1111");
-
-		when(userRepository.save(secondUser)).thenReturn(secondUser);
-
-		User updatedUser = userService.update(firstUser, secondUser);
+		User updatedUser = userService.update(firstUser, thirdUser);
 
 		assertNotNull(updatedUser);
 		assertEquals("1", updatedUser.getId().toString());
 		assertEquals("Luka", updatedUser.getFirstName());
 		assertEquals("Žugaj", updatedUser.getLastName());
-		assertEquals("izugaj", updatedUser.getUsername());
-		assertEquals("izugaj@gmail.com", updatedUser.getEmail());
-		assertEquals("#Lzugaj12312", updatedUser.getPassword());
+		assertEquals("asmith", updatedUser.getUsername());
+		assertEquals("asmith@gmail.com", updatedUser.getEmail());
 	}
 
 	@Test
 	public void testUpdateUserStatus() {
-		Long firstUserStatus = 1L;
-		UserStatus activeUserStatus = createUserStatus(firstUserStatus, "ACTIVE");
-
-		Long secondUserStatus = 1L;
-		UserStatus blockedUserStatus = createUserStatus(secondUserStatus, "BLOCKED");
-
-		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-		user.setUserStatus(activeUserStatus);
-
-		when(userRepository.save(user)).thenReturn(user);
-
-		User updatedUser = userService.updateUserStatus(user, blockedUserStatus);
+		User updatedUser = userService.updateUserStatus(firstUser, userStatus);
 
 		assertNotNull(updatedUser);
 		assertEquals("1", updatedUser.getId().toString());
 		assertEquals("Luka", updatedUser.getFirstName());
 		assertEquals("Žugaj", updatedUser.getLastName());
 		assertEquals("lzugaj", updatedUser.getUsername());
-		assertEquals("lzugaj@gmail.com", updatedUser.getEmail());
-		assertEquals("#Lzugaj12312", updatedUser.getPassword());
-		assertEquals("BLOCKED", updatedUser.getUserStatus().getName());
+		assertEquals("lzugaj@racunarstvo.hr", updatedUser.getEmail());
+		assertEquals("INACTIVE", updatedUser.getUserStatus().getName());
 	}
 
 	@Test
 	public void testDelete() {
-		Long userId = 1L;
-		User user = createUser(userId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		User deletedUser = userService.delete(user);
+		User deletedUser = userService.delete(firstUser);
 
 		assertEquals("1", deletedUser.getId().toString());
 		assertEquals("Luka", deletedUser.getFirstName());
 		assertEquals("Žugaj", deletedUser.getLastName());
 		assertEquals("lzugaj", deletedUser.getUsername());
-		assertEquals("lzugaj@gmail.com", deletedUser.getEmail());
-		assertEquals("#Lzugaj12312", deletedUser.getPassword());
-		verify(userRepository, times(1)).delete(user);
-	}
-
-	@Test
-	public void testIsUsernameAlreadyUsedReturnsTrue() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "izugaj1111");
-
-		Long thirdUserId = 3L;
-		User thirdUser = createUser(thirdUserId, "Dalibor", "Torma", "lzugaj", "dtorma@gmail.com", "torma10");
-
-		List<User> users = new ArrayList<>();
-		users.add(firstUser);
-		users.add(secondUser);
-
-		when(userRepository.findAll()).thenReturn(users);
-
-		boolean usernameAlreadyExists = userService.isUsernameAlreadyUsed(thirdUser);
-
-		assertEquals("lzugaj", firstUser.getUsername());
-		assertEquals("lzugaj", thirdUser.getUsername());
-		assertTrue(usernameAlreadyExists);
-	}
-
-	@Test
-	public void testIsUsernameAlreadyUsedReturnsFalse() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "izugaj1111");
-
-		Long thirdUserId = 3L;
-		User thirdUser = createUser(thirdUserId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "torma10");
-
-		List<User> users = new ArrayList<>();
-		users.add(firstUser);
-		users.add(secondUser);
-
-		when(userRepository.findAll()).thenReturn(users);
-
-		boolean usernameAlreadyExists = userService.isUsernameAlreadyUsed(thirdUser);
-
-		assertEquals("lzugaj", firstUser.getUsername());
-		assertEquals("dtorma", thirdUser.getUsername());
-		assertFalse(usernameAlreadyExists);
-	}
-
-	@Test
-	public void testIsEmailAlreadyUsedReturnsTrue() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "izugaj1111");
-
-		Long thirdUserId = 3L;
-		User thirdUser = createUser(thirdUserId, "Dalibor", "Torma", "dtorma", "lzugaj@gmail.com", "torma10");
-
-		List<User> users = new ArrayList<>();
-		users.add(firstUser);
-		users.add(secondUser);
-
-		when(userRepository.findAll()).thenReturn(users);
-
-		boolean usernameAlreadyExists = userService.isEmailAlreadyUsed(thirdUser);
-
-		assertTrue(usernameAlreadyExists);
-	}
-
-	@Test
-	public void testIsEmailAlreadyUsedReturnsFalse() {
-		Long firstUserId = 1L;
-		User firstUser = createUser(firstUserId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj12312");
-
-		Long secondUserId = 2L;
-		User secondUser = createUser(secondUserId, "Ivan", "Žugaj", "izugaj", "izugaj@gmail.com", "izugaj1111");
-
-		Long thirdUserId = 3L;
-		User thirdUser = createUser(thirdUserId, "Dalibor", "Torma", "dtorma", "dtorma@gmail.com", "torma10");
-
-		List<User> users = new ArrayList<>();
-		users.add(firstUser);
-		users.add(secondUser);
-
-		when(userRepository.findAll()).thenReturn(users);
-
-		boolean usernameAlreadyExists = userService.isEmailAlreadyUsed(thirdUser);
-
-		assertFalse(usernameAlreadyExists);
-	}
-
-	private UserStatus createUserStatus(Long id, String name) {
-		UserStatus userStatus = new UserStatus();
-		userStatus.setId(id);
-		userStatus.setName(name);
-		return userStatus;
-	}
-
-	private User createUser(Long id, String firstName, String lastName, String username, String email, String password) {
-		User user = new User();
-		user.setId(id);
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setUsername(username);
-		user.setEmail(email);
-		user.setPassword(password);
-		return user;
+		assertEquals("lzugaj@racunarstvo.hr", deletedUser.getEmail());
+		verify(userRepository, times(1)).delete(firstUser);
 	}
 }

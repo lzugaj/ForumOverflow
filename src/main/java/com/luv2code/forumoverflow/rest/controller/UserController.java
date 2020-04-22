@@ -14,11 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
+import com.luv2code.forumoverflow.exception.EmailAlreadyExistsException;
+import com.luv2code.forumoverflow.exception.EntityNotFoundException;
+import com.luv2code.forumoverflow.exception.UsernameAlreadyExistsException;
+import com.luv2code.forumoverflow.rest.message.MessageHandler;
 import com.luv2code.forumoverflow.service.UserService;
+import com.luv2code.forumoverflow.util.DomainConstants;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,13 +61,13 @@ public class UserController {
 	public ResponseEntity<?> save(@RequestBody User user) {
 		if (userService.isUsernameAlreadyUsed(user)) {
 			log.info("User with username `{}` already exists.", user.getUsername());
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			throw new UsernameAlreadyExistsException(MessageHandler.entityUsernameAlreadyExists(DomainConstants.USER, user.getUsername()));
 		} else if (userService.isEmailAlreadyUsed(user)) {
 			log.info("User with email `{}` already exists.", user.getEmail());
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			throw new EmailAlreadyExistsException(MessageHandler.entityEmailAlreadyExists(DomainConstants.USER, user.getEmail()));
 		} else {
 			User newUser = userService.save(user);
-			log.info("Successfully create new User.");
+			log.info("Successfully created new User.");
 			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		}
 	}
@@ -79,11 +85,11 @@ public class UserController {
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		Optional<User> searchedUser = Optional.ofNullable(userService.findById(id));
 		if (searchedUser.isPresent()) {
-			log.info("Successfully founded User with id: `{}`", id);
+			log.info("Successfully founded User with id: `{}`.", id);
 			return new ResponseEntity<>(searchedUser, HttpStatus.OK);
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException(MessageHandler.entityNotFound(DomainConstants.USER, id));
 		}
 	}
 
@@ -96,14 +102,14 @@ public class UserController {
 		Optional<User> searchedUser = Optional.ofNullable(userService.findByUsername(username));
 		if (searchedUser.isPresent()) {
 			if (userService.isUserPasswordCorrect(searchedUser.get(), password)) {
-				log.info("Successfully founded User with username: `{}`", username);
+				log.info("Successfully founded User with username: `{}`.", username);
 				return new ResponseEntity<>(searchedUser, HttpStatus.OK);
 			} else {
-				log.info("User with username `{}` already exists", username);
+				log.info("User with username `{}` already exists.", username);
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			log.info("User with username `{}` was't founded", username);
+			log.info("User with username `{}` was't founded.", username);
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -134,7 +140,7 @@ public class UserController {
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> findAllByUsername(@PathVariable String username) {
 		List<User> searchedUsers = userService.findAllThatContainsUsername(username);
-		log.info("Successfully founded all Users that contains `{}` in username", username);
+		log.info("Successfully founded all Users that contains `{}` in username.", username);
 		return new ResponseEntity<>(searchedUsers, HttpStatus.OK);
 	}
 
@@ -154,18 +160,18 @@ public class UserController {
 		if (searchedUser.isPresent()) {
 			if (userService.isUsernameAlreadyUsed(user)) {
 				log.info("User with username `{}` already exists.", user.getUsername());
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				throw new UsernameAlreadyExistsException(MessageHandler.entityUsernameAlreadyExists(DomainConstants.USER, user.getUsername()));
 			} else if (userService.isEmailAlreadyUsed(user)) {
 				log.info("User with email `{}` already exists.", user.getEmail());
-				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				throw new EmailAlreadyExistsException(MessageHandler.entityEmailAlreadyExists(DomainConstants.USER, user.getEmail()));
 			} else {
 				User updatedUser = userService.update(searchedUser.get(), user);
-				log.info("Successfully updated User with id: `{}`", id);
+				log.info("Successfully updated User with id: `{}`.", id);
 				return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 			}
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException(MessageHandler.entityNotFound(DomainConstants.USER, id));
 		}
 	}
 
@@ -184,11 +190,11 @@ public class UserController {
 		Optional<User> searchedUser = Optional.ofNullable(userService.findById(id));
 		if (searchedUser.isPresent()) {
 			User updatedUser = userService.updateUserStatus(searchedUser.get(), userStatus);
-			log.info("Successfully update User status to `{}` for User with id: `{}`", userStatus.getName(), id);
+			log.info("Successfully update User status to `{}` for User with id: `{}`.", userStatus.getName(), id);
 			return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException(MessageHandler.entityNotFound(DomainConstants.USER, id));
 		}
 	}
 
@@ -206,11 +212,11 @@ public class UserController {
 		Optional<User> searchedUser = Optional.ofNullable(userService.findById(id));
 		if (searchedUser.isPresent()) {
 			User deletedUser = userService.delete(searchedUser.get());
-			log.info("Successfully deleted User with id: `{}`", deletedUser.getId());
+			log.info("Successfully deleted User with id: `{}`.", deletedUser.getId());
 			return new ResponseEntity<>(deletedUser, HttpStatus.OK);
 		} else {
 			log.info("User with id `{}` wasn't founded.", id);
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException(MessageHandler.entityNotFound(DomainConstants.USER, id));
 		}
 	}
 }
