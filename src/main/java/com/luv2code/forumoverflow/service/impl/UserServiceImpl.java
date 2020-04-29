@@ -2,10 +2,9 @@ package com.luv2code.forumoverflow.service.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.luv2code.forumoverflow.domain.Role;
@@ -28,7 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	public static final int MAX_NUMBER_OF_REPORTS = 3;
+
+	private final PasswordEncoder passwordEncoder;
 
 	private final UserRepository userRepository;
 
@@ -39,9 +40,9 @@ public class UserServiceImpl implements UserService {
 	private final EmailService emailService;
 
 	@Autowired
-	public UserServiceImpl(final BCryptPasswordEncoder bCryptPasswordEncoder, final UserRepository userRepository,
+	public UserServiceImpl(final PasswordEncoder passwordEncoder, final UserRepository userRepository,
 			final UserStatusService userStatusService, final RoleService roleService, final EmailService emailService) {
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.passwordEncoder = passwordEncoder;
 		this.userRepository = userRepository;
 		this.userStatusService = userStatusService;
 		this.roleService = roleService;
@@ -60,6 +61,7 @@ public class UserServiceImpl implements UserService {
 				.anyMatch(searchedUser -> searchedUser.getEmail().equals(user.getEmail()));
 	}
 
+	// TODO: Ovog nece biti kad ubacim SpringSecuirty i JWT
 	@Override
 	public boolean isUserPasswordCorrect(final User user, String password) {
 		return user.getPassword().equals(password);
@@ -76,7 +78,7 @@ public class UserServiceImpl implements UserService {
 		user.setBlockerCounter(0);
 		user.setUserStatus(activeUserStatus);
 		user.setRoles(Collections.singletonList(userRole));
-		// user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		log.info("Saving User with id: `{}`.", user.getId());
 
@@ -107,75 +109,41 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findAllThatContainsUsername(final String username) {
-		return findAll().stream()
-				.filter(user -> user.getUsername().toLowerCase().contains(username.toLowerCase()))
-				.collect(Collectors.toList());
-	}
-
-	@Override
 	public User update(final User oldUser, final User newUser) {
-		final User updatedUser = setUpUpdatedVariables(oldUser, newUser);
+		final User updatedUser = updatedVariables(oldUser, newUser);
 		userRepository.save(updatedUser);
 		log.info("Updating User with id: `{}`.", updatedUser.getId());
 		return updatedUser;
 	}
 
-	private User setUpUpdatedVariables(final User oldUser, final User newUser) {
-		if (!newUser.getUsername().isEmpty()) {
-			changeUsername(oldUser, newUser);
+	private User updatedVariables(final User oldUser, final User newUser) {
+		if (newUser.getUsername() != null) {
+			oldUser.setUsername(newUser.getUsername());
 		}
 
-		if (!newUser.getEmail().isEmpty()) {
-			changeEmail(oldUser, newUser);
+		if (newUser.getEmail() != null) {
+			oldUser.setEmail(newUser.getEmail());
 		}
 
-		if (!newUser.getPassword().isEmpty()) {
-			changePassword(oldUser, newUser);
+		if (newUser.getPassword() != null) {
+			oldUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 		}
 
 		return oldUser;
 	}
 
-	private void changeUsername(final User oldUser, final User newUser) {
-		oldUser.setUsername(newUser.getUsername());
-	}
-
-	private void changeEmail(final User oldUser, final User newUser) {
-		oldUser.setEmail(newUser.getEmail());
-	}
-
-	private void changePassword(final User oldUser, final User newUser) {
-		oldUser.setEmail(bCryptPasswordEncoder.encode(newUser.getPassword()));
-	}
-
 	@Override
-	public User updateUserStatus(final User user, final UserStatus userStatus) {
-		user.setUserStatus(userStatus);
-		log.info("Change status for User `{}` to `{}`.", user.getUsername(), userStatus.getName());
+	public User updateUserStatus(final User updatedUser, final UserStatus userStatus) {
+		updatedUser.setUserStatus(userStatus);
+		log.info("Updating UserStatus for User with id: `{}`", updatedUser.getId());
 
-		userRepository.save(user);
-		log.info("Updating User with id: `{}`.", user.getId());
-
-		// TODO: Send notification if Active -> Inactive
-		// TODO: Send notification if Active or Inactive -> Blocked
-		sendNotificationAboutStatusChangedHandler(user);
-
-		return user;
+		handleChangedUserStatusManuallyByAdmin(updatedUser);
+		userRepository.save(updatedUser);
+		return updatedUser;
 	}
 
-	private void sendNotificationAboutStatusChangedHandler(final User user) {
-		if (user.getUserStatus().getName().equals(Constants.INACTIVE)) {
-			sendNotification(user);
-
-			// TODO: Scheduler for disabling for next 24 hours
-		} else if (user.getUserStatus().getName().equals(Constants.BLOCKED)) {
-			sendNotification(user);
-		}
-	}
-
-	private void sendNotification(final User user) {
-		emailService.send(user);
+	private void handleChangedUserStatusManuallyByAdmin(final User updatedUser) {
+		emailService.sendUserStatusChangedNotification(updatedUser);
 	}
 
 	@Override
@@ -183,5 +151,47 @@ public class UserServiceImpl implements UserService {
 		userRepository.delete(user);
 		log.info("Deleting User with id: `{}`.", user.getId());
 		return user;
+	}
+
+	// TODO: Kako ovo napraviti?
+	@Override
+	public User report(final User user) {
+		user.setBlockerCounter(user.getBlockerCounter() + 1);
+		if (user.getBlockerCounter() == MAX_NUMBER_OF_REPORTS) {
+			// TODO: Inactive for next 24 hours
+			// TODO: Create Date variable that counts 24 hours
+			handleBlockedUserStatus(user);
+		} else {
+			// TODO: Only admin can manually change user status
+			handleInactiveUserStatus(user);
+		}
+
+		userRepository.save(user);
+		log.info("Updating User with id: `{}`.", user.getId());
+		return user;
+	}
+
+	private void handleBlockedUserStatus(final User user) {
+		final UserStatus blockedStatus = userStatusService.findByName(Constants.BLOCKED);
+		log.info("Successfully founded UserStatus with name: `{}`.", blockedStatus.getName());
+
+		user.setUserStatus(blockedStatus);
+		sendBlockerStatusNotification(user);
+	}
+
+	private void sendBlockerStatusNotification(final User user) {
+		emailService.sendBlockerNotification(user);
+	}
+
+	private void handleInactiveUserStatus(final User user) {
+		final UserStatus inactiveStatus = userStatusService.findByName(Constants.INACTIVE);
+		log.info("Successfully founded UserStatus with name: `{}`.", inactiveStatus.getName());
+
+		user.setUserStatus(inactiveStatus);
+		sendInactiveStatusNotification(user);
+	}
+
+	private void sendInactiveStatusNotification(final User user) {
+		emailService.sendInactiveNotification(user);
 	}
 }

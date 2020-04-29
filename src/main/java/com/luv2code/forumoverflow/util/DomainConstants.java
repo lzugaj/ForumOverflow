@@ -8,4 +8,6 @@ public class DomainConstants {
 
     public static final String CATEGORY = "Category";
 
+    public static final String USER = "User";
+
 }

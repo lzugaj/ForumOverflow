@@ -26,12 +26,12 @@ public interface UserService {
 
 	List<User> findAll();
 
-	List<User> findAllThatContainsUsername(final String username);
-
 	User update(final User oldUser, final User newUser);
 
-	User updateUserStatus(final User user, final UserStatus userStatus);
+	User updateUserStatus(final User updatedUser, final UserStatus userStatus);
 
 	User delete(final User user);
+
+	User report(final User user);
 
 }

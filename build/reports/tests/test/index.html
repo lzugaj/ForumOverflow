@@ -20,13 +20,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">95</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">3</div>
 <p>failures</p>
 </div>
 </td>
@@ -38,7 +38,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.055s</div>
+<div class="counter">0.824s</div>
 <p>duration</p>
 </div>
 </td>
@@ -47,8 +47,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">96%</div>
 <p>successful</p>
 </div>
 </td>
@@ -58,13 +58,33 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Packages</a>
+<a href="#tab0">Failed tests</a>
 </li>
 <li>
-<a href="#tab1">Classes</a>
+<a href="#tab1">Packages</a>
+</li>
+<li>
+<a href="#tab2">Classes</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<ul class="linkList">
+<li>
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html">EmailServiceImplTest</a>.
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html#testSendActiveUserStatusChangedNotification()">testSendActiveUserStatusChangedNotification()</a>
+</li>
+<li>
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html">EmailServiceImplTest</a>.
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html#testSendBlockedUserStatusChangedNotification()">testSendBlockedUserStatusChangedNotification()</a>
+</li>
+<li>
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html">EmailServiceImplTest</a>.
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html#testSendInactiveUserStatusChangedNotification()">testSendInactiveUserStatusChangedNotification()</a>
+</li>
+</ul>
+</div>
+<div id="tab1" class="tab">
 <h2>Packages</h2>
 <table>
 <thead>
@@ -80,18 +100,38 @@
 <tbody>
 <tr>
 <td class="success">
-<a href="packages/com.luv2code.forumoverflow.service.html">com.luv2code.forumoverflow.service</a>
+<a href="packages/com.luv2code.forumoverflow.html">com.luv2code.forumoverflow</a>
 </td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.055s</td>
+<td>0.004s</td>
 <td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="packages/com.luv2code.forumoverflow.controller.html">com.luv2code.forumoverflow.controller</a>
+</td>
+<td>35</td>
+<td>0</td>
+<td>0</td>
+<td>0.490s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="packages/com.luv2code.forumoverflow.service.html">com.luv2code.forumoverflow.service</a>
+</td>
+<td>59</td>
+<td>3</td>
+<td>0</td>
+<td>0.330s</td>
+<td class="failures">94%</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div id="tab2" class="tab">
 <h2>Classes</h2>
 <table>
 <thead>
@@ -107,12 +147,122 @@
 <tbody>
 <tr>
 <td class="success">
-<a href="classes/com.luv2code.forumoverflow.service.RoleServiceImplTest.html">com.luv2code.forumoverflow.service.RoleServiceImplTest</a>
+<a href="classes/com.luv2code.forumoverflow.ForumOverflowApplicationTests.html">com.luv2code.forumoverflow.ForumOverflowApplicationTests</a>
 </td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.055s</td>
+<td>0.004s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.controller.CategoryControllerTest.html">com.luv2code.forumoverflow.controller.CategoryControllerTest</a>
+</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0.296s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.controller.PostControllerTest.html">com.luv2code.forumoverflow.controller.PostControllerTest</a>
+</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>0.086s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.controller.UserControllerTest.html">com.luv2code.forumoverflow.controller.UserControllerTest</a>
+</td>
+<td>14</td>
+<td>0</td>
+<td>0</td>
+<td>0.108s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.CategoryServiceImplTest.html">com.luv2code.forumoverflow.service.CategoryServiceImplTest</a>
+</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0.049s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.CommentServiceImplTest.html">com.luv2code.forumoverflow.service.CommentServiceImplTest</a>
+</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0.043s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.ContentStatusServiceImplTest.html">com.luv2code.forumoverflow.service.ContentStatusServiceImplTest</a>
+</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0.021s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/com.luv2code.forumoverflow.service.EmailServiceImplTest.html">com.luv2code.forumoverflow.service.EmailServiceImplTest</a>
+</td>
+<td>5</td>
+<td>3</td>
+<td>0</td>
+<td>0.078s</td>
+<td class="failures">40%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.PostServiceImplTest.html">com.luv2code.forumoverflow.service.PostServiceImplTest</a>
+</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0.044s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.RoleServiceImplTest.html">com.luv2code.forumoverflow.service.RoleServiceImplTest</a>
+</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0.022s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.UserServiceImplTest.html">com.luv2code.forumoverflow.service.UserServiceImplTest</a>
+</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>0.053s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.luv2code.forumoverflow.service.UserStatusServiceImplTest.html">com.luv2code.forumoverflow.service.UserStatusServiceImplTest</a>
+</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0.020s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -126,7 +276,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.0.1</a> at Apr 19, 2020 2:56:36 PM</p>
+<a href="http://www.gradle.org">Gradle 6.0.1</a> at Apr 29, 2020 6:29:15 PM</p>
 </div>
 </div>
 </body>
