@@ -24,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.luv2code.forumoverflow.domain.Role;
 import com.luv2code.forumoverflow.domain.User;
 import com.luv2code.forumoverflow.domain.UserStatus;
-import com.luv2code.forumoverflow.domain.notification.InactiveUserStatusNotification;
 import com.luv2code.forumoverflow.repository.UserRepository;
 import com.luv2code.forumoverflow.service.impl.UserServiceImpl;
 import com.luv2code.forumoverflow.util.Constants;
@@ -73,7 +72,7 @@ public class UserServiceImplTest {
 	public void setup() {
 		userStatus = new UserStatus();
 		userStatus.setId(1L);
-		userStatus.setName(Constants.INACTIVE);
+		userStatus.setName(Constants.ACTIVE);
 
 		Role role = new Role();
 		role.setId(1L);
@@ -148,13 +147,13 @@ public class UserServiceImplTest {
 	public void testFindById() {
 		User searchedUser = userService.findById(firstUser.getId());
 
+		assertNotNull(searchedUser);
 		assertEquals("1", searchedUser.getId().toString());
 		assertEquals("Luka", searchedUser.getFirstName());
 		assertEquals("Žugaj", searchedUser.getLastName());
 		assertEquals("lzugaj", searchedUser.getUsername());
 		assertEquals("lzugaj@racunarstvo.hr", searchedUser.getEmail());
 		assertEquals(0, searchedUser.getBlockerCounter());
-		assertEquals("ACTIVE", searchedUser.getUserStatus().getName());
 	}
 
 	@Test
@@ -193,15 +192,6 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	public void testFindAllThatContainsUsername() {
-		List<User> searchedUsers = userService.findAllThatContainsUsername(firstUser.getUsername());
-
-		assertEquals(2, users.size());
-		assertEquals(1, searchedUsers.size());
-		verify(userRepository, times(1)).findAll();
-	}
-
-	@Test
 	public void testUpdate() {
 		User updatedUser = userService.update(firstUser, thirdUser);
 
@@ -223,13 +213,15 @@ public class UserServiceImplTest {
 		assertEquals("Žugaj", updatedUser.getLastName());
 		assertEquals("lzugaj", updatedUser.getUsername());
 		assertEquals("lzugaj@racunarstvo.hr", updatedUser.getEmail());
-		assertEquals("INACTIVE", updatedUser.getUserStatus().getName());
+		assertEquals("ACTIVE", updatedUser.getUserStatus().getName());
+		verify(emailService, times(1)).sendUserStatusChangedNotification(updatedUser);
 	}
 
 	@Test
 	public void testDelete() {
 		User deletedUser = userService.delete(firstUser);
 
+		assertNotNull(deletedUser);
 		assertEquals("1", deletedUser.getId().toString());
 		assertEquals("Luka", deletedUser.getFirstName());
 		assertEquals("Žugaj", deletedUser.getLastName());

@@ -163,18 +163,6 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void testFindAllByUsername() throws Exception {
-		Mockito.when(userService.findAll()).thenReturn(users);
-		this.mockMvc
-				.perform(
-						get("/user/username/{username}", USERNAME)
-							.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-							.content(objectMapper.writeValueAsString(users))
-				)
-				.andExpect(status().isOk());
-	}
-
-	@Test
 	public void testUpdate() throws Exception {
 		Mockito.when(userService.findById(firstUser.getId())).thenReturn(firstUser);
 		Mockito.when(userService.isUsernameAlreadyUsed(secondUser)).thenReturn(false);
@@ -227,49 +215,30 @@ public class UserControllerTest {
 				.andExpect(status().isNotFound());
 	}
 
-//	@Test
-//	public void testUpdateUserStatus() throws Exception {
-//		Long firstUserStatusId = 1L;
-//		UserStatus firstUserStatus = createUserStatus(firstUserStatusId, "ACTIVE");
-//
-//		Long secondUserStatusId = 2L;
-//		UserStatus secondUserStatus = createUserStatus(secondUserStatusId, "INACTIVE");
-//
-//		Long userId = 1L;
-//		User user = createUser(userId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj11");
-//		user.setUserStatus(firstUserStatus);
-//
-//		when(userService.findById(user.getId())).thenReturn(user);
-//		when(userService.updateUserStatus(user, secondUserStatus)).thenReturn(user);
-//
-//		this.mockMvc
-//				.perform(
-//						put("/user/info/{id}", user.getId())
-//							.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//							.content(objectMapper.writeValueAsString(user))
-//				)
-//				.andExpect(status().isOk());
-//	}
+	@Test
+	public void testUpdateUserStatus() throws Exception {
+		Mockito.when(userService.findById(firstUser.getId())).thenReturn(firstUser);
+		Mockito.when(userService.updateUserStatus(firstUser, userStatus)).thenReturn(firstUser);
+		this.mockMvc
+				.perform(
+						put("/user/info/{id}", firstUser.getId())
+							.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+							.content(objectMapper.writeValueAsString(firstUser))
+				)
+				.andExpect(status().isOk());
+	}
 
-//	@Test
-//	public void testUpdateUserStatusNotFound() throws Exception {
-//		Long firstUserStatusId = 1L;
-//		UserStatus firstUserStatus = createUserStatus(firstUserStatusId, "ACTIVE");
-//
-//		Long userId = 1L;
-//		User user = createUser(userId, "Luka", "Žugaj", "lzugaj", "lzugaj@gmail.com", "#Lzugaj11");
-//		user.setUserStatus(firstUserStatus);
-//
-//		when(userService.findById(user.getId())).thenReturn(null);
-//
-//		this.mockMvc
-//				.perform(
-//						put("/user/info/{id}", user.getId())
-//								.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-//								.content(objectMapper.writeValueAsString(user))
-//				)
-//				.andExpect(status().isNotFound());
-//	}
+	@Test
+	public void testUpdateUserStatusNotFound() throws Exception {
+		Mockito.when(userService.findById(firstUser.getId())).thenReturn(null);
+		this.mockMvc
+				.perform(
+						put("/user/info/{id}", firstUser.getId())
+								.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+								.content(objectMapper.writeValueAsString(firstUser))
+				)
+				.andExpect(status().isNotFound());
+	}
 
 	@Test
 	public void testDelete() throws Exception {

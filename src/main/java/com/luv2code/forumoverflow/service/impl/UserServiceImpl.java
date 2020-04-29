@@ -2,7 +2,6 @@ package com.luv2code.forumoverflow.service.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -109,14 +108,6 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
-	// TODO: Ovo bi se isto moglo handlat u React bez ove metode
-	@Override
-	public List<User> findAllThatContainsUsername(final String username) {
-		return findAll().stream()
-				.filter(user -> user.getUsername().toLowerCase().contains(username.toLowerCase()))
-				.collect(Collectors.toList());
-	}
-
 	@Override
 	public User update(final User oldUser, final User newUser) {
 		final User updatedUser = updatedVariables(oldUser, newUser);
@@ -141,7 +132,6 @@ public class UserServiceImpl implements UserService {
 		return oldUser;
 	}
 
-	// TODO: Bolje napravit test
 	@Override
 	public User updateUserStatus(final User updatedUser, final UserStatus userStatus) {
 		updatedUser.setUserStatus(userStatus);
@@ -163,13 +153,16 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	// TODO: Bolje napravit test
+	// TODO: Kako ovo napraviti?
 	@Override
 	public User report(final User user) {
 		user.setBlockerCounter(user.getBlockerCounter() + 1);
 		if (user.getBlockerCounter() == MAX_NUMBER_OF_REPORTS) {
+			// TODO: Inactive for next 24 hours
+			// TODO: Create Date variable that counts 24 hours
 			handleBlockedUserStatus(user);
 		} else {
+			// TODO: Only admin can manually change user status
 			handleInactiveUserStatus(user);
 		}
 

@@ -51,7 +51,7 @@ public class UserStatusServiceImplTest {
 		firstUserStatus.setUser(null);
 
 		secondUserStatus = new UserStatus();
-		secondUserStatus.setId(1L);
+		secondUserStatus.setId(2L);
 		secondUserStatus.setName("INACTIVE");
 		secondUserStatus.setUser(null);
 

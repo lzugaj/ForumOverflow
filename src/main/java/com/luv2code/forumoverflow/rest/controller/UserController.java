@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luv2code.forumoverflow.domain.User;
@@ -125,22 +124,6 @@ public class UserController {
 	public ResponseEntity<?> findAll() {
 		List<User> searchedUsers = userService.findAll();
 		log.info("Successfully found all Users.");
-		return new ResponseEntity<>(searchedUsers, HttpStatus.OK);
-	}
-
-	@ApiOperation(value = "Find all by given username")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Successfully founded all users by given username"),
-			@ApiResponse(code = 401, message = "You are not authorized to find all the users by given username"),
-			@ApiResponse(code = 403, message = "Accessing the resources you were trying to find is forbidden"),
-			@ApiResponse(code = 404, message = "The resources you were trying to find is not found")
-	})
-	@GetMapping(
-			path = "/username/{username}",
-			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> findAllByUsername(@PathVariable String username) {
-		List<User> searchedUsers = userService.findAllThatContainsUsername(username);
-		log.info("Successfully founded all Users that contains `{}` in username.", username);
 		return new ResponseEntity<>(searchedUsers, HttpStatus.OK);
 	}
 

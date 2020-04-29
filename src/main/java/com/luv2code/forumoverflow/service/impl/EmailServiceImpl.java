@@ -56,6 +56,7 @@ public class EmailServiceImpl implements EmailService {
         javaMailSender.send(inactiveMessage);
     }
 
+    // TODO: Test?
     @Override
     public void sendUserStatusChangedNotification(final User updatedUser) {
         Notification notification;
